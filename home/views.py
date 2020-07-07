@@ -11,8 +11,10 @@ class HomeInfo(View):
 	def get(self, request):
 		doctors = Doctor.objects.all()
 		categories = Category.objects.all()
+		appointments = Appointment.objects.all()
 
 		context = {
+			'appointments':appointments,
 			'doctors':doctors,
 			'categories': categories,			
 		}

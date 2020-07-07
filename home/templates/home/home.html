@@ -35,16 +35,19 @@
 
 	</div>
 </div>
-<div class="container my-4">
-	<div class="row" style="background-color: #ddd;">
+<div class="container my-4" style="background-color: #f9f9f9; color: #3c3c3c;">
+	<div class="row rounded p-2 text-center text-uppercase" style="font-size: 18px;font-weight:600;align-items: center;">
 		<div  class="col-lg-4 col-md-4 col-4">
 			total appointments
+			<p style="font-size: 30px;color: #ea3448;">{{appointments.count}}</p>
 		</div>
-		<div  class="col-lg-4 col-md-4 col-4">
+		<div  class="col-lg-4 col-md-4 col-4" style="border-left: 1px solid #ddd;border-right: 1px solid #ddd;">
 			available doctors
+			<p style="font-size: 30px;color: #ea3448;">{{doctors.count}}</p>
 		</div>
 		<div  class="col-lg-4 col-md-4 col-4">
-			urgetn resolve
+			urgent resolve
+			<p style="font-size: 30px;color: #ea3448;">80</p>
 		</div>
 	</div>
 </div>
