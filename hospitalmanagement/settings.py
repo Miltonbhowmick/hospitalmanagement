@@ -38,8 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    #third party apps
+    'multiselectfield',
+
     #local apps
     'account',
+    'home',
 ]
 
 MIDDLEWARE = [
@@ -120,8 +124,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
+#### DATE TIME PART ####
+DATE_FORMAT = "d-m-Y"
+USE_L10N = False
+
 #### URL PART ####
 AUTH_USER_MODEL = "account.UserProfile"
+
+#### EMAIL BACKEND ####
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'servicehospital07@gmail.com'
+EMAIL_HOST_PASSWORD = 'Vgy567890'
+EMAIL_PORT = 587
 
 #### STATTIC PART ####
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')

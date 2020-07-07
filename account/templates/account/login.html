@@ -1,0 +1,48 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<div class="container" style="margin-top: 100px;">
+	<div class="row">
+		<div class="col-md-4">
+			<div class="title-box text-center p-2 rounded">
+				<span class="text">Login</span>
+			</div>
+			<div class="my-3">
+				<form method="POST">
+					{% csrf_token %}
+					
+					{% if form.non_field_errors %}
+						{% for error in form.non_field_errors %}
+							<div class="alert alert-danger">
+								{{error}}
+							</div>
+						{% endfor %}
+					{% else %}
+
+					{% endif %}
+
+
+					{% if success_msg %}
+						<div class="alert alert-danger">
+								{{success_msg}}
+							</div>
+					{% endif %}
+					
+					<div class="form-group">
+						{{form.email}}					
+					</div>
+					<div class="form-group">
+						{{form.password}}
+					</div>
+					<div class="form-group">
+						<button class="btn btn-success">login</button>
+					</div>
+				</form>		
+			</div>
+		</div>
+		<div class="col-md-8">
+			
+		</div>
+	</div>
+</div>
+{% endblock %}

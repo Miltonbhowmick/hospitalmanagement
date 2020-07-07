@@ -1,0 +1,21 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<div class="container" style="margin-top: 100px;">
+	<div class="row">
+		{% for doctor in doctors %}
+			<div class="col-lg-3 col-md-3 col-6 my-2">
+				<a href="{% url 'home:doctor' category doctor.slug %}" style="text-decoration: none; color: #333;">				
+					<div style="background-color: #fff;padding: 5px;">
+						{% if doctor.doctor_image %}
+							<img src="{{doctor.doctor_image.url}}" alt="doctor-image" style="width: 100%;">
+						{% endif %}					
+
+						<p class="my-2">{{doctor.first_name}} {{doctor.last_name}}</p>
+					</div>
+				</a>
+			</div>		
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}
