@@ -12,7 +12,7 @@
 			</div>
 			<ul id="category-div" style="display:none;list-style: none; text-align: center; font-size: 18px;font-weight: 500;text-transform: capitalize; border:1px solid #ddd;background-color: #fff;">
 				{% for cat in categories %}
-				<li style="padding-top: 5px; padding-bottom: 5px;">
+				<li style="padding-top: 8px; padding-bottom: 8px;border-bottom: 1px solid #ddd;">
 					<a href="{% url 'home:category_doctor' cat.slug %}" style="text-decoration: none;color:#333;">{{cat}}</a>
 				</li>
 				{% endfor %}
@@ -35,6 +35,34 @@
 
 	</div>
 </div>
+<div class="container my-4">
+	<div class="row" style="background-color: #ddd;">
+		<div  class="col-lg-4 col-md-4 col-4">
+			total appointments
+		</div>
+		<div  class="col-lg-4 col-md-4 col-4">
+			available doctors
+		</div>
+		<div  class="col-lg-4 col-md-4 col-4">
+			urgetn resolve
+		</div>
+	</div>
+</div>
+<div class="container my-4">
+	<div id="owl-two"class="owl-carousel owl-theme">
+	    {% for doctor in doctors %}
+		    <div class="item" style="border: 1px solid #ddd; text-align: center;">
+		    	<a href="{% url 'home:doctor' doctor.doctor_category.slug doctor.slug %}" class="text-capitalize">
+			    	<img src="{{doctor.doctor_image.url}}" style="width: 100%;">	    	
+		    		<div class="categories-button">
+			      	{{doctor.first_name}} {{doctor.last_name}}
+			    	</div>
+			    </a>
+		    </div>
+		{% endfor %}
+	</div>
+</div>
+
 <script>
 	// sliding 
 	$('#owl-one').owlCarousel({
@@ -57,6 +85,27 @@
         },
         1000:{
             items:1
+        }
+    }
+})
+	///categories swipper 
+	$('#owl-two').owlCarousel({
+    loop:true,
+    margin:10,
+    nav:true,
+    animateIn: 'fadeIn', // add this
+    animateOut: 'fadeOut', // and this
+    slideSpeed: 300,
+    paginationSpeed: 400,
+    responsive:{
+        0:{
+            items:3
+        },
+        600:{
+            items:4
+        },
+        1000:{
+            items:6
         }
     }
 })

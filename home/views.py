@@ -37,7 +37,6 @@ class DoctorInfo(View):
 	template_name = 'home/doctor_info_details.html'
 
 	def get(self, request,category, doctor):
-		print(9295923)
 		doctor = Doctor.objects.get(slug=doctor)
 		context = {
 			'doctor':doctor,
@@ -66,6 +65,8 @@ class DoctorAppointment(View):
 			date = str(appointment.date)
 			all_appointment = Appointment.objects.filter(date=date).count()
 			sn = "{:04}".format(all_appointment)
+			appointment.serial=sn
+			appointment.save()
 			subject = 'Appointment serial for Mr.'+doctor.first_name+' '+doctor.last_name
 			message = 'Here is your serial number on date '+date+'. Your serial number is '+ sn
 			patient_email = str(appointment.email)
