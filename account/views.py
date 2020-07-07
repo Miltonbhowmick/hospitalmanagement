@@ -27,7 +27,6 @@ class Login(View):
 	def post(self, request):
 
 		form = LoginForm(request.POST or None)
-		print(request.POST)
 		if form.is_valid():
 			user = form.login_request()
 			if user:
@@ -39,6 +38,7 @@ class Login(View):
 		return render(request, self.template_name,contexts)
 
 def logout_request(request):
+	print(134141)
 	logout(request)
 	return redirect('home:home_info')
 

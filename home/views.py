@@ -37,7 +37,7 @@ class DoctorInfo(View):
 	template_name = 'home/doctor_info_details.html'
 
 	def get(self, request,category, doctor):
-		print(8892752)
+		print(9295923)
 		doctor = Doctor.objects.get(slug=doctor)
 		context = {
 			'doctor':doctor,
