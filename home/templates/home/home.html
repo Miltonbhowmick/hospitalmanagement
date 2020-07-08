@@ -36,22 +36,28 @@
 	</div>
 </div>
 <div class="container my-4" style="background-color: #f9f9f9; color: #3c3c3c;">
+	
 	<div class="row rounded p-2 text-center text-uppercase" style="font-size: 18px;font-weight:600;align-items: center;">
 		<div  class="col-lg-4 col-md-4 col-4">
-			total appointments
+			<i class="fa fa-calendar" aria-hidden="true" style="margin-right: 5px;"></i> total appointments
 			<p style="font-size: 30px;color: #ea3448;">{{appointments.count}}</p>
 		</div>
 		<div  class="col-lg-4 col-md-4 col-4" style="border-left: 1px solid #ddd;border-right: 1px solid #ddd;">
-			available doctors
+			<i class="fa fa-user-md" aria-hidden="true" style="margin-right: 5px;"></i> available doctors
 			<p style="font-size: 30px;color: #ea3448;">{{doctors.count}}</p>
 		</div>
 		<div  class="col-lg-4 col-md-4 col-4">
-			urgent resolve
+			<i class="fa fa-ambulance" aria-hidden="true"style="margin-right: 5px;"></i> urgent resolve
 			<p style="font-size: 30px;color: #ea3448;">80</p>
 		</div>
 	</div>
 </div>
-<div class="container my-4">
+<div class="container" style="margin-top: 40px;margin-bottom: 40px;">
+	<div class="row my-4">
+		<div class="col-md-12 text-center">
+			<span style="border-bottom: 2px solid #ea3448;padding-bottom:8px;padding-top:8px;font-size: 20px; font-weight: 600;color: #3c3c3c; text-transform: uppercase;">Doctors</span>			
+		</div>
+	</div>
 	<div id="owl-two"class="owl-carousel owl-theme">
 	    {% for doctor in doctors %}
 		    <div class="item" style="border: 1px solid #ddd; text-align: center;">
@@ -65,7 +71,16 @@
 		{% endfor %}
 	</div>
 </div>
-
+<div class="container my-4" style="background-color: #f9f9f9; color: #3c3c3c;">
+	<div class="row rounded p-2 text-center text-uppercase" style="font-size: 18px;font-weight:600;align-items: center;">
+		<div  class="col-lg-4 col-md-4 col-4" style="border-right: 1px solid #333; font-size: 30px; color: #ea3448;">
+			<i class="fa fa-medkit" aria-hidden="true" style="color:#3c3c3c;"></i> Online Pharmacy
+		</div>
+		<div  class="col-lg-8 col-md-8 col-8">
+			You can buy medince online delivery.Please contact on our helpline! 
+		</div>
+	</div>
+</div>
 <script>
 	// sliding 
 	$('#owl-one').owlCarousel({

@@ -2,10 +2,11 @@ from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse
 # Create your views here.
-from .models import Doctor,Category,Appointment
+from .models import Doctor,Category,Appointment,Lab
 from .forms import AppointmentForm
 from django.core.mail import send_mail
 
+#------- Home -------#
 class HomeInfo(View):
 	template_name = 'home/home.html'
 	def get(self, request):
@@ -21,6 +22,7 @@ class HomeInfo(View):
 
 		return render(request,self.template_name,context)
 
+#------- Doctors of Category  -------#
 class CategoryDoctor(View):
 	template_name = 'home/doctor_details.html'
 
@@ -35,6 +37,7 @@ class CategoryDoctor(View):
 		else:
 			return HttpResponse('No doctors')
 
+#------- Doctor Info -------#
 class DoctorInfo(View):
 	template_name = 'home/doctor_info_details.html'
 
@@ -45,6 +48,7 @@ class DoctorInfo(View):
 		}
 		return render(request, self.template_name,context)
 
+#------- Appointment -------#
 class DoctorAppointment(View):
 	template_name = 'home/appointment.html'
 	def get(self, request,doctor):
@@ -81,3 +85,16 @@ class DoctorAppointment(View):
 			    )
 
 		return HttpResponse()
+
+#------- Lab -------#
+class LabDetails(View):
+	template_name = 'home/lab_details.html'
+
+	def get(self, request):
+		labs = Lab.objects.all()
+		context = {
+			'labs':labs,
+		}
+		return render(request, self.template_name, context)
+
+

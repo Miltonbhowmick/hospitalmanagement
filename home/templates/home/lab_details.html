@@ -1,0 +1,57 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<div class="container" style="margin-top: 100px;">
+	<div class="row">
+		<div class="col-lg-3 col-md-3">
+			<div style="background-color: #ea3448;padding-top: 10px;padding-bottom: 10px; text-align: center;color: #fff; font-size: 20px;font-weight: 600;">Select Lab test</div>
+			<ul class="lab-list" style="list-style: none; margin: 0;padding: 0;border:1px solid #ddd;text-align: center;">
+				{% for lab in labs %}
+					<li class="boom" data-target="#{{lab.slug}}" style="border-bottom: 1px solid #ddd;padding-top: 10px;padding-bottom: 10px; cursor: pointer;">
+						{{lab.name}}
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="col-lg-9 col-md-9" >
+			{% for lab in labs %}
+				<div id = "{{lab.slug}}" class="container-fluid booming"style="padding: 10px;border: 1px solid #ddd;border-radius: 10px; color: #3c3c3c;display: none;">
+					<div class="row" >
+						<div class="col-lg-3 col-md-3">
+							<img src="{{lab.technician_name.staff_image}}" alt="staff_image" style="width: 100%;" />
+						</div>
+						<div class="col-lg-6 col-md-6">
+							<div>
+								<span style="font-weight: 600;">Name: </span>{{lab.technician_name.first_name}} {{lab.technician_name.last_name}}
+							</div>
+							<div>
+								<span style="font-weight: 600;">Designation: </span>{{lab.technician_name.designation}}
+							</div>
+							<div>
+								<span style="font-weight: 600;">Degree: </span>{{lab.technician_name.degree}}
+							</div>
+							<div style="font-size: 14px;">
+								<span style="font-weight: 600;">Email: </span>{{lab.technician_name.email}}
+								<span style="font-weight: 600;">Phone: </span>{{lab.technician_name.phone}}
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-3">
+							<div style="font-size: 20px; font-weight: 600;text-transform: uppercase;">
+								<span>cost: </span><span style="color: #ea3448;">৳{{lab.cost}}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			{% endfor %}
+		</div>
+	</div>
+</div>
+<script>
+	$(".boom").click(function () {
+	    var $target = $($(this).data('target'));
+	    $(".booming").slideDown("slow").not($target).hide();
+	    $target.show();
+	});
+</script>
+{% endblock %}

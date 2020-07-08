@@ -4,6 +4,7 @@ from django.contrib.auth import login, logout
 # Create your views here.
 from .forms import LoginForm, UserRegistrationForm
 from .models import UserProfile
+from home.models import Appointment
 
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -90,3 +91,13 @@ def activate_account(request, uidb64, token):
         return HttpResponse('Your account has been activate successfully')
     else:
         return HttpResponse('Activation link is invalid!')
+
+
+class UserProfileView(View):
+	template_name = 'account/user_profiles.html'
+	def get(self, request):
+		user = UserProfile.objects.all()
+		contexts = {
+			'user_details': user
+		}		
+		return render(request, self.template_name,contexts)

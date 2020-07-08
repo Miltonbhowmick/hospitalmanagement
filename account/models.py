@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
+from multiselectfield import MultiSelectField
 # Create your models here.
 import os
 
@@ -57,3 +58,49 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
 		if not self.username:
 			self.username = str(self.email.split('@')[0])+ str(gen_code())
 		return super(UserProfile, self).save(*args, **kwargs)
+
+#----- Staff Profile -----#
+class Staff(models.Model):
+	GENDER = (
+		('male','Male'),
+		('female','Female'),
+	)
+	RELIGION = (
+		('islam','Islam'),
+		('Hindu','Hindu'),
+		('buddhist','Buddhist'),
+		('cristian ','Cristian'),
+	)
+	DESIGNATION = (
+		('Laboratory Director','Laboratory Director'),
+		('Pathology Assistant','Pathology Assistant'),
+	)
+	DEGREE = (
+		(1,'Bsc'),
+		(2,'Diploma'),
+	)
+	username = models.CharField(max_length=255, null=True, blank=True)
+	first_name = models.CharField(max_length=255,null=True, blank=True)
+	last_name = models.CharField(max_length=255, null=True, blank=True)
+	email = models.EmailField(max_length=100, unique=True)
+	phone = models.CharField(max_length=100,null=True, blank=True)
+	staff_image = models.ImageField(upload_to='doctor_images',null=True, blank=True)
+	designation = models.CharField(max_length=255,choices= DESIGNATION, null=True, blank=True)
+	degree = MultiSelectField(max_length=255,max_choices=5, choices=DEGREE, null=True, blank=True)
+	gender = models.CharField(max_length=25,choices = GENDER, null=True, blank=True)
+	religion = models.CharField(max_length=255, choices=RELIGION, null=True, blank=True)
+	#address
+	division = models.CharField(max_length=255, null=True, blank=True)
+	city = models.CharField(max_length=255, null=True, blank=True)
+	address = models.CharField(max_length=255, null=True, blank=True)
+
+	slug = models.SlugField(unique=True, blank=True, default='')
+
+	def __str__(self):
+		return self.email
+
+	def save(self, *args, **kwargs):
+		if not self.username:
+			self.username = str(self.email.split('@')[0])+ str(gen_code())
+		return super(Staff, self).save(*args, **kwargs)
+

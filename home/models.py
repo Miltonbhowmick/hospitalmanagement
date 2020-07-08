@@ -1,15 +1,19 @@
 from django.db import models
 from django.utils.text import slugify 
 from multiselectfield import MultiSelectField
-# Create your models here.
+
+from account.models import UserProfile, Staff 
 import os
 import datetime
 
+
+#----- Generate random -----#
 def gen_code():
 	uuid = os.urandom(1).hex()
 	return uuid
 
-#### DOCTOR CATEGORY ####
+
+#----- Category -----#
 class Category(models.Model):
 	name = models.CharField(max_length=255,null=True, blank=True)
 	slug = models.SlugField(unique=True, blank=True, default='')
@@ -21,7 +25,7 @@ class Category(models.Model):
 		self.slug = slugify(self.name)+'-'
 		return super(Category,self).save(*args, **kwargs)		
 
-#### DOCTOR PROFILE ####
+#----- Doctor Profile -----#
 class Doctor(models.Model):
 	GENDER = (
 		('male','Male'),
@@ -50,7 +54,7 @@ class Doctor(models.Model):
 		(8,'D-Card'),
 
 	)
-	doctor_category = models.ForeignKey(Category, on_delete=models.CASCADE)
+	doctor_category = models.ForeignKey(Category, on_delete=models.SET_NULL,null=True,blank=True)
 	first_name = models.CharField(max_length=255,null=True, blank=True)
 	last_name = models.CharField(max_length=255, null=True, blank=True)
 	email = models.EmailField(max_length=100, unique=True)
@@ -74,8 +78,11 @@ class Doctor(models.Model):
 		self.slug = slugify(self.first_name)+'-'+slugify(self.last_name)+'-'
 		return super(Doctor,self).save(*args, **kwargs)
 
+
+#----- Appointment model -----#
 class Appointment(models.Model):
-	doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, null=True,blank=True)
+	doctor = models.ForeignKey(Doctor, on_delete=models.SET_NULL,null=True,blank=True)
+	user = models.ForeignKey(UserProfile, on_delete=models.SET_NULL,null=True,blank=True)
 	first_name = models.CharField(max_length=255,null=True, blank=True)
 	last_name = models.CharField(max_length=255, null=True, blank=True)
 	email = models.EmailField(max_length=100)
@@ -92,4 +99,17 @@ class Appointment(models.Model):
 
 	def __str__(self):
 		return self.email
+
+#----- Lab model -----#
+class Lab(models.Model):
+	name = models.CharField(max_length=255,blank=True, default='')
+	technician_name = models.ForeignKey(Staff, on_delete=models.SET_NULL, blank=True, null=True)
+	cost = models.IntegerField(null=True, blank=True)
+	slug = models.SlugField(unique=True,blank=True, default='')
+
+	def __str__(self):
+		return self.name
+	def save(self, *args, **kwargs):
+		self.slug = slugify(self.name)+'-'
+		return super(Lab,self).save(*args, **kwargs)		
 

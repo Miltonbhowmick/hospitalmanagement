@@ -2,15 +2,27 @@
 
 {% block content %}
 <div class="container" style="margin-top: 100px;">
-	<img src="{{doctor.doctor_image.url}}">
-	<p>
-		{{doctor.slug}}
-		<a href="{% url 'home:appointment' doctor.slug %}">online appointment</a>
-
-	</p>
-
+	<div class="row">
+		<div class="col-lg-4 col-md-4 col-sm-4">
+			<img src="{{doctor.doctor_image.url}}">
+		</div>
+		<div class="col-lg-8 col-md-8 col-sm-8">	
+			<div style="font-size: 30px; font-weight: 600;">
+				{{doctor.first_name}} {{doctor.last_name}} 
+			</div>
+			<div style="font-size:18px;font-weight: 600;">
+				{{doctor.designation}} 
+			</div>
+			<p style="margin-top: 10px;">
+				<a href="{% url 'home:appointment' doctor.slug %}" style="padding: 8px; background-color: #ea3448;color: #fff; font-size: 18px; font-weight: 600;border-radius: 25px;text-transform: capitalize;text-decoration: none;">online appointment</a>
+			</p>
+		</div>
+	</div>
 </div>
 <div class="container mt-4">
+	<div style="background-color: #ea3448; padding: 5px;font-size: 20px;color: #fff; font-weight: 600;text-transform: capitalize;">
+		doctor bio
+	</div>
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 my-2">
 			<div class="row">

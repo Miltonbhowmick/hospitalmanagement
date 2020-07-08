@@ -141,6 +141,52 @@ ol {
 /* end mouse pointer list*/
 
 
+.lab-list li:hover{
+    background-color: #3c3c3c;
+    color: #fff;
+}
+.product-item .product-info ul{
+    width: 100%; 
+    list-style:none; 
+    padding:0px;
+}
+.product-item .product-info ul li{
+    display: inline-block;
+}
+
+/* DOCTOR DETAILS BEGIN */
+.cards{
+    display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
+}
+.card{
+    width: 200px;
+    margin: 10px;
+    text-align: center;
+    font-size: 15px;
+}
+.card-title{
+    font-size: 23px;
+    padding-top: 5px; 
+    margin-bottom: 0;
+}
+.card-title h5{
+    margin: 0;
+}
+
+/* DOCTOR DETAILS END */
+
+.product-item img{
+    margin:0px;
+    padding:0px;
+    width: 150px;
+    height: 150px;
+
+}
+.product-item a{
+    text-decoration: none; 
+}
 
 /* footer section */
 .footer {
