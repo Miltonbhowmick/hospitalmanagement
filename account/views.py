@@ -95,9 +95,10 @@ def activate_account(request, uidb64, token):
 
 class UserProfileView(View):
 	template_name = 'account/user_profiles.html'
-	def get(self, request):
-		user = UserProfile.objects.all()
+	def get(self, request, username):
+		user_details = UserProfile.objects.get(username=username)
+		
 		contexts = {
-			'user_details': user
+			'user_details': user_details,
 		}		
 		return render(request, self.template_name,contexts)

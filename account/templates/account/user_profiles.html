@@ -1,5 +1,16 @@
 {% extends 'home/base.html' %}
 
 {% block content %}
-{{user_details}}
+<div class="container" style="margin-top: 100px;">
+	<div class="row">
+		<div class="col-12">
+			<div style="font-size: 30px;font-weight: 600;">
+				{{user_details.first_name}} {{user_details.last_name}}
+			</div>
+			<div style="font-size: 16px;">
+				{{user_details.email}}
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock %}
