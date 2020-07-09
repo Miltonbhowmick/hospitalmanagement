@@ -53,13 +53,43 @@
 				</div>
 			</div>
 		</div>
+		<div class="col-12" style="text-align: center; color: #fff; font-size: 16px;padding-top: 10px;padding-bottom: 10px;background-color: #007bff;">
+			Please send your <b>prescription for non-OTC medicine</b>.Its for <b>your safety.</b>
+			<div>Email your prescription to servicehospital07@gmail.com, or call us at +880 1876-150509, +880 1315-707735.</div>
+		</div>
 	</div>
 
-	{% for med_cat in medicine_category %}
-		<div class="row" style="margin-top: 20px;">
-			
-		</div>
-	{% endfor %}
 </div>
 
+	{% for med_cat in medicine_category %}
+		<div class="container" style="margin-top: 20px;">
+			{{med_cat}}
+
+
+		</div>
+	{% endfor %}
+
+<script>
+	///categories swipper 
+	$('#owl-one').owlCarousel({
+    loop:true,
+    margin:10,
+    nav:true,
+    animateIn: 'fadeIn', // add this
+    animateOut: 'fadeOut', // and this
+    slideSpeed: 300,
+    paginationSpeed: 400,
+    responsive:{
+        0:{
+            items:3
+        },
+        600:{
+            items:4
+        },
+        1000:{
+            items:6
+        }
+    }
+})
+</script>
 {% endblock %}
