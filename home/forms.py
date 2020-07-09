@@ -81,7 +81,13 @@ class AppointmentForm(forms.Form):
 	MONTHS = {
 		1:('July'),
 	}
-	date = forms.DateField(label='Select treatment date', widget=forms.SelectDateWidget(years=YEARS,months=MONTHS))
+	# DAYS = {
+	# 	1:'09',
+	# }
+	# print(datetime.today().strftime('%Y-%m-%d'))
+	# day=9;
+
+	date = forms.DateField(label='Select treatment date', widget=forms.SelectDateWidget(months=MONTHS,years=YEARS))
 
 	def clean(self):
 		first_name = self.cleaned_data.get('first_name')
@@ -133,6 +139,7 @@ class AppointmentForm(forms.Form):
 		city = self.cleaned_data.get('city')
 		division = self.cleaned_data.get('division')
 		date = self.cleaned_data.get('date')
+
 		appointment = Appointment(first_name=first_name,last_name=last_name,email=email,phone=phone_number,age=age,address=address,city=city,division=division,date=date)
 		appointment.save()
 		return appointment

@@ -28,6 +28,7 @@ class CategoryDoctor(View):
 
 	def get(self, request, category):
 		doctors = Doctor.objects.filter(doctor_category__slug=category)
+		category = Category.objects.get(slug=category)
 		context = {
 			'category':category,
 			'doctors':doctors,
@@ -66,6 +67,8 @@ class DoctorAppointment(View):
 		if form.is_valid():
 			appointment = form.deploy()
 			appointment.doctor=doctor
+			if request.user.is_authenticated:
+				appointment.user = request.user
 			appointment.save()
 
 			date = str(appointment.date)

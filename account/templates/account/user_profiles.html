@@ -10,7 +10,75 @@
 			<div style="font-size: 16px;">
 				{{user_details.email}}
 			</div>
+			<div style="font-size: 16px;">
+				{{user_details.phone}}
+			</div>
 		</div>
 	</div>
 </div>
+
+<div class="container">
+
+	<div class="row my-5">
+		<div class="col-16">
+			<div style="background-color: #ea3448;color: #fff; font-size: 22px;font-weight: 600; text-align: center;">
+				Appointments
+			</div>
+			<ul class="appointment-view" id="toggle-view">
+				{% for appointment in appointments %}
+				    <li>
+				        <h3>{{appointment.date}}</h3>
+				        <span>+</span>
+				        <p>
+							<div class="row p-2">
+								<div class="col-lg-4 col-md-4 col-sm-4">
+									<p><img src="{{appointment.doctor.doctor_image.url}}" style="width: 100%;" /></p>
+								</div>
+								<div class="col-lg-8 col-md-8 col-sm-8">
+									<p>Name: {{appointment.doctor.first_name}} {{appointment.doctor.last_name}}</p>
+							        <p>Designation: {{appointment.doctor.designation}}</p>
+							        <p>Designation: {{appointment.doctor.designation}}</p>	
+							        <p style="font-weight: 600;">Serial: {{appointment.serial}}</p>
+									<p style="font-weight: 600;">Status: {% if appointment.complete %}<b style="color: green;">complete</b>{% else %} <b style="color: red;">pending</b>{% endif %}</p>
+								</div>
+							</div>
+				        </p>
+				    </li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+</div>
+
+<script>
+	var parent = $('#toggle-view'), // storing main ul for use below
+    delay = 200; // storing delay for easier configuration
+
+	// bind the click to all headers
+	$('li h3', parent).click(function() {
+	    
+	    // get the li that this header belongs to
+	    var li = $(this).closest('li');
+	    
+	    // check to see if this li is not already being displayed
+	    if (!$('p', li).is(':visible'))
+	    {
+	        // loop on all the li elements
+	        $('li', parent).each(function() {
+	            
+	            // slide up the element and set it's marker to '+' 
+	            $('p', $(this)).slideUp(delay);
+	            $('span', $(this)).text('+');
+	        });
+	    
+	        // display the current li with a '-' marker
+	        $('p', li).slideDown(delay);
+	        $('span', li).text('-');
+	    }
+	    else {
+	        $('p', li).slideUp(delay);
+	        $('span', li).text('+');  
+	    }
+	});
+</script>
 {% endblock %}

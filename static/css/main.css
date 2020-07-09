@@ -154,6 +154,38 @@ ol {
     display: inline-block;
 }
 
+/* USER PROFILE BEGIN */
+#toggle-view{
+    list-style:none;
+    font-size:16px;
+    margin:10px 0px 0px 0px;
+    padding:0;
+    width:500px;
+}
+#toggle-view li{
+    border:1px solid #ccc;
+    position:relative;
+    cursor:pointer;
+}
+#toggle-view h3{
+    background-color: #f9f9f9;
+    padding:10px;
+    font-size:20px;
+    margin:0;
+}
+#toggle-view span{
+    position:absolute;
+    right:5px;
+    top:0;
+    color:#222;
+    font-size:22px;
+}
+#toggle-view p{
+    margin:10px;
+    display:none;
+}
+/* USER PROFILE END */
+
 /* DOCTOR DETAILS BEGIN */
 .cards{
     display: flex;

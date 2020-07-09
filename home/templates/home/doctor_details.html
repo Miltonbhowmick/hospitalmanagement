@@ -2,10 +2,15 @@
 
 {% block content %}
 <div class="container" style="margin-top: 100px;">
+	<div class="row my-4">
+		<div class="col-md-12 text-center">
+			<span style="border-bottom: 2px solid #ea3448;padding-bottom:8px;padding-top:8px;font-size: 20px; font-weight: 600;color: #3c3c3c; text-transform: uppercase;">{{category}}</span>			
+		</div>
+	</div>
 	<div class="cards">
 		{% for doctor in doctors %}
 		<!-- doctor cards -->
-		<a class="card" href="{% url 'home:doctor' category doctor.slug  %}" style="text-decoration: none;">
+		<a class="card" href="{% url 'home:doctor' category.slug doctor.slug  %}" style="text-decoration: none;">
 			
 			<img src="{{doctor.doctor_image.url}}" style="width: 200px; height: 200px;" />
 			<span class="card-title" style="color: #3c3c3c; font-weight: 600;">

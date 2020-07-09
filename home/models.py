@@ -96,6 +96,7 @@ class Appointment(models.Model):
 	date = models.DateField(default=datetime.date.today)
 	#serial
 	serial = models.CharField(max_length=100,null=True, blank=True)
+	complete = models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.email

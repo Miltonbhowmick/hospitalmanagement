@@ -15,12 +15,13 @@
 		</div>
 		<div class="col-lg-9 col-md-9" >
 			{% for lab in labs %}
+
 				<div id = "{{lab.slug}}" class="container-fluid booming"style="padding: 10px;border: 1px solid #ddd;border-radius: 10px; color: #3c3c3c;display: none;">
 					<div class="row" >
 						<div class="col-lg-3 col-md-3">
 							<img src="{{lab.technician_name.staff_image}}" alt="staff_image" style="width: 100%;" />
 						</div>
-						<div class="col-lg-6 col-md-6">
+						<div class="col-lg-5 col-md-5">
 							<div>
 								<span style="font-weight: 600;">Name: </span>{{lab.technician_name.first_name}} {{lab.technician_name.last_name}}
 							</div>
@@ -35,7 +36,10 @@
 								<span style="font-weight: 600;">Phone: </span>{{lab.technician_name.phone}}
 							</div>
 						</div>
-						<div class="col-lg-3 col-md-3">
+						<div class="col-lg-4 col-md-4">
+							<div style="font-size: 18px;text-transform:capitalize;">
+								<span>Test Name: </span><span style="color: #ea3448;">{{lab.name}}</span>
+							</div>
 							<div style="font-size: 20px; font-weight: 600;text-transform: uppercase;">
 								<span>cost: </span><span style="color: #ea3448;">৳{{lab.cost}}</span>
 							</div>
