@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse
 # Create your views here.
-from .models import Doctor,Category,Appointment,Lab
+from .models import Doctor,Category,Appointment,Lab, MedicineCompany, Pharmacy, CategoryMedicine
 from .forms import AppointmentForm
 from django.core.mail import send_mail
 
@@ -100,4 +100,16 @@ class LabDetails(View):
 		}
 		return render(request, self.template_name, context)
 
+#------- Pharmacy -------#
+
+class PharmacyDetails(View):
+	template_name = 'home/pharmacy.html'
+	def get(self, request):
+		medicines = Pharmacy.objects.all()
+		medicine_category = CategoryMedicine.objects.all()
+		contexts = {
+			'medicine_category':medicine_category,
+			'medicines':medicines,
+		}
+		return render(request, self.template_name, contexts)
 

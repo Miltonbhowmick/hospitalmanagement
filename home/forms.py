@@ -12,6 +12,7 @@ def gen_code():
 	return uuid
 
 class AppointmentForm(forms.Form):
+	
 	first_name = forms.CharField(max_length=255, required=True,
 		widget = forms.TextInput(
 				attrs = {

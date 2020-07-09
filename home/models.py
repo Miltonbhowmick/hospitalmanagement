@@ -114,3 +114,42 @@ class Lab(models.Model):
 		self.slug = slugify(self.name)+'-'
 		return super(Lab,self).save(*args, **kwargs)		
 
+#----- Pharmacy model -----#
+class MedicineCompany(models.Model):
+	name = models.CharField(max_length=255, blank=True, default='')
+	slug = models.SlugField(unique=True,blank=True, default='')
+
+	def __str__(self):
+		return self.name
+	def save(self, *args, **kwargs):
+		self.slug = slugify(self.name)+'-'
+		return super(MedicineCompany,self).save(*args, **kwargs)
+
+
+#----- Pharmacy model -----#
+class CategoryMedicine(models.Model):
+	name = models.CharField(max_length=255, blank=True, default='')
+	slug = models.SlugField(unique=True,blank=True, default='')
+
+	def __str__(self):
+		return self.name
+	def save(self, *args, **kwargs):
+		self.slug = slugify(self.name)+'-'
+		return super(CategoryMedicine,self).save(*args, **kwargs)		
+
+#----- Pharmacy model -----#
+class Pharmacy(models.Model):
+	name = models.CharField(max_length=255, blank=True, default='')
+	company = models.ForeignKey(MedicineCompany, on_delete=models.SET_NULL, null=True,blank=True)
+	medicine_category = models.ForeignKey(CategoryMedicine, on_delete=models.SET_NULL, null=True, blank=True) 
+	quantity = models.IntegerField(blank=True, default=1)
+	price = models.IntegerField(blank=True, default=1)
+	slug = models.SlugField(unique=True,blank=True, default='')
+
+	def __str__(self):
+		return self.name
+	def save(self, *args, **kwargs):
+		self.slug = slugify(self.name)+'-'
+		return super(Pharmacy,self).save(*args, **kwargs)		
+
+
