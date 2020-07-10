@@ -36,6 +36,9 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
 	email = models.EmailField(max_length=100, unique=True)
 	phone = models.CharField(max_length=100,null=True, blank=True)
 
+	#image
+	user_image = models.ImageField(upload_to='user_images', null=True, blank=True)
+
 	#about company structure
 	division = models.CharField(max_length=255, null=True, blank=True)
 	city = models.CharField(max_length=255, null=True, blank=True)

@@ -105,11 +105,22 @@ class LabDetails(View):
 class PharmacyDetails(View):
 	template_name = 'home/pharmacy.html'
 	def get(self, request):
-		medicines = Pharmacy.objects.all()
+		medicines = Pharmacy.objects.all()[:4]
 		medicine_category = CategoryMedicine.objects.all()
+
 		contexts = {
 			'medicine_category':medicine_category,
 			'medicines':medicines,
 		}
 		return render(request, self.template_name, contexts)
 
+class CategoryMedicineDetails(View):
+	template_name = 'home/category_medicine_details.html'
+	def get(self, request,med_category):
+		medicines = Pharmacy.objects.filter(medicine_category__slug=med_category)
+		category = CategoryMedicine.objects.get(slug=med_category)
+		contexts = {
+			'category':category,
+			'medicines':medicines,
+		}
+		return render(request, self.template_name, contexts)

@@ -61,18 +61,20 @@
 
 </div>
 
-	{% for med_cat in medicine_category %}
 		<div class="container" style="margin-top: 20px;">
-			<span style="padding: 10px;background-color: #007bff;color: #fff; margin-bottom: 10px;">{{med_cat}}</span><a href="{% url 'home:category_medicine_details' med_cat.slug %}" style="margin-left: 10px;">see all</a>
+			<div class="row my-4">
+				<div class="col-md-12 text-center">
+					<span style="border-bottom: 2px solid #ea3448;padding-bottom:8px;padding-top:8px;font-size: 20px; font-weight: 600;color: #3c3c3c; text-transform: uppercase;">{{category}}</span>			
+				</div>
+			</div>
 			<div class="cards" style="margin-top: 10px;">
 				{% for med in medicines %}
-				{% if med.medicine_category == med_cat %}
 					<!-- medicine cards -->
 					<a class="card" href="#" style="text-decoration: none;">
 						
 						<img src="{{med.medicine_image.url}}" style="width: 200px; height: 200px;" />
 						<span class="card-title" style="color: #3c3c3c; font-weight: 600;">
-							<h5>{{med.name}}</h5>
+							<h5>{{med}}</h5>
 						</span>
 						<div class="ml-2 mr-2" style="line-height: 25px;">
 							<div class="card-middle" style="color: #3c3c3c;font-size: 18px;">
@@ -82,35 +84,9 @@
 							</div>
 						</div>
 					</a>
-
-	 			{% endif %}
 				{% endfor %}
 			</div>
 
 		</div>
-	{% endfor %}
 
-<script>
-	///categories swipper 
-	$('#owl-one').owlCarousel({
-    loop:true,
-    margin:10,
-    nav:true,
-    animateIn: 'fadeIn', // add this
-    animateOut: 'fadeOut', // and this
-    slideSpeed: 300,
-    paginationSpeed: 400,
-    responsive:{
-        0:{
-            items:3
-        },
-        600:{
-            items:4
-        },
-        1000:{
-            items:6
-        }
-    }
-})
-</script>
 {% endblock %}
