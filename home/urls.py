@@ -11,4 +11,5 @@ urlpatterns = [
 	path('<str:med_category>/medicines/',views.CategoryMedicineDetails.as_view(), name='category_medicine_details'),
 	path('medicines/',views.PharmacyDetails.as_view(), name='pharmacy_details'),
 	path('food/posts',views.FoodBlogDetails.as_view(), name='food_posts'),
+	path('contact/',views.ContactDetails.as_view(), name='contact'),	
 ]  

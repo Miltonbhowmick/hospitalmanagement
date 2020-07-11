@@ -3,7 +3,7 @@ from django.views import View
 from django.http import HttpResponse
 # Create your views here.
 from .models import Doctor,Category,Appointment,Lab, MedicineCompany, Pharmacy, CategoryMedicine, FoodBlog
-from .forms import AppointmentForm
+from .forms import AppointmentForm, ContactForm
 from django.core.mail import send_mail
 from django.db.models import Q
 
@@ -146,3 +146,22 @@ class FoodBlogDetails(View):
 		}
 		return render(request, self.template_name, contexts)
 
+#------- Food Blog -------#
+class ContactDetails(View):
+	template_name = 'home/contact.html'
+
+	def get(self, request):
+		form = ContactForm()
+		contexts = {
+			'form':form,
+		}
+		return render(request, self.template_name,contexts)
+	def post(self, request):
+		form = ContactForm(request.POST or None)
+		if form.is_valid():
+			contact = form.deploy()
+			return redirect('home:home_info')
+		contexts = {
+			'form':form,
+		}
+		return render(request, self.template_name,contexts)

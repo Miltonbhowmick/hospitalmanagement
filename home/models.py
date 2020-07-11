@@ -167,3 +167,15 @@ class FoodBlog(models.Model):
 		self.slug = slugify(self.title)+'-'
 		return super(FoodBlog,self).save(*args, **kwargs)		
 
+#----- Contact -----#
+class Contact(models.Model):
+	name = models.CharField(max_length=255, blank=True, default='')
+	email = models.CharField(max_length=255, blank=True, default='')
+	message = models.TextField(max_length=255, blank=True, default='')
+
+	def __str__(self):
+		return self.email
+	def save(self, *args, **kwargs):
+		self.slug = slugify(self.name)+'-'
+		return super(Contact,self).save(*args, **kwargs)		
+
