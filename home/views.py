@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.http import HttpResponse
 # Create your views here.
@@ -67,14 +67,15 @@ class DoctorAppointment(View):
 	def post(self, request, doctor):
 		doctor = Doctor.objects.get(slug=doctor)
 		form = AppointmentForm(request.POST or None)
+		print(form.errors)
+
 		if form.is_valid():
 			appointment = form.deploy()
 			appointment.doctor=doctor
 			if request.user.is_authenticated:
 				appointment.user = request.user
 			appointment.save()
-			
-
+		
 			date = str(appointment.date)
 			all_appointment = Appointment.objects.filter(date=date).count()
 			sn = "{:04}".format(all_appointment)
@@ -90,8 +91,13 @@ class DoctorAppointment(View):
 			    [patient_email],
 			    fail_silently=False,
 			    )
+			return redirect('account:user_profile', username=request.user.username)
 
-		return HttpResponse()
+		context = {
+			'form':form,
+			'doctor':doctor,
+		}
+		return render(request, self.template_name,context)
 
 #------- Lab -------#
 class LabDetails(View):
