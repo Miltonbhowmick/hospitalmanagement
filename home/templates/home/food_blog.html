@@ -1,0 +1,29 @@
+{% extends 'home/base.html' %}
+
+
+{% block content %}
+{% load static %}
+<div class="container" style="margin-top: 100px; color: #3c3c3c;">
+	{% for post in food_blogs %}
+		<div class="row">
+			<div class="col-12">
+				<div style="font-size: 25px;margin-bottom: 10px;font-weight: 600;">
+					{{post.title}}
+					<div class="text-muted" style="font-size: 14px;">
+						{{post.date}}
+					</div>
+				</div>
+				<hr>
+			</div>	
+			<div class="col-12">
+				<img src="{{post.post_image.url}}" style="max-width: 80%; display:block; height: auto;margin-bottom: 20px;" />
+			</div>	
+			<div class="col-12">
+				<div class="p-2">
+					{{post.description | safe }}
+				</div>
+			</div>	
+		</div>
+	{% endfor %}
+</div>
+{% endblock %}

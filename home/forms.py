@@ -78,16 +78,20 @@ class AppointmentForm(forms.Form):
 			)
 		)
 
+
+	urgent_solve = forms.BooleanField( required=False,
+		widget=forms.CheckboxInput(
+			attrs={
+				'class':'onoffswitch',
+				'id': 'myonoffswitch',
+				}
+			)
+		)
+
 	YEARS= ['2020',]
 	MONTHS = {
 		1:('July'),
 	}
-	# DAYS = {
-	# 	1:'09',
-	# }
-	# print(datetime.today().strftime('%Y-%m-%d'))
-	# day=9;
-
 	date = forms.DateField(label='Select treatment date', widget=forms.SelectDateWidget(months=MONTHS,years=YEARS))
 
 	def clean(self):
@@ -139,8 +143,9 @@ class AppointmentForm(forms.Form):
 		address = self.cleaned_data.get('address')
 		city = self.cleaned_data.get('city')
 		division = self.cleaned_data.get('division')
-		date = self.cleaned_data.get('date')
+		urgent_solve = self.cleaned_data.get('urgent_solve')
+		date = self.cleaned_data.get('date')	
 
-		appointment = Appointment(first_name=first_name,last_name=last_name,email=email,phone=phone_number,age=age,address=address,city=city,division=division,date=date)
+		appointment = Appointment(first_name=first_name,last_name=last_name,email=email,phone=phone_number,age=age,address=address,city=city,division=division,urgent_resolve=urgent_solve,date=date)
 		appointment.save()
 		return appointment

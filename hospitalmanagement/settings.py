@@ -40,6 +40,8 @@ INSTALLED_APPS = [
 
     #third party apps
     'multiselectfield',
+    'ckeditor',
+    'ckeditor_uploader',
 
     #local apps
     'account',
@@ -112,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Dhaka'
 
 USE_I18N = True
 
@@ -123,6 +125,26 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
+
+####################################
+    ##  CKEDITOR CONFIGURATION ##
+####################################
+ 
+CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'
+ 
+CKEDITOR_UPLOAD_PATH = 'ckeditor_uploads/'
+CKEDITOR_IMAGE_BACKEND = "pillow"
+ 
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'YourCustomToolbarConfig',
+        'height': 220,
+        'width': '100%',
+        # 'toolbar_Custom':[]
+    },
+}
+ 
+###################################
 
 #### DATE TIME PART ####
 DATE_FORMAT = "d-m-Y"

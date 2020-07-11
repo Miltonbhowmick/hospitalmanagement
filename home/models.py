@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.text import slugify 
 from multiselectfield import MultiSelectField
-
+from ckeditor.fields import RichTextField
 from account.models import UserProfile, Staff 
 import os
 import datetime
@@ -11,7 +11,6 @@ import datetime
 def gen_code():
 	uuid = os.urandom(1).hex()
 	return uuid
-
 
 #----- Category -----#
 class Category(models.Model):
@@ -88,6 +87,7 @@ class Appointment(models.Model):
 	email = models.EmailField(max_length=100)
 	phone = models.CharField(max_length=100,null=True, blank=True)
 	age = models.CharField(max_length=100,null=True, blank=True)
+	urgent_resolve = models.BooleanField(default=False)
 	#address
 	address = models.CharField(max_length=255, null=True, blank=True)
 	city = models.CharField(max_length=255, null=True, blank=True)
@@ -153,4 +153,17 @@ class Pharmacy(models.Model):
 		self.slug = slugify(self.name)+'-'
 		return super(Pharmacy,self).save(*args, **kwargs)		
 
+#----- Food blog model -----#
+class FoodBlog(models.Model):
+	title = models.CharField(max_length=255, blank=True, default='')
+	date = models.DateTimeField(default=datetime.datetime.now(), blank=True)
+	post_image = models.ImageField(upload_to='medcine_images', null=True, blank=True)
+	description = RichTextField(max_length=1000, null=True, blank=True)
+	slug = models.SlugField(unique=True,blank=True, default='')
+
+	def __str__(self):
+		return self.title
+	def save(self, *args, **kwargs):
+		self.slug = slugify(self.title)+'-'
+		return super(FoodBlog,self).save(*args, **kwargs)		
 

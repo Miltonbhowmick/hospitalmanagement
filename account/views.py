@@ -97,7 +97,7 @@ class UserProfileView(View):
 	template_name = 'account/user_profiles.html'
 	def get(self, request, username):
 		user_details = UserProfile.objects.get(username=username)
-		appointments = Appointment.objects.filter(user__username=username)
+		appointments = Appointment.objects.filter(user__username=username).order_by('-id')
 		contexts = {
 			'appointments':appointments,
 			'user_details': user_details,

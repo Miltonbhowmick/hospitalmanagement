@@ -2,9 +2,10 @@ from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse
 # Create your views here.
-from .models import Doctor,Category,Appointment,Lab, MedicineCompany, Pharmacy, CategoryMedicine
+from .models import Doctor,Category,Appointment,Lab, MedicineCompany, Pharmacy, CategoryMedicine, FoodBlog
 from .forms import AppointmentForm
 from django.core.mail import send_mail
+from django.db.models import Q
 
 #------- Home -------#
 class HomeInfo(View):
@@ -13,11 +14,13 @@ class HomeInfo(View):
 		doctors = Doctor.objects.all()
 		categories = Category.objects.all()
 		appointments = Appointment.objects.all()
+		urgent_resolve = Appointment.objects.filter(Q(urgent_resolve=True) & Q(complete=True)).count()
 
 		context = {
 			'appointments':appointments,
 			'doctors':doctors,
-			'categories': categories,			
+			'categories': categories,	
+			'urgent_resolve':urgent_resolve,		
 		}
 
 		return render(request,self.template_name,context)
@@ -70,6 +73,7 @@ class DoctorAppointment(View):
 			if request.user.is_authenticated:
 				appointment.user = request.user
 			appointment.save()
+			
 
 			date = str(appointment.date)
 			all_appointment = Appointment.objects.filter(date=date).count()
@@ -101,7 +105,6 @@ class LabDetails(View):
 		return render(request, self.template_name, context)
 
 #------- Pharmacy -------#
-
 class PharmacyDetails(View):
 	template_name = 'home/pharmacy.html'
 	def get(self, request):
@@ -114,6 +117,7 @@ class PharmacyDetails(View):
 		}
 		return render(request, self.template_name, contexts)
 
+#------- Pharmacy Medicine Details -------#
 class CategoryMedicineDetails(View):
 	template_name = 'home/category_medicine_details.html'
 	def get(self, request,med_category):
@@ -124,3 +128,15 @@ class CategoryMedicineDetails(View):
 			'medicines':medicines,
 		}
 		return render(request, self.template_name, contexts)
+
+#------- Food Blog -------#
+class FoodBlogDetails(View):
+	template_name = 'home/food_blog.html'
+	def get(self, request):
+		food_blogs = FoodBlog.objects.all().order_by('-id')
+		print(food_blogs)
+		contexts = {
+			'food_blogs': food_blogs,
+		}
+		return render(request, self.template_name, contexts)
+
