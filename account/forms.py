@@ -120,13 +120,13 @@ class UserRegistrationForm(forms.Form):
 			raise forms.ValidationError('Please enter a real name!')
 		else:
 			if first_name[0].isupper()==False or first_name[1:].isupper()==True:
-				raise forms.ValidationError('Please Capitalize properly!')
+				raise forms.ValidationError('Please First Name Capitalize properly!')
 			else:
 				if last_name.isalpha == False:
 					raise forms.ValidationError('Please enter a real name!')
 				else:
 					if last_name[0].isupper()==False or last_name[1:].isupper()==True:
-						raise forms.ValidationError('Please Capitalize properly!')						
+						raise forms.ValidationError('Please Last Name Capitalize properly!')						
 					else:
 						if len(email)<1:
 							raise forms.ValidationError('Please enter email address!')

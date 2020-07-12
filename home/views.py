@@ -82,12 +82,12 @@ class DoctorAppointment(View):
 			appointment.serial=sn
 			appointment.save()
 			subject = 'Appointment serial for Mr.'+doctor.first_name+' '+doctor.last_name
-			message = 'Here is your serial number on date '+date+'. Your serial number is '+ sn
+			message = 'Thank You! '+request.user.first_name+' '+request.user.last_name+'. Here is your serial number on date '+date+'. Your serial number is '+ sn
 			patient_email = str(appointment.email)
 			send_mail(
 				subject,
 			    message,
-			    'miltonbhowmick7@gmail.com',
+			    'servicehospital07@gmail.com',
 			    [patient_email],
 			    fail_silently=False,
 			    )

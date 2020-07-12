@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
@@ -25,7 +24,7 @@ SECRET_KEY = '9s62)y#w$7l@by0%xvw!1^^hojb5nevp=+ovi7pdn@)=li5l#s'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -143,8 +142,8 @@ CKEDITOR_CONFIGS = {
         # 'toolbar_Custom':[]
     },
 }
- 
 ###################################
+
 
 #### DATE TIME PART ####
 DATE_FORMAT = "d-m-Y"

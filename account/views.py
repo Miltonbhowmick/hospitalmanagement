@@ -17,6 +17,15 @@ from .token_generator import account_activation_token
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 
+# 404 page for wrong url
+from django.http import Http404
+
+def page_not_found(request,param):
+	print(param)
+	if not param:
+		raise HttpResponseNotFound('<h1>No Page Here</h1>')
+	return render_to_response('account/page_404.html')
+
 class Login(View):
 	template_name = 'account/login.html'
 	def get(self,request):
@@ -88,7 +97,7 @@ def activate_account(request, uidb64, token):
         user.is_active = True
         user.save()
         login(request, user)
-        return HttpResponse('Your account has been activate successfully')
+        return redirect('home:home_info')
     else:
         return HttpResponse('Activation link is invalid!')
 
