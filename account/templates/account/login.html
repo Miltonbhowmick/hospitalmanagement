@@ -1,6 +1,7 @@
 {% extends 'home/base.html' %}
 
 {% block content %}
+{% load static %}
 <div class="container" style="margin-top: 100px;">
 	<div class="row">
 		<div class="col-md-4">
@@ -40,8 +41,8 @@
 				</form>		
 			</div>
 		</div>
-		<div class="col-md-8">
-			
+		<div class="col-md-8" style="text-align: center;">
+			<img src="{% static 'images/select_login.jpg' %}" style="display: block; width: 90%;">
 		</div>
 	</div>
 </div>
