@@ -95,7 +95,7 @@ class DoctorAppointment(View):
 			# appointment.time = time
 			appointment.save()
 			subject = 'Appointment serial for Mr.'+doctor.first_name+' '+doctor.last_name
-			message = 'Thank You! '+str(request.user.first_name)+' '+str(request.user.last_name)+'. Here is your serial number on date '+str(date)+'. Your serial number is '+ str(sn)
+			message = 'Thank You! '+str(request.user.first_name)+' '+str(request.user.last_name)+'. Here is your serial number on date '+str(appointment.time)+'. Your serial number is '+ str(sn)
 			patient_email = str(appointment.email)
 			send_mail(
 				subject,
