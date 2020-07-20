@@ -135,20 +135,23 @@ class UserRegistrationForm(forms.Form):
 							if not email_correction:
 								raise forms.ValidationError('Please enter a valid email!')
 							else:
-								if len(password1)<8:
-									raise forms.ValidationError('Password is too short!')
+								if UserProfile.objects.filter(email=email).exists():
+									raise forms.ValidationError("User is already exist!, please choose new one")
 								else:
-									if password1!=password2:
-										raise forms.ValidationError('Password is not matched!')
+									if len(password1)<8:
+										raise forms.ValidationError('Password is too short!')
 									else:
-										chk=phone_number[0]+phone_number[1]+phone_number[2]+phone_number[3]+phone_number[4]+phone_number[5]
-										
-										if chk!="+88017" and chk!="+88018" and chk!="+88019" and chk!="+88013" and chk!="+88016" and chk!="+88015":
-											print("134124")
-											raise forms.ValidationError('Invalid Phone number!')
-										else:											
-											if len(phone_number)!=11 and len(phone_number)!=14:
-												raise forms.ValidationError('Invalid asdasdPhone number!')
+										if password1!=password2:
+											raise forms.ValidationError('Password is not matched!')
+										else:
+											chk=phone_number[0]+phone_number[1]+phone_number[2]+phone_number[3]+phone_number[4]+phone_number[5]
+											
+											if chk!="+88017" and chk!="+88018" and chk!="+88019" and chk!="+88013" and chk!="+88016" and chk!="+88015":
+												print("134124")
+												raise forms.ValidationError('Invalid Phone number!')
+											else:											
+												if len(phone_number)!=11 and len(phone_number)!=14:
+													raise forms.ValidationError('Invalid asdasdPhone number!')
 
 	def deploy(self):
 		first_name = self.cleaned_data.get('first_name')
