@@ -6,6 +6,7 @@ from .models import Doctor,Category,Appointment,Lab, MedicineCompany, Pharmacy, 
 from .forms import AppointmentForm, ContactForm
 from django.core.mail import send_mail
 from django.db.models import Q
+import datetime
 
 #------- Home -------#
 class HomeInfo(View):
@@ -77,12 +78,24 @@ class DoctorAppointment(View):
 			appointment.save()
 		
 			date = str(appointment.date)
+
+			#time field
+			if Appointment.objects.filter(date=date).exists():
+				ap_last = Appointment.objects.filter(date=date).order_by('-id')[1]
+				appointment.time=ap_last.time + datetime.timedelta(minutes=15)
+			else:
+				y,m,d = date.split('-')
+				time = datetime.datetime(int(y),int(m),int(d),9,30)
+				appointment.time = time
+
 			all_appointment = Appointment.objects.filter(date=date).count()
 			sn = "{:04}".format(all_appointment)
 			appointment.serial=sn
+
+			# appointment.time = time
 			appointment.save()
 			subject = 'Appointment serial for Mr.'+doctor.first_name+' '+doctor.last_name
-			message = 'Thank You! '+request.user.first_name+' '+request.user.last_name+'. Here is your serial number on date '+date+'. Your serial number is '+ sn
+			message = 'Thank You! '+str(request.user.first_name)+' '+str(request.user.last_name)+'. Here is your serial number on date '+str(date)+'. Your serial number is '+ str(sn)
 			patient_email = str(appointment.email)
 			send_mail(
 				subject,

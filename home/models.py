@@ -92,8 +92,9 @@ class Appointment(models.Model):
 	address = models.CharField(max_length=255, null=True, blank=True)
 	city = models.CharField(max_length=255, null=True, blank=True)
 	division = models.CharField(max_length=255, null=True, blank=True)
-	#date
+	#date and time
 	date = models.DateField(default=datetime.date.today)
+	time = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
 	#serial
 	serial = models.CharField(max_length=100,null=True, blank=True)
 	complete = models.BooleanField(default=False)
