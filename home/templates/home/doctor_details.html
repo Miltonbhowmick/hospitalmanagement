@@ -1,30 +1,32 @@
 {% extends 'home/base.html' %}
 
 {% block content %}
-<div class="container" style="margin-top: 100px;">
+<div class="container doctor-details">
 	<div class="row my-4">
-		<div class="col-md-12 text-center">
-			<span style="border-bottom: 2px solid #ea3448;padding-bottom:8px;padding-top:8px;font-size: 20px; font-weight: 600;color: #3c3c3c; text-transform: uppercase;">{{category}} Doctors</span>			
+		<div class="col-md-12 text-center category-title">
+			<span>{{category}} Doctors</span>			
 		</div>
 	</div>
 	<div class="cards">
 		{% for doctor in doctors %}
-		<!-- doctor cards -->
-		<a class="card" href="{% url 'home:doctor' category.slug doctor.slug  %}" style="text-decoration: none;">
-			
-			<img src="{{doctor.doctor_image.url}}" style="width: 200px; height: 200px;" />
-			<span class="card-title" style="color: #3c3c3c; font-weight: 600;">
+		<!-- doctor cards begin -->
+		<a class="card" href="{% url 'home:doctor' category.slug doctor.slug  %}">
+			{% if doctor.doctor_image %}
+			<img src="{{doctor.doctor_image.url}}" />
+			{% endif %}
+			<span class="card-title" style="">
 				<h5>{{doctor.first_name}} {{doctor.last_name}}</h5>
 			</span>
-			<div class="ml-2 mr-2" style="line-height: 25px;">
-				<div class="card-middle" style="color: #3c3c3c;">
+			<div class="ml-2 mr-2 card-middle">
+				<div>
 					{{doctor.designation}}
 				</div>
-				<div style="color: #ea3448; font-size: 14px;">
+				<div style="color: #ea3448;">
 					{{doctor.degree}}
 				</div>
 			</div>
 		</a>
+		<!-- doctor cards end -->
 		{% endfor %}
 	</div>
 </div>

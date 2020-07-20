@@ -84,7 +84,9 @@
 	    {% for doctor in doctors %}
 		    <div class="item" style="border: 1px solid #ddd; text-align: center;">
 		    	<a href="{% url 'home:doctor' doctor.doctor_category.slug doctor.slug %}" class="text-capitalize" style="text-decoration: none;color: #3c3c3c;">
-			    	<img src="{{doctor.doctor_image.url}}" style="width: 100%;">	    	
+			    	{% if doctor.doctor_image %}
+			    		<img src="{{doctor.doctor_image.url}}" style="width: 100%;">
+			    	{% endif %}
 		    		<div class="categories-button " style="margin-top: 10px; font-weight: 600;">
 			      	{{doctor.first_name}} {{doctor.last_name}}
 			    	</div>

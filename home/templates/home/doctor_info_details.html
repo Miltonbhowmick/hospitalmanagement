@@ -2,52 +2,52 @@
 
 {% block content %}
 <div class="container" style="margin-top: 100px;">
-	<div class="row">
-		<div class="col-lg-4 col-md-4 col-sm-4">
-			<img src="{{doctor.doctor_image.url}}">
+	<div class="row doctor-info">
+		<div class="col-lg-4 col-md-4 col-sm-4 doctor-img">
+			<img src="{{doctor.doctor_image.url}}"/>
 		</div>
 		<div class="col-lg-8 col-md-8 col-sm-8">	
-			<div style="font-size: 30px; font-weight: 600;">
+			<div class="doctor-name">
 				{{doctor.first_name}} {{doctor.last_name}} 
 			</div>
 			<div class="text-muted" style="font-size:18px;font-weight: 600;">
 				{{doctor.designation}} 
 			</div>
-			<p style="margin-top: 10px;">
-				<a href="{% url 'home:appointment' doctor.slug %}" style="padding: 8px; background-color: #ea3448;color: #fff; font-size: 18px; font-weight: 600;border-radius: 25px;text-transform: capitalize;text-decoration: none;">online appointment</a>
+			<p class="appointment-button">
+				<a href="{% url 'home:appointment' doctor.slug %}">online appointment</a>
 			</p>
 		</div>
 	</div>
 </div>
 <div class="container mt-4">
-	<div style="background-color: #ea3448; padding: 5px;font-size: 20px;color: #fff; font-weight: 600;text-transform: capitalize;">
+	<div class="doctor-info-title">
 		doctor bio
 	</div>
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 my-2">
 			<div class="row">
-				<div class="col-sm-4 col-xs-12 col-md-3 col-lg-3" style="font-weight:bold">Name</div>
+				<div class="col-sm-4 col-xs-12 col-md-3 col-lg-3 post">Name</div>
 				<div class="col-sm-1 col-md-1 col-lg-1 hidden-xs">:</div>
 				<div class="col-sm-6 col-xs-12 col-md-6 col-lg-6">{{doctor.first_name}} {{doctor.last_name}}</div>
 			</div>
 		</div>
 		<div class="col-lg-12 col-md-12 col-sm-12 my-2">
 			<div class="row">
-				<div class="col-sm-4 col-xs-12 col-md-3 col-lg-3" style="font-weight:bold">Designation</div>
+				<div class="col-sm-4 col-xs-12 col-md-3 col-lg-3 post">Designation</div>
 				<div class="col-sm-1 col-md-1 col-lg-1 hidden-xs">:</div>
 				<div class="col-sm-6 col-xs-12 col-md-6 col-lg-6">Professor</div>
 			</div>
 		</div>
 		<div class="col-lg-12 col-md-12 col-sm-12 my-2">
 			<div class="row">
-				<div class="col-sm-4 col-xs-12 col-md-3 col-lg-3" style="font-weight:bold">Degree</div>
+				<div class="col-sm-4 col-xs-12 col-md-3 col-lg-3 post">Degree</div>
 				<div class="col-sm-1 col-md-1 col-lg-1 hidden-xs">:</div>
 				<div class="col-sm-6 col-xs-12 col-md-6 col-lg-6">{{doctor.degree}}</div>
 			</div>
 		</div>
 		<div class="col-lg-12 col-md-12 col-sm-12 my-2">
 			<div class="row">
-				<div class="col-sm-4 col-xs-12 col-md-3 col-lg-3" style="font-weight:bold">Phone</div>
+				<div class="col-sm-4 col-xs-12 col-md-3 col-lg-3 post">Phone</div>
 				<div class="col-sm-1 col-md-1 col-lg-1 hidden-xs">:</div>
 				<div class="col-sm-6 col-xs-12 col-md-6 col-lg-6">{{doctor.phone}}</div>
 			</div>
@@ -55,35 +55,35 @@
 		
 		<div class="col-lg-12 col-md-12 col-sm-12 my-2">
 			<div class="row">
-				<div class="col-sm-4 col-xs-12 col-md-3 col-lg-3" style="font-weight:bold">Address</div>
+				<div class="col-sm-4 col-xs-12 col-md-3 col-lg-3 post">Address</div>
 				<div class="col-sm-1 col-md-1 col-lg-1 hidden-xs">:</div>
 				<div class="col-sm-6 col-xs-12 col-md-6 col-lg-6">{{doctor.address}}</div>
 			</div>
 		</div>
 		<div class="col-lg-12 col-md-12 col-sm-12 my-2">
 			<div class="row">
-				<div class="col-sm-4 col-xs-12 col-md-3 col-lg-3" style="font-weight:bold">City</div>
+				<div class="col-sm-4 col-xs-12 col-md-3 col-lg-3 post">City</div>
 				<div class="col-sm-1 col-md-1 col-lg-1 hidden-xs">:</div>
 				<div class="col-sm-6 col-xs-12 col-md-6 col-lg-6">{{doctor.city}}</div>
 			</div>
 		</div>
 		<div class="col-lg-12 col-md-12 col-sm-12 my-2">
 			<div class="row">
-				<div class="col-sm-4 col-xs-12 col-md-3 col-lg-3" style="font-weight:bold">Division</div>
+				<div class="col-sm-4 col-xs-12 col-md-3 col-lg-3 post">Division</div>
 				<div class="col-sm-1 col-md-1 col-lg-1 hidden-xs">:</div>
 				<div class="col-sm-6 col-xs-12 col-md-6 col-lg-6">{{doctor.division}}</div>
 			</div>
 		</div>
 		<div class="col-lg-12 col-md-12 col-sm-12 my-2">
 			<div class="row">
-				<div class="col-sm-4 col-xs-12 col-md-3 col-lg-3" style="font-weight:bold">Gender</div>
+				<div class="col-sm-4 col-xs-12 col-md-3 col-lg-3 post">Gender</div>
 				<div class="col-sm-1 col-md-1 col-lg-1 hidden-xs">:</div>
 				<div class="col-sm-6 col-xs-12 col-md-6 col-lg-6">{{doctor.gender}}</div>
 			</div>
 		</div>
 		<div class="col-lg-12 col-md-12 col-sm-12 my-2">
 			<div class="row">
-				<div class="col-sm-4 col-xs-12 col-md-3 col-lg-3" style="font-weight:bold">Religion</div>
+				<div class="col-sm-4 col-xs-12 col-md-3 col-lg-3 post">Religion</div>
 				<div class="col-sm-1 col-md-1 col-lg-1 hidden-xs">:</div>
 				<div class="col-sm-6 col-xs-12 col-md-6 col-lg-6">{{doctor.religion}}</div>
 			</div>
