@@ -80,7 +80,7 @@ class DoctorAppointment(View):
 			date = str(appointment.date)
 
 			#time field
-			if Appointment.objects.filter(date=date).exists():
+			if Appointment.objects.filter(date=date).count()>1:
 				ap_last = Appointment.objects.filter(date=date).order_by('-id')[1]
 				appointment.time=ap_last.time + datetime.timedelta(minutes=15)
 			else:
