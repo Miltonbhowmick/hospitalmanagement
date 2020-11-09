@@ -10,6 +10,8 @@ urlpatterns = [
 	path('labs/',views.LabDetails.as_view(), name='lab_details'),
 	path('<str:med_category>/medicines/',views.CategoryMedicineDetails.as_view(), name='category_medicine_details'),
 	path('medicines/',views.PharmacyDetails.as_view(), name='pharmacy_details'),
-	path('food/posts',views.FoodBlogDetails.as_view(), name='food_posts'),
+	path('food/posts/',views.FoodBlogDetails.as_view(), name='food_posts'),
+	path('food/search/',views.FoodBlogSearch.as_view(), name='food_blog_search'),
+	path('food/<str:slug>/',views.FoodBlogPost.as_view(), name='food_blog_post'),
 	path('contact/',views.ContactDetails.as_view(), name='contact'),	
 ]  

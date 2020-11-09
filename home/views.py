@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
+from django.views.generic import ListView
 from django.http import HttpResponse
 # Create your views here.
 from .models import Doctor,Category,Appointment,Lab, MedicineCompany, Pharmacy, CategoryMedicine, FoodBlog
@@ -153,9 +154,28 @@ class FoodBlogDetails(View):
 	template_name = 'home/food_blog.html'
 	def get(self, request):
 		food_blogs = FoodBlog.objects.all().order_by('-id')
-		print(food_blogs)
 		contexts = {
 			'food_blogs': food_blogs,
+		}
+		return render(request, self.template_name, contexts)
+
+# food search list
+class FoodBlogSearch(ListView):
+	model = FoodBlog
+	template_name = 'home/food_search_results.html'
+	def get_queryset(self):
+		query = self.request.GET.get('q')
+		object_list = FoodBlog.objects.filter(
+			Q(title__icontains=query) | Q(description__icontains=query) | Q(date__icontains=query)
+		)
+		return object_list
+
+class FoodBlogPost(View):
+	template_name = 'home/flog_blog_post.html'
+	def get(self, request, slug):
+		food_blog_post = FoodBlog.objects.get(slug=slug)
+		contexts = {
+			'post':food_blog_post,
 		}
 		return render(request, self.template_name, contexts)
 

@@ -37,6 +37,7 @@ class Login(View):
 	def post(self, request):
 
 		form = LoginForm(request.POST or None)
+		print(131312)
 		if form.is_valid():
 			user = form.login_request()
 			if user:
