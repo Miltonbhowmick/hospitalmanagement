@@ -6,7 +6,9 @@
 
 <div class="container" style="margin-top: 100px; color: #3c3c3c;">
 	<form action="{% url 'home:food_blog_search' %}" method="get">
-		<input type="text" name="q" placeholder="Search food blog">
+		<div class="form-group">
+			<input class="form-control" type="text" name="q" placeholder="Search food blog">
+		</div>
 	</form>
 	<div class="row">
 	{% for post in food_blogs %}

@@ -2,6 +2,10 @@ from django.db import models
 from django.utils.text import slugify 
 from multiselectfield import MultiSelectField
 from ckeditor.fields import RichTextField
+
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
+
 from account.models import UserProfile, Staff 
 import os
 import datetime
@@ -159,6 +163,7 @@ class FoodBlog(models.Model):
 	title = models.CharField(max_length=255, blank=True, default='')
 	date = models.DateTimeField(default=datetime.datetime.now(), blank=True)
 	post_image = models.ImageField(upload_to='medcine_images', null=True, blank=True)
+	thumbnail = ImageSpecField(source='post_image', processors=[ResizeToFill(100,200)], format='JPEG', options={'quality':60})
 	description = RichTextField(max_length=1000, null=True, blank=True)
 	slug = models.SlugField(unique=True,blank=True, default='')
 
