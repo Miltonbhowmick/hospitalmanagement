@@ -1,0 +1,28 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+{% load static %}
+
+<div>
+	<img src="{% static 'images/thumbnail_slide.jpg' %}"  style="width: 100%;">
+</div>
+
+<div class="container my-4">
+	<div class="row">
+		{% for med in medicines %}
+			<div class="col-md-3">
+				<div style="border: 1px solid #ddd;border-radius:10px;padding: 10px;">
+					{% if med.formatted_image %}	
+						<img src="{{ med.formatted_image.url }}" style="display: block;width: 100%;">
+					{% endif %}	
+					<h5>{{med.name}}</h5>
+					<h6>Company: {{med.company}}</h6>
+					<h6>Price:{{med.price}}</h6>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</div>
+
+
+{% endblock %}

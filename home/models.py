@@ -10,7 +10,6 @@ from account.models import UserProfile, Staff
 import os
 import datetime
 
-
 #----- Generate random -----#
 def gen_code():
 	uuid = os.urandom(1).hex()
@@ -134,6 +133,7 @@ class MedicineCompany(models.Model):
 #----- Pharmacy model -----#
 class CategoryMedicine(models.Model):
 	name = models.CharField(max_length=255, blank=True, default='')
+	image = models.ImageField(max_length=255, blank=True)	
 	slug = models.SlugField(unique=True,blank=True, default='')
 
 	def __str__(self):
@@ -146,6 +146,7 @@ class CategoryMedicine(models.Model):
 class Pharmacy(models.Model):
 	name = models.CharField(max_length=255, blank=True, default='')
 	medicine_image = models.ImageField(upload_to='medcine_images', null=True, blank=True)
+	formatted_image = ImageSpecField(source='medicine_image', processors=[ResizeToFill(100,100)], format='JPEG',options={'quantity':60})
 	company = models.ForeignKey(MedicineCompany, on_delete=models.SET_NULL, null=True,blank=True)
 	medicine_category = models.ForeignKey(CategoryMedicine, on_delete=models.SET_NULL, null=True, blank=True) 
 	quantity = models.IntegerField(blank=True, default=1)

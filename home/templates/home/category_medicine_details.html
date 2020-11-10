@@ -4,7 +4,12 @@
 {% block content %}
 {% load static %}
 
+<div class="row">
+	<img src="media/medcine_images/thumbnail_slide.jpg" style="width: 100%;">
+</div>
+
 <div class="container" style="margin-top: 100px;">
+
 	<div class="row">
 		<div class="col-lg-3 col-md-3 col-sm-12">
 			<div class="order-now p-2">
@@ -61,32 +66,32 @@
 
 </div>
 
-		<div class="container medicine-list" style="margin-top: 20px;">
-			<div class="row my-4">
-				<div class="col-md-12 text-center">
-					<span class="category-title">{{category}}</span>			
+<div class="container medicine-list" style="margin-top: 20px;">
+	<div class="row my-4">
+		<div class="col-md-12 text-center">
+			<span class="category-title">{{category}}</span>			
+		</div>
+	</div>
+	<div class="cards" style="margin-top: 10px;">
+		{% for med in medicines %}
+		<!-- medicine cards -->
+		<a class="card" href="#" style="text-decoration: none;">
+
+			<img src="{{med.medicine_image.url}}"/>
+			<span class="card-title">
+				<h5>{{med}}</h5>
+			</span>
+			<div class="ml-2 mr-2" style="line-height: 25px;">
+				<div class="card-middle">
+					৳{{med.price}}
+				</div>
+				<div style="color: #ea3448;">
 				</div>
 			</div>
-			<div class="cards" style="margin-top: 10px;">
-				{% for med in medicines %}
-					<!-- medicine cards -->
-					<a class="card" href="#" style="text-decoration: none;">
-						
-						<img src="{{med.medicine_image.url}}"/>
-						<span class="card-title">
-							<h5>{{med}}</h5>
-						</span>
-						<div class="ml-2 mr-2" style="line-height: 25px;">
-							<div class="card-middle">
-								৳{{med.price}}
-							</div>
-							<div style="color: #ea3448;">
-							</div>
-						</div>
-					</a>
-				{% endfor %}
-			</div>
+		</a>
+		{% endfor %}
+	</div>
 
-		</div>
+</div>
 
 {% endblock %}

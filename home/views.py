@@ -124,6 +124,18 @@ class LabDetails(View):
 		}
 		return render(request, self.template_name, context)
 
+#------- Pharmacy Medicine Details -------#
+class CategoryMedicineDetails(View):
+	template_name = 'home/category_medicine_details.html'
+	def get(self, request,med_category):
+		medicines = Pharmacy.objects.filter(medicine_category__slug=med_category)
+		category = CategoryMedicine.objects.get(slug=med_category)
+		contexts = {
+			'category':category,
+			'medicines':medicines,
+		}
+		return render(request, self.template_name, contexts)
+
 #------- Pharmacy -------#
 class PharmacyDetails(View):
 	template_name = 'home/pharmacy.html'
@@ -137,14 +149,11 @@ class PharmacyDetails(View):
 		}
 		return render(request, self.template_name, contexts)
 
-#------- Pharmacy Medicine Details -------#
-class CategoryMedicineDetails(View):
-	template_name = 'home/category_medicine_details.html'
-	def get(self, request,med_category):
-		medicines = Pharmacy.objects.filter(medicine_category__slug=med_category)
-		category = CategoryMedicine.objects.get(slug=med_category)
+class MedicineDetails(View):
+	template_name = 'home/medicine_details.html'
+	def get(self, request, slug):
+		medicines = Pharmacy.objects.filter(medicine_category__slug=slug)
 		contexts = {
-			'category':category,
 			'medicines':medicines,
 		}
 		return render(request, self.template_name, contexts)
