@@ -147,7 +147,7 @@ class Pharmacy(models.Model):
 	name = models.CharField(max_length=255, blank=True, default='')
 	medicine_image = models.ImageField(upload_to='medcine_images', null=True, blank=True)
 	formatted_image = ImageSpecField(source='medicine_image', processors=[ResizeToFill(100,100)], format='JPEG',options={'quantity':60})
-	company = models.ForeignKey(MedicineCompany, on_delete=models.SET_NULL, null=True,blank=True)
+	company = models.ForeignKey(MedicineCompany, on_delete=models.SET_NULL, null=True, blank=True)
 	medicine_category = models.ForeignKey(CategoryMedicine, on_delete=models.SET_NULL, null=True, blank=True) 
 	quantity = models.IntegerField(blank=True, default=1)
 	price = models.IntegerField(blank=True, default=1)
@@ -158,6 +158,21 @@ class Pharmacy(models.Model):
 	def save(self, *args, **kwargs):
 		self.slug = slugify(self.name)+'-'
 		return super(Pharmacy,self).save(*args, **kwargs)		
+
+#----- Medicine Cart ------#
+class Cart(models.Model):
+	user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, blank=True)
+	products = models.ForeignKey(Pharmacy, blank=True, on_delete=models.CASCADE)
+	count = models.IntegerField(default=1)
+	per_price = models.FloatField(default=0)
+
+	date = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+
+	def __str__(self):
+		return self.user.email
+
+	class Meta:
+		ordering = ('-date',)
 
 #----- Food blog model -----#
 class FoodBlog(models.Model):

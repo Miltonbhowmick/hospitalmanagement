@@ -1,0 +1,154 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+{% load static %}
+
+<div class="container"  style="margin-top: 100px;">
+	
+</div>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-10 col-md-10 col-10">
+			<h3 style="font-weight: 500;">Shipping Checkout</h3>
+		</div>
+		<div class="col-lg-2 col-md-2 col-2">
+			<a href="{% url 'home:cart_details' %}" style="color:#222;font-size: 13px;font-weight: 600;">CART <i class="fa fa-shopping-cart" style="font-size: 28px;" aria-hidden="true"></i><span style="margin-left: 8px;">{{cart_items.count}}</span></a>
+		</div>
+		<hr class="w-100">
+	</div>
+	<div class="row" style="background-color: #f4f4f4;">
+		<div class="col-lg-4 col-md-12 col-sm-12" >
+				<div class="my-2">
+					<h4><i class="fa fa-truck m-2" aria-hidden="true"></i>Your Order</h4>
+				</div>
+				<div class="my-3">
+					<p>Items <span style="float: right;">৳11,992.56</span></p>
+					<p>Shipping <span style="float: right;">৳11,992.56</span></p>
+					<p style="font-weight: bold;">Total <span style="float: right;">৳33,325.26</span></p>
+				</div>
+				{% for cart in cart_items %}
+					<div class="my-3">
+						<div class="row">
+							<div class="col-lg-4 col-md-4 col-sm-4">
+								<img src="{{cart.formatted_image.url}}" alt="product-img">
+							</div>
+							<div class="col-lg-8 col-md-8 col-sm-8">
+								<h6 class="font-weight-normal">{{cart.name}}</h6>
+								<h6>Qty: {{cart.quantity}}</h6>
+								<h6 class="font-weight-normal">৳{{cart.price}}</h6>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+		</div>
+		<div class="col-lg-8 col-md-12 col-sm-12" style="background-color: #fff;">
+			
+				<p class="text-muted" style="border-bottom: 1px solid #ddd;padding-bottom: 5px;">Already have a Borderfree account? <a href="#">Click here.</a></p>
+				<h4 class="my-4"><span class="circle-number">1</span> Delivery</h4>
+				<form>
+					<div class="form-row">
+						<div class="form-group col-lg-12 col-md-12">
+							<input class="form-control" type="" name="" placeholder="Email">
+						</div>
+						<div class="form-group col-md-6 col-6">
+							<input class="form-control" type="" name="" placeholder="First Name">
+						</div>
+						<div class="form-group col-md-6 col-6">
+							<input class="form-control" type="" name="" placeholder="Last Name">
+						</div>
+						<div class="form-group col-lg-12 col-md-12">
+							<input class="form-control" type="" name="" placeholder="Address">
+						</div>
+						<div class="form-group col-md-6 col-6">
+							<input class="form-control" type="" name="" placeholder="Address 2 (Optional)">
+						</div>
+						<div class="form-group col-md-6 col-6">
+							<input class="form-control" type="" name="" placeholder="Postal Code">
+						</div>
+						<div class="form-group col-md-6 col-6">
+							<input class="form-control" type="" name="" placeholder="City">
+						</div>
+						<div class="form-group col-md-6 col-6">
+							<input class="form-control" type="" name="" placeholder="Region (Optional)">
+						</div>
+						<div class="form-group col-md-6 col-6">
+							<input class="form-control" type="" name="" placeholder="Phone">
+						</div>
+						<div class="form-group col-md-6 col-6">
+							<input class="form-control font-weight-bold" type="" name="" value="Bangladesh" placeholder="Postal Code"disabled>
+						</div>
+					
+						<div class="form-group col-md-6 col-6 p-2" style="background-color: #f4f4f4;">
+							<span>Delivery Method</span>
+						</div>
+						<div class="form-group col-md-6 col-6 p-2" style="background-color: #f4f4f4;">
+							<span>Estimated Arrival &	Shipping Cost</span>
+						</div>
+						<div class="my-2 text-center w-100">
+							<a class="checkout-continue" style="cursor:pointer;float:center;background-color: #222; color: #fff; padding: 10px 60px 10px 60px;border-radius: 5px;">Continue <span style="font-size: 10px;">>></span></a>
+						</div>
+
+						<hr style="width: 100%;">
+
+							<h4 class="my-3 w-100"><span class="circle-number">2</span> Payment</h4>
+						<section class="payment-option" style="display: none; width: 100%;">
+
+							<div class="form-check w-100">
+								<input  class="form-check-input" type="radio" name="payment" id="exampleRadios1" value="1">
+								<label class="form-check-label" for="exampleRadios1">
+									Mobile Banking
+								</label>
+							</div>
+							<div id="payment1" class="form-group col-md-6 col-6 my-2 payment-form" style="display: none;">
+								<p style="border-radius: 2px;background-color: #e9ecef;padding: 10px;font-weight: 600;">
+									bKash/Rocket: <span>01620000001</span>
+								</p>
+								<input  iclass="form-control font-weight-bold" type="" name="" value="" placeholder="Transaction ID" >
+							</div>	
+							<div class="form-check w-100">
+								<input class="form-check-input" type="radio" name="payment" id="exampleRadios2" value="2">
+								<label class="form-check-label" for="exampleRadios2">
+									Credit or Debit Card
+								</label>
+							</div>
+							<div id="payment2" class="form-group col-md-6 col-6 my-2 payment-form" style="display: none;">
+								<!-- Payment API -->
+									asdasdoan
+							</div>	
+
+							<div class="my-4 text-center w-100">
+								<a class="place-order-button" style="cursor:pointer;background-color: #222; color: #fff; padding: 10px 60px 10px 60px;border-radius: 5px;">Place Order <span style="font-size: 10px;">>></span></a>
+							</div>											
+						</section>
+						<hr style="width: 100%;">
+						<div>
+							<p style="text-align: justify;font-size: 14px;color: #999;">By placing your order, you agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a> of Shipping fee and transaction conditions. 
+							</p>
+						</div>
+
+					</div>				
+				</form>
+		</div>
+	</div>
+</div>
+
+<script>
+	
+	$(document).ready(function(){
+		$("input[name$='payment']").click(function(){
+			var test = $(this).val();
+			$("div.payment-form").hide(400);
+			$("#payment"+test).show(400);
+
+		})
+		$(".checkout-continue").click(function(){
+			$(".payment-option").show(400);
+			$(".checkout-continue").hide(400);
+		})
+	})
+
+</script>
+
+{% endblock %}

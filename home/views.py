@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 # Create your views here.
-from .models import Doctor,Category,Appointment,Lab, MedicineCompany, Pharmacy, CategoryMedicine, FoodBlog
+from account.models import UserProfile
+from .models import Doctor,Category,Appointment,Lab, MedicineCompany, Pharmacy, CategoryMedicine, FoodBlog, Cart
 from .forms import AppointmentForm, ContactForm
 from django.core.mail import send_mail
 from django.db.models import Q
+import json
 import datetime
 
 #------- Home -------#
@@ -149,12 +151,62 @@ class PharmacyDetails(View):
 		}
 		return render(request, self.template_name, contexts)
 
+
+#------- Medicine details -------#
 class MedicineDetails(View):
 	template_name = 'home/medicine_details.html'
 	def get(self, request, slug):
 		medicines = Pharmacy.objects.filter(medicine_category__slug=slug)
+		cart_count = Cart.objects.filter(user=request.user).count()
 		contexts = {
 			'medicines':medicines,
+			'cart_count':cart_count,
+		}
+		return render(request, self.template_name, contexts)
+
+#------- Add to Cart medicine -------#
+def update_cart(request):                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+	if request.method == 'POST':
+		product_id = request.POST['product_id']
+		action = request.POST['action']
+		quantity = request.POST['quantity']
+		customer = UserProfile.objects.get(id=request.user.id)
+		product = Pharmacy.objects.get(id=product_id)
+
+		cart , created = Cart.objects.get_or_create(user=customer, products=product)
+		
+		if action=='add':
+			cart.save()
+		elif action=='remove':
+			cart.delete()
+		elif action=='up' or action=='down':
+			cart.count = quantity
+			cart.save()
+
+		total_carts = Cart.objects.filter(user=customer).count()
+
+		return JsonResponse({'status':'ok','cart_items':total_carts})
+
+#------- Cart Details -----------#
+class CartDetails(View):
+	template_name = 'home/cart_details.html'
+	def get(self,request):
+		cart_items = Cart.objects.filter(user__email=request.user.email)
+		cart_count = len(cart_items)
+		contexts = {
+			'cart_items':cart_items,
+			'cart_count':cart_count,
+		}
+		return render(request, self.template_name, contexts)
+
+#------- Cart Details -----------#
+class Checkout(View):
+	template_name = 'home/checkout.html'
+	def get(self, request):
+		cart_items = Cart.objects.get(user__email=request.user.email).products.all()
+		
+		contexts = {
+			'cart_items':cart_items,
 		}
 		return render(request, self.template_name, contexts)
 
@@ -207,3 +259,5 @@ class ContactDetails(View):
 			'form':form,
 		}
 		return render(request, self.template_name,contexts)
+
+

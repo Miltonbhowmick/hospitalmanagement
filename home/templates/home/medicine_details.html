@@ -3,26 +3,79 @@
 {% block content %}
 {% load static %}
 
-<div>
-	<img src="{% static 'images/thumbnail_slide.jpg' %}"  style="width: 100%;">
-</div>
+<div class="container" style="margin-top: 100px;">
 
-<div class="container my-4">
-	<div class="row">
+	<div class="text-right">
+		<a href="{% url 'home:cart_details' %}" style="color:#222;font-size: 13px;font-weight: 600;">CART <i class="fa fa-shopping-cart" style="font-size: 28px;" aria-hidden="true"></i><span class="cart-count" style="margin-left: 8px;">{{cart_items.count}}</span></a>
+
+	</div>
+
+	<hr>
+
+	<section class="products">
 		{% for med in medicines %}
-			<div class="col-md-3">
-				<div style="border: 1px solid #ddd;border-radius:10px;padding: 10px;">
+			<div class="product-card">
+				<div class="product-image">
 					{% if med.formatted_image %}	
 						<img src="{{ med.formatted_image.url }}" style="display: block;width: 100%;">
 					{% endif %}	
+				</div>
+				<div class="product-info">
 					<h5>{{med.name}}</h5>
 					<h6>Company: {{med.company}}</h6>
-					<h6>Price:{{med.price}}</h6>
+					<h6>Price: {{med.price}}৳</h6>
+					<div style="display:inline-block;background-color: #222;color: #fff;padding: 8px;border: none;margin: 2px;">
+						<a data-product="{{med.id}}" data-action="add" class="update-cart" style="cursor:pointer;">
+							Add to Cart
+						</a>
+					</div>
 				</div>
 			</div>
 		{% endfor %}
-	</div>
+	</section>
+
 </div>
 
+<script >
+	var updateBtns = document.getElementsByClassName('update-cart');
+	var cart_count = document.getElementsByClassName('cart-count');
+	cart_count[0].textContent = '{{cart_count}}';
+	for(var i = 0; i<updateBtns.length; i++){
+		updateBtns[i].addEventListener('click', function(){
+			var productId = this.dataset.product;
+			var action = this.dataset.action;
+			var user = '{{request.user}}';
+			if(user=='AnonymousUser'){
+				console.log('Not logged in');
+			}
+			else{
 
-{% endblock %}
+				updateUserOrder(productId,action,0);
+			}
+
+		})
+	}
+	function updateUserOrder(productId, action, quantity){
+		console.log('User is logged in, sending data.....');
+		
+		$.ajax({
+			type: "POST",
+			url: "{% url 'home:update_cart' %}",
+			data:{
+				'csrfmiddlewaretoken' : "{{csrf_token}}",
+				'product_id': productId,
+				'action': action,
+				'quantity':0,
+			},
+			success: function(data){
+				console.log(data['cart_items']);
+				cart_count[0].textContent = data['cart_items'];
+			},
+			error: function(){
+				console.log("error occurs!");
+			},
+		})
+	}
+	
+</script>
+{% endblock %} 

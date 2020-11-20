@@ -1,0 +1,131 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+{% load static %}
+
+<div class="container" style="margin-top: 100px; ">
+	<div class="text-right">
+		<a href="{% url 'home:cart_details' %}" style="color:#222;font-size: 13px;font-weight: 600;">CART <i class="fa fa-shopping-cart" style="font-size: 28px;" aria-hidden="true"></i><span class="cart-count" style="margin-left: 8px;">{{cart_count}}</span></a>
+
+		
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="shadow-sm bg-white rounded p-3 my-4">
+				<table class="table">
+					<tr>
+						<th>
+							<h5>Items: <strong>5</strong></h5>
+						</th>
+						<th>
+							<h5>Total: <strong>$42</strong></h5>
+						</th>
+						<th>
+							<a style="background-color: #222;color: #fff;text-decoration: none; padding: 10px;float: right;" href="{% url 'home:checkout' %}">Checkout</a>
+						</th>
+					</tr>
+				</table>
+			</div>
+			
+			<div class="shadow-sm bg-white rounded p-3 my-4">
+				<div style="display: flex;padding-bottom: 10px;margin-bottom: 10px; border-bottom:1px solid #ddd;">
+					<div style="flex: 2"></div>
+					<div style="flex: 2"><strong>Item</strong></div>
+					<div style="flex: 1"><strong>Price</strong></div>
+					<div style="flex: 1"><strong>Quantity</strong></div>
+					<div style="flex: 1"><strong>Total</strong></div>
+					<div style="flex: 1"><strong>Drop(X)</strong></div>										
+				</div>
+				{% for cart in cart_items %}
+					<div style="display: flex; padding: 10px;margin-bottom: 10px;border-bottom:1px solid #ddd;">
+						<div style="flex: 2"><img src="{{cart.products.formatted_image.url}}" style="width: 100px;"></div>
+						<div style="flex: 2">{{cart.products}}</div>
+						<div style="flex: 1">${{cart.products.price}}</div>
+						<div style="flex: 1">
+							<div class="quantity" id="{{cart.products.id}}">{{cart.count}}</div>
+							<div class="quantity">
+								<i data-id="{{cart.products.quantity}}" data-product="{{cart.products.id}}" data-action="up" class="fa fa-caret-up update-quantity chg-quantity" aria-hidden="true"></i>
+								<i data-id="{{cart.products.quantity}}" data-product="{{cart.products.id}}" data-action="down" class="fa fa-caret-down update-quantity chg-quantity" aria-hidden="true"></i>	
+							</div>
+						</div>
+						<div style="flex: 1">total</div>
+						<div style="flex: 1"><a data-product="{{cart.products.id}}" data-action="remove" class="update-cart" href=""><i class="fa fa-times" aria-hidden="true"></i></a></div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	var updateBtns = document.getElementsByClassName('update-cart');
+	var cart_count = document.getElementsByClassName('cart-count');
+	var update_quantity = document.getElementsByClassName('update-quantity');
+
+	for(var i=0; i<update_quantity.length;i++){
+		update_quantity[i].addEventListener('click', function(){
+			var productId = this.dataset.product;
+			var productQuantity = this.dataset.id;
+			var action = this.dataset.action;
+			var change = document.getElementById(productId);
+			if(action=='up'){	
+				if (Number(change.innerText)<Number(productQuantity)){				
+					change.textContent = Number(change.innerText)+1;
+					updateUserOrder(productId,action, Number(change.innerText));
+				}
+			}
+			else{
+				if( Number(change.innerText)>1){
+					change.textContent = Number(change.innerText)-1;
+					updateUserOrder(productId,action, Number(change.innerText));
+				}
+			}
+		})
+	}
+
+	cart_count[0].textContent = '{{cart_count}}';
+	for(var i = 0; i<updateBtns.length; i++){
+		updateBtns[i].addEventListener('click', function(){
+
+			var productId = this.dataset.product;
+			var action = this.dataset.action;
+
+			var user = '{{request.user}}';
+			if(user=='AnonymousUser'){
+				console.log('Not logged in');
+			}
+			else{
+				updateUserOrder(productId,action,0);
+			}
+
+		})
+	}
+	function updateUserOrder(productId, action, quantity){
+		console.log('User is logged in, sending data.....');
+		console.log(productId,action,quantity);
+		$.ajax({
+			type: "POST",
+			url: "{% url 'home:update_cart' %}",
+			data:{
+				'csrfmiddlewaretoken' : "{{csrf_token}}",
+				'product_id': productId,
+				'action': action,
+				'quantity':quantity,
+			},
+			success: function(data){
+				console.log(data['cart_items']);
+				cart_count[0].textContent = data['cart_items'];
+				if (action=="remove"){
+					location.reload();
+				}
+			},
+			error: function(data){
+				console.log("error occurs!", data['status']);
+			},
+		})
+	}
+
+</script>
+
+{% endblock %} 
