@@ -150,7 +150,7 @@ class Pharmacy(models.Model):
 	company = models.ForeignKey(MedicineCompany, on_delete=models.SET_NULL, null=True, blank=True)
 	medicine_category = models.ForeignKey(CategoryMedicine, on_delete=models.SET_NULL, null=True, blank=True) 
 	quantity = models.IntegerField(blank=True, default=1)
-	price = models.IntegerField(blank=True, default=1)
+	price = models.FloatField(blank=True, default=1.00)
 	slug = models.SlugField(unique=True,blank=True, default='')
 
 	def __str__(self):
@@ -164,13 +164,16 @@ class Cart(models.Model):
 	user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, blank=True)
 	products = models.ForeignKey(Pharmacy, blank=True, on_delete=models.CASCADE)
 	count = models.IntegerField(default=1)
-	per_price = models.FloatField(default=0)
+	per_price = models.FloatField()
 
 	date = models.DateTimeField(auto_now_add=True,null=True,blank=True)
 
 	def __str__(self):
 		return self.user.email
 
+	def save(self, *args, **kwargs):
+		self.per_price = round((self.products.price * float(self.count)), 3)
+		return super(Cart, self).save(*args, **kwargs)
 	class Meta:
 		ordering = ('-date',)
 

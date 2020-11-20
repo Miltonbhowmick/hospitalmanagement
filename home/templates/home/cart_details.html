@@ -41,7 +41,7 @@
 					<div style="display: flex; padding: 10px;margin-bottom: 10px;border-bottom:1px solid #ddd;">
 						<div style="flex: 2"><img src="{{cart.products.formatted_image.url}}" style="width: 100px;"></div>
 						<div style="flex: 2">{{cart.products}}</div>
-						<div style="flex: 1">$<span id="price-{{cart.products.id}}">{{cart.per_price}}</span></div>
+						<div style="flex: 1">${{cart.products.price}}</div>
 						<div style="flex: 1">
 							<div class="quantity" id="{{cart.products.id}}">{{cart.count}}</div>
 							<div class="quantity">
@@ -49,7 +49,7 @@
 								<i data-id="{{cart.products.quantity}}" data-product="{{cart.products.id}}" data-action="down" data-price="{{cart.products.price}}" class="fa fa-caret-down update-quantity chg-quantity" aria-hidden="true"></i>	
 							</div>
 						</div>
-						<div style="flex: 1">total</div>
+						<div style="flex: 1">$<span id="price-{{cart.products.id}}">{{cart.per_price}}</span></div>
 						<div style="flex: 1"><a data-product="{{cart.products.id}}" data-action="remove" class="update-cart" href=""><i class="fa fa-times" aria-hidden="true"></i></a></div>
 					</div>
 				{% endfor %}
@@ -76,14 +76,15 @@
 			if(action=='up'){	
 				if (Number(change.innerText)<Number(productQuantity)){				
 					change.textContent = Number(change.innerText)+1;
-					changePrice.textContent = price*Number(change.innerText);
+					changePrice.textContent =  (1.0*price*Number(change.innerText)).toFixed(2);
+					console.log(changePrice.textContent)
 					updateUserOrder(productId,action, Number(change.innerText), Number(changePrice.textContent));
 				}
 			}
 			else{
 				if( Number(change.innerText)>1){
 					change.textContent = Number(change.innerText)-1;
-					changePrice.textContent = price*Number(change.innerText);
+					changePrice.textContent = (1.0*price*Number(change.innerText)).toFixed(2);
 					updateUserOrder(productId,action, Number(change.innerText), Number(changePrice.textContent));
 				}
 			}

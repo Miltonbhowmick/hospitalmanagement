@@ -187,7 +187,6 @@ def update_cart(request):
 			cart.per_price = per_price
 
 			cart.save()
-			print(cart.per_price)
 
 		total_carts = Cart.objects.filter(user=customer).count()
 
