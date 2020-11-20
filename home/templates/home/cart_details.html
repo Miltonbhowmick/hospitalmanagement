@@ -41,12 +41,12 @@
 					<div style="display: flex; padding: 10px;margin-bottom: 10px;border-bottom:1px solid #ddd;">
 						<div style="flex: 2"><img src="{{cart.products.formatted_image.url}}" style="width: 100px;"></div>
 						<div style="flex: 2">{{cart.products}}</div>
-						<div style="flex: 1">${{cart.products.price}}</div>
+						<div style="flex: 1">$<span id="price-{{cart.products.id}}">{{cart.per_price}}</span></div>
 						<div style="flex: 1">
 							<div class="quantity" id="{{cart.products.id}}">{{cart.count}}</div>
 							<div class="quantity">
-								<i data-id="{{cart.products.quantity}}" data-product="{{cart.products.id}}" data-action="up" class="fa fa-caret-up update-quantity chg-quantity" aria-hidden="true"></i>
-								<i data-id="{{cart.products.quantity}}" data-product="{{cart.products.id}}" data-action="down" class="fa fa-caret-down update-quantity chg-quantity" aria-hidden="true"></i>	
+								<i data-id="{{cart.products.quantity}}" data-product="{{cart.products.id}}" data-action="up" data-price="{{cart.products.price}}" class="fa fa-caret-up update-quantity chg-quantity" aria-hidden="true"></i>
+								<i data-id="{{cart.products.quantity}}" data-product="{{cart.products.id}}" data-action="down" data-price="{{cart.products.price}}" class="fa fa-caret-down update-quantity chg-quantity" aria-hidden="true"></i>	
 							</div>
 						</div>
 						<div style="flex: 1">total</div>
@@ -68,17 +68,23 @@
 			var productId = this.dataset.product;
 			var productQuantity = this.dataset.id;
 			var action = this.dataset.action;
+			var price = this.dataset.price;
+
 			var change = document.getElementById(productId);
+			var changePrice = document.getElementById("price-"+String(productId))
+
 			if(action=='up'){	
 				if (Number(change.innerText)<Number(productQuantity)){				
 					change.textContent = Number(change.innerText)+1;
-					updateUserOrder(productId,action, Number(change.innerText));
+					changePrice.textContent = price*Number(change.innerText);
+					updateUserOrder(productId,action, Number(change.innerText), Number(changePrice.textContent));
 				}
 			}
 			else{
 				if( Number(change.innerText)>1){
 					change.textContent = Number(change.innerText)-1;
-					updateUserOrder(productId,action, Number(change.innerText));
+					changePrice.textContent = price*Number(change.innerText);
+					updateUserOrder(productId,action, Number(change.innerText), Number(changePrice.textContent));
 				}
 			}
 		})
@@ -96,14 +102,13 @@
 				console.log('Not logged in');
 			}
 			else{
-				updateUserOrder(productId,action,0);
+				updateUserOrder(productId,action,0,0);
 			}
 
 		})
 	}
-	function updateUserOrder(productId, action, quantity){
+	function updateUserOrder(productId, action, quantity, per_price){
 		console.log('User is logged in, sending data.....');
-		console.log(productId,action,quantity);
 		$.ajax({
 			type: "POST",
 			url: "{% url 'home:update_cart' %}",
@@ -112,9 +117,9 @@
 				'product_id': productId,
 				'action': action,
 				'quantity':quantity,
+				'per_price':per_price,
 			},
 			success: function(data){
-				console.log(data['cart_items']);
 				cart_count[0].textContent = data['cart_items'];
 				if (action=="remove"){
 					location.reload();

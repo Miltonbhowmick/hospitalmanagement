@@ -169,7 +169,8 @@ def update_cart(request):
 	if request.method == 'POST':
 		product_id = request.POST['product_id']
 		action = request.POST['action']
-		quantity = request.POST['quantity']
+		
+
 		customer = UserProfile.objects.get(id=request.user.id)
 		product = Pharmacy.objects.get(id=product_id)
 
@@ -180,8 +181,13 @@ def update_cart(request):
 		elif action=='remove':
 			cart.delete()
 		elif action=='up' or action=='down':
+			quantity = request.POST['quantity']
+			per_price = request.POST['per_price']
 			cart.count = quantity
+			cart.per_price = per_price
+
 			cart.save()
+			print(cart.per_price)
 
 		total_carts = Cart.objects.filter(user=customer).count()
 

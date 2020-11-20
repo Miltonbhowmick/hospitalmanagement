@@ -50,12 +50,12 @@
 			}
 			else{
 
-				updateUserOrder(productId,action,0);
+				updateUserOrder(productId,action);
 			}
 
 		})
 	}
-	function updateUserOrder(productId, action, quantity){
+	function updateUserOrder(productId, action){
 		console.log('User is logged in, sending data.....');
 		
 		$.ajax({
@@ -65,7 +65,6 @@
 				'csrfmiddlewaretoken' : "{{csrf_token}}",
 				'product_id': productId,
 				'action': action,
-				'quantity':0,
 			},
 			success: function(data){
 				console.log(data['cart_items']);
