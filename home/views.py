@@ -11,6 +11,10 @@ from django.db.models import Q
 import json
 import datetime
 
+import stripe
+stripe.api_key = "sk_test_gb8wU1OGozJ4L5Zs14e1JRka00pdcIDlPD"
+
+
 #------- Home -------#
 class HomeInfo(View):
 	template_name = 'home/home.html'
@@ -189,8 +193,9 @@ def update_cart(request):
 			cart.save()
 
 		total_carts = Cart.objects.filter(user=customer).count()
+		total_price = sum([ c.per_price for c in Cart.objects.filter(user=customer)])
 
-		return JsonResponse({'status':'ok','cart_items':total_carts})
+		return JsonResponse({'status':'ok','total_carts':total_carts,'total_price':total_price})
 
 #------- Cart Details -----------#
 class CartDetails(View):
@@ -198,9 +203,12 @@ class CartDetails(View):
 	def get(self,request):
 		cart_items = Cart.objects.filter(user__email=request.user.email)
 		cart_count = len(cart_items)
+		total_price = sum([ c.per_price for c in cart_items])
+
 		contexts = {
 			'cart_items':cart_items,
 			'cart_count':cart_count,
+			'total_price':total_price,
 		}
 		return render(request, self.template_name, contexts)
 
@@ -208,10 +216,15 @@ class CartDetails(View):
 class Checkout(View):
 	template_name = 'home/checkout.html'
 	def get(self, request):
-		cart_items = Cart.objects.get(user__email=request.user.email).products.all()
-		
+		cart_items = Cart.objects.filter(user__email=request.user.email)		
+		cart_price = round(sum([ c.per_price for c in cart_items]),2)
+		shipping_price = 30.00
+		total_price = cart_price + shipping_price
 		contexts = {
 			'cart_items':cart_items,
+			'cart_price':cart_price,
+			'shipping_price':shipping_price,
+			'total_price': total_price,
 		}
 		return render(request, self.template_name, contexts)
 

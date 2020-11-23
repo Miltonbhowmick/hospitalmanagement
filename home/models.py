@@ -6,7 +6,7 @@ from ckeditor.fields import RichTextField
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 
-from account.models import UserProfile, Staff 
+from account.models import UserProfile
 import os
 import datetime
 
@@ -108,7 +108,6 @@ class Appointment(models.Model):
 #----- Lab model -----#
 class Lab(models.Model):
 	name = models.CharField(max_length=255,blank=True, default='')
-	technician_name = models.ForeignKey(Staff, on_delete=models.SET_NULL, blank=True, null=True)
 	cost = models.IntegerField(null=True, blank=True)
 	slug = models.SlugField(unique=True,blank=True, default='')
 

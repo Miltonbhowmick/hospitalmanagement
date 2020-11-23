@@ -1,7 +1,7 @@
 {% extends 'home/base.html' %}
 
-{% block content %}
 {% load static %}
+{% block content %}
 
 <div class="container" style="margin-top: 100px; ">
 	<div class="text-right">
@@ -16,10 +16,10 @@
 				<table class="table">
 					<tr>
 						<th>
-							<h5>Items: <strong>5</strong></h5>
+							<h5>Items: <strong>{{cart_items.count}}</strong></h5>
 						</th>
 						<th>
-							<h5>Total: <strong>$42</strong></h5>
+							<h5>Total: <strong>$<span id="total-price">{{total_price}}</span></strong></h5>
 						</th>
 						<th>
 							<a style="background-color: #222;color: #fff;text-decoration: none; padding: 10px;float: right;" href="{% url 'home:checkout' %}">Checkout</a>
@@ -121,7 +121,8 @@
 				'per_price':per_price,
 			},
 			success: function(data){
-				cart_count[0].textContent = data['cart_items'];
+				cart_count[0].textContent = data['total_carts'];
+				document.getElementById('total-price').textContent=data['total_price'];
 				if (action=="remove"){
 					location.reload();
 				}
