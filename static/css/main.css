@@ -477,8 +477,14 @@ section{
 }
 /* FOOTER CSS END */
 
-
-
+/* PAYMENT CSS BEGIN */
+.form-group > small{
+    color: #e74c3c;
+    bottom: 0;
+    left: 0;
+    display: none;
+}
+/* PAYMENT CSS END */
 
 @media ( max-width: 920px ) {
     

@@ -4,38 +4,33 @@
 
 {% block head-content %}
 <style type="text/css">
-/**
-* The CSS shown here will not be introduced in the Quickstart guide, but shows
-* how you can use CSS to style your Element's container.
-*/
-.StripeElement {
-	box-sizing: border-box;
+	.StripeElement {
+		box-sizing: border-box;
 
-	height: 40px;
+		height: 40px;
 
-	padding: 10px 12px;
+		padding: 10px 12px;
 
-	border: 1px solid transparent;
-	border-radius: 4px;
-	background-color: white;
+		border: 1px solid transparent;
+		border-radius: 4px;
+		background-color: white;
 
-	box-shadow: 0 1px 3px 0 #e6ebf1;
-	-webkit-transition: box-shadow 150ms ease;
-	transition: box-shadow 150ms ease;
-}
+		box-shadow: 0 1px 3px 0 #e6ebf1;
+		-webkit-transition: box-shadow 150ms ease;
+		transition: box-shadow 150ms ease;
+	}
 
-.StripeElement--focus {
-	box-shadow: 0 1px 3px 0 #cfd7df;
-}
+	.StripeElement--focus {
+		box-shadow: 0 1px 3px 0 #cfd7df;
+	}
 
-.StripeElement--invalid {
-	border-color: #fa755a;
-}
+	.StripeElement--invalid {
+		border-color: #fa755a;
+	}
 
-.StripeElement--webkit-autofill {
-	background-color: #fefde5 !important;
-}
-
+	.StripeElement--webkit-autofill {
+		background-color: #fefde5 !important;
+	}
 </style>
 
 {% endblock %}
@@ -86,37 +81,48 @@
 
 			<p class="text-muted" style="border-bottom: 1px solid #ddd;padding-bottom: 5px;">Already have a Borderfree account? <a href="#">Click here.</a></p>
 			<h4 class="my-4"><span class="circle-number">1</span> Delivery</h4>
-			<form>
+			<form action="{% url 'home:charge' %}" method="post" id="payment-form">
+				{% csrf_token %}
 				<div class="form-row">
 					<div class="form-group col-lg-12 col-md-12">
-						<input class="form-control" type="" name="" placeholder="Email">
+						<input class="form-control" id="email" type="" name="email" placeholder="Email">
+	                	<small>Error Message</small>
 					</div>
 					<div class="form-group col-md-6 col-6">
-						<input class="form-control" type="" name="" placeholder="First Name">
+						<input class="form-control" id="first-name" type="" name="first-name" placeholder="First Name">
+						<small>Error Message</small>
 					</div>
 					<div class="form-group col-md-6 col-6">
-						<input class="form-control" type="" name="" placeholder="Last Name">
+						<input class="form-control" id="last-name" type="" name="last-name" placeholder="Last Name">
+						<small>Error Message</small>
 					</div>
 					<div class="form-group col-lg-12 col-md-12">
-						<input class="form-control" type="" name="" placeholder="Address">
+						<input class="form-control" id="address1" type="" name="address1" placeholder="Address">
+						<small>Error Message</small>
 					</div>
 					<div class="form-group col-md-6 col-6">
-						<input class="form-control" type="" name="" placeholder="Address 2 (Optional)">
+						<input class="form-control" id="address2" type="" name="address2" placeholder="Address 2 (Optional)">
+						<small>Error Message</small>
 					</div>
 					<div class="form-group col-md-6 col-6">
-						<input class="form-control" type="" name="" placeholder="Postal Code">
+						<input class="form-control" id="postal-code" type="" name="postal-code" placeholder="Postal Code">
+						<small>Error Message</small>
 					</div>
 					<div class="form-group col-md-6 col-6">
-						<input class="form-control" type="" name="" placeholder="City">
+						<input class="form-control" id="city" type="" name="city" placeholder="City">
+						<small>Error Message</small>
 					</div>
 					<div class="form-group col-md-6 col-6">
-						<input class="form-control" type="" name="" placeholder="Region (Optional)">
+						<input class="form-control" id="region" type="" name="region" placeholder="Region (Optional)">
+						<small>Error Message</small>
 					</div>
 					<div class="form-group col-md-6 col-6">
-						<input class="form-control" type="" name="" placeholder="Phone">
+						<input class="form-control" id="phone" type="" name="phone" placeholder="Phone">
+						<small>Error Message</small>
 					</div>
 					<div class="form-group col-md-6 col-6">
-						<input class="form-control font-weight-bold" type="" name="" value="Bangladesh" placeholder="Postal Code"disabled>
+						<input class="form-control font-weight-bold" id="country" type="" name="country" value="Bangladesh" placeholder="Postal Code"disabled>
+						<small>Error Message</small>
 					</div>
 
 					<div class="form-group col-md-6 col-6 p-2" style="background-color: #f4f4f4;">
@@ -130,55 +136,49 @@
 					</div>
 
 				</div>				
-			</form>
-			<hr style="width: 100%;">
+				<hr style="width: 100%;">
 
-			<h4 class="my-3 w-100"><span class="circle-number">2</span> Payment</h4>
-			<section class="payment-option" style="display: none; width: 100%;">
+				<h4 class="my-3 w-100"><span class="circle-number">2</span> Payment</h4>
+				<section class="payment-option" style="display: none; width: 100%;">
 
-				<div class="form-check w-100">
-					<input  class="form-check-input" type="radio" name="payment" id="exampleRadios1" value="1">
-					<label class="form-check-label" for="exampleRadios1">
-						Mobile Banking
-					</label>
-				</div>
-				<div id="payment1" class="form-group col-md-6 col-6 my-2 form-payment" style="display: none;">
-					<p style="border-radius: 2px;background-color: #e9ecef;padding: 10px;font-weight: 600;">
-						bKash/Rocket: <span>01620000001</span>
-					</p>
-					<input  iclass="form-control font-weight-bold" type="" name="" value="" placeholder="Transaction ID" >
-				</div>	
-				<div class="form-check w-100">
-					<input class="form-check-input" type="radio" name="payment" id="exampleRadios2" value="2">
-					<label class="form-check-label" for="exampleRadios2">
-						Credit or Debit Card
-					</label>
-				</div>
-				<div id="payment2" class="form-group col-md-12 col-12 my-2 form-payment" style="display: none;">
-					<!-- Payment API -->
-
-					<form action="/charge" method="post" id="payment-form">
-						{% csrf_token %}
-						<div class="flex-column form-row my-2">
-					<label class="ml-2" for="card-element">
-						Credit or debit card
-					</label>
-					<div class="ml-2" id="card-element">
-						<!-- A Stripe Element will be inserted here. -->
+					<div class="form-check w-100">
+						<input id="mobile-banking" class="form-check-input" type="radio" name="payment" id="exampleRadios1" value="1">
+						<label class="form-check-label" for="exampleRadios1">
+							Mobile Banking
+						</label>
+					</div>
+					<div id="payment1" class="form-group col-md-6 col-6 my-2 form-payment" style="display: none;">
+						<p style="border-radius: 2px;background-color: #e9ecef;padding: 10px;font-weight: 600;">
+							bKash/Rocket: <span>01620000001</span>
+						</p>
+						<input  iclass="form-control font-weight-bold" type="" name="transactionId" value="" placeholder="Transaction ID" >
+					</div>	
+					<div class="form-check w-100">
+						<input id="credit-debit-card" class="form-check-input" type="radio" name="payment" id="exampleRadios2" value="2">
+						<label class="form-check-label" for="exampleRadios2">
+							Credit or Debit Card
+						</label>
 					</div>
 
-					<!-- Used to display form errors. -->
-					<div id="card-errors" role="alert"></div>
-				</div>
+					<div id="payment2" class="form-group col-md-12 col-12 my-2 form-payment" style="display: none;">
+						<!-- Payment API -->
+						<div class="flex-column form-row my-2">
+							<label class="ml-2" for="card-element">
+								Credit or debit card
+							</label>
+							<div class="ml-2" id="card-element">
+								<!-- A Stripe Element will be inserted here. -->
+							</div>
 
-						<button>Submit Payment</button>
-					</form>
-				</div>	
+							<!-- Used to display form errors. -->
+							<div id="card-errors" role="alert"></div>
+						</div>
 
-				<div class="my-4 text-center w-100">
-					<a class="place-order-button" style="cursor:pointer;background-color: #222; color: #fff; padding: 10px 60px 10px 60px;border-radius: 5px;">Place Order <span style="font-size: 10px;">>></span></a>
-				</div>											
-			</section>
+					</div>										
+				</section>
+
+				<button>Place Order</button>
+			</form>
 			<hr style="width: 100%;">
 			<div>
 				<p style="text-align: justify;font-size: 14px;color: #999;">By placing your order, you agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a> of Shipping fee and transaction conditions. 
@@ -191,7 +191,65 @@
 
 <script>
 
+
 	$(document).ready(function(){
+
+		const form = document.getElementById('form');
+		const email = document.getElementById('email');
+		const first_name = document.getElementById('first-name');
+		const last_name = document.getElementById('last-name');
+		const address1 = document.getElementById('address1');
+		// address2 (optional)
+		const address2 = document.getElementById('address2'); 
+		const postal_code = document.getElementById('postal-code');
+		const city = document.getElementById('city');
+		const region = document.getElementById('region');
+		const phone = document.getElementById('phone');
+
+		let allFieldsFilled =true;
+
+		// show input errors
+		function inputError(input, message){
+			input.style.borderColor = "#e74c3c";
+			const formControl = input.parentElement;
+			const small = formControl.querySelector('small');
+			small.style.display = "block";
+			small.innerText = message;
+			console.log(message);
+		}
+		// show input success
+		function inputSuccess(input){
+			input.style.borderColor = "#2ecc71";
+			const formControl = input.parentElement;
+			const small = formControl.querySelector('small');
+			small.style.display = "none";	
+		}
+
+		// input fields required 
+		function checkRequired(inputArr){
+			inputArr.forEach(function(input){
+				if(input.value.trim()===''){
+					allFieldsFilled = false;
+					inputError(input, "Fill all the required section!");
+				}
+				else{
+					inputSuccess(input);
+				}
+			})
+		}
+
+		//check email is valid
+		function checkEmail(input) {
+		    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		    console.log(re.test(String(input.value)));
+		    if(re.test(String(input.value))) {
+		        inputSuccess(input)
+		    }else {
+				allFieldsFilled=false;
+		        inputError(input,'Email is not invalid');
+		    }
+		}
+
 		$("input[name$='payment']").click(function(){
 			var test = $(this).val();
 			$("div.form-payment").hide(400);
@@ -199,80 +257,99 @@
 
 		})
 		$(".checkout-continue").click(function(){
-			$(".payment-option").show(400);
-			$(".checkout-continue").hide(400);
+
+			allFieldsFilled=true;
+			// validation checking
+			checkRequired([email,first_name,last_name,address1,postal_code,city, region, phone]);
+			if(allFieldsFilled){
+				checkEmail(email);
+			}
+
+			if(allFieldsFilled==true){
+				$(".payment-option").show(400);
+				$(".checkout-continue").hide(400);
+			}
 		})
 	})
-// Create a Stripe client.
-var stripe = Stripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
+	// Create a Stripe client.
+	var stripe = Stripe('pk_test_6eAaxUME6mZ98tw61Lzb24xa00lsgJSZRl');
 
-// Create an instance of Elements.
-var elements = stripe.elements();
+	// Create an instance of Elements.
+	var elements = stripe.elements();
 
-// Custom styling can be passed to options when creating an Element.
-// (Note that this demo uses a wider set of styles than the guide below.)
-var style = {
-	base: {
-		color: '#32325d',
-		fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-		fontSmoothing: 'antialiased',
-		fontSize: '16px',
-		'::placeholder': {
-			color: '#aab7c4'
+	// Custom styling can be passed to options when creating an Element.
+	// (Note that this demo uses a wider set of styles than the guide below.)
+	var style = {
+		base: {
+			color: '#32325d',
+			fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+			fontSmoothing: 'antialiased',
+			fontSize: '16px',
+			'::placeholder': {
+				color: '#aab7c4'
+			}
+		},
+		invalid: {
+			color: '#fa755a',
+			iconColor: '#fa755a'
 		}
-	},
-	invalid: {
-		color: '#fa755a',
-		iconColor: '#fa755a'
+	};
+
+	// Create an instance of the card Element.
+	var card = elements.create('card', {style: style});
+
+	// Add an instance of the card Element into the `card-element` <div>.
+	card.mount('#card-element');
+
+	// Handle real-time validation errors from the card Element.
+	card.on('change', function(event) {
+		var displayError = document.getElementById('card-errors');
+		if (event.error) {
+			displayError.textContent = event.error.message;
+		} else {
+			displayError.textContent = '';
+		}
+	});
+
+	// Handle form submission.
+	var form = document.getElementById('payment-form');
+	form.addEventListener('submit', function(event) {
+
+		// mobile bankink submit handle
+		var mobileBanking = document.getElementById('mobile-banking');
+		var credit_debit_card = document.getElementById('mobile-banking');
+		if (mobileBanking.checked){
+
+		}
+		else if (credit_debit_card.checked){
+			event.preventDefault();
+
+			stripe.createToken(card).then(function(result) {
+				if (result.error) {
+			// Inform the user if there was an error.
+			var errorElement = document.getElementById('card-errors');
+			errorElement.textContent = result.error.message;
+			} else {
+			// Send the token to your server.
+			stripeTokenHandler(result.token);
+			}
+			});
+		}
+	});
+
+	// Submit the form with the token ID.
+	function stripeTokenHandler(token) {
+	// Insert the token ID into the form so it gets submitted to the server
+	var form = document.getElementById('payment-form');
+	var hiddenInput = document.createElement('input');
+	hiddenInput.setAttribute('type', 'hidden');
+	hiddenInput.setAttribute('name', 'stripeToken');
+	hiddenInput.setAttribute('value', token.id);
+	form.appendChild(hiddenInput);
+
+	// Submit the form
+	form.submit();
 	}
-};
-
-// Create an instance of the card Element.
-var card = elements.create('card', {style: style});
-
-// Add an instance of the card Element into the `card-element` <div>.
-card.mount('#card-element');
-
-// Handle real-time validation errors from the card Element.
-card.on('change', function(event) {
-	var displayError = document.getElementById('card-errors');
-	if (event.error) {
-		displayError.textContent = event.error.message;
-	} else {
-		displayError.textContent = '';
-	}
-});
-
-// Handle form submission.
-var form = document.getElementById('payment-form');
-form.addEventListener('submit', function(event) {
-	event.preventDefault();
-
-	stripe.createToken(card).then(function(result) {
-		if (result.error) {
-// Inform the user if there was an error.
-var errorElement = document.getElementById('card-errors');
-errorElement.textContent = result.error.message;
-} else {
-// Send the token to your server.
-stripeTokenHandler(result.token);
-}
-});
-});
-
-// Submit the form with the token ID.
-function stripeTokenHandler(token) {
-// Insert the token ID into the form so it gets submitted to the server
-var form = document.getElementById('payment-form');
-var hiddenInput = document.createElement('input');
-hiddenInput.setAttribute('type', 'hidden');
-hiddenInput.setAttribute('name', 'stripeToken');
-hiddenInput.setAttribute('value', token.id);
-form.appendChild(hiddenInput);
-
-// Submit the form
-form.submit();
-}
 
 </script>
 

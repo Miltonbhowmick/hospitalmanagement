@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views import View
 from django.views.generic import ListView
 from django.http import HttpResponse, JsonResponse
@@ -189,13 +190,43 @@ def update_cart(request):
 			per_price = request.POST['per_price']
 			cart.count = quantity
 			cart.per_price = per_price
-
 			cart.save()
 
 		total_carts = Cart.objects.filter(user=customer).count()
 		total_price = sum([ c.per_price for c in Cart.objects.filter(user=customer)])
-
+		print(total_carts)
 		return JsonResponse({'status':'ok','total_carts':total_carts,'total_price':total_price})
+
+#------- payment --------------------#
+
+def charge(request):
+	amount = 5
+	if request.method == "POST":
+		print(request.POST)
+
+		if request.POST['transactionId'] !=None:
+			print(request.POST['transactionId'])
+		else:
+			customer = stripe.Customer.create(
+					email = request.POST['email'],
+					name = request.POST['nickname'],
+					source = request.POST['stripeToken'],
+				)
+			charge = stripe.Charge.create(
+					customer = customer,
+					amount=500,
+					currency = 'usd',
+					description = 'Donation',
+				)
+
+		return redirect(reverse('home:success', args=[amount]))
+
+def success(request, args):
+	amount = args
+	contexts = {
+		'amount':amount,
+	}
+	return render(request, 'home/success.html', contexts)
 
 #------- Cart Details -----------#
 class CartDetails(View):

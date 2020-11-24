@@ -18,4 +18,8 @@ urlpatterns = [
 	path('food/search/',views.FoodBlogSearch.as_view(), name='food_blog_search'),
 	path('food/<str:slug>/',views.FoodBlogPost.as_view(), name='food_blog_post'),
 	path('contact/',views.ContactDetails.as_view(), name='contact'),	
+
+	#--------- PAYMENT ----------#
+	path('charge/', views.charge, name='charge'),
+	path('success/<str:args>/', views.success, name='success'),
 ]  

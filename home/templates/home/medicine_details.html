@@ -67,8 +67,9 @@
 				'action': action,
 			},
 			success: function(data){
-				console.log(data['cart_items']);
-				cart_count[0].textContent = data['cart_items'];
+				console.log(data['total_carts']);
+
+				cart_count[0].textContent = data['total_carts'];
 			},
 			error: function(){
 				console.log("error occurs!");
