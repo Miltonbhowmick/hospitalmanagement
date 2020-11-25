@@ -202,14 +202,13 @@ def update_cart(request):
 def charge(request):
 	amount = 5
 	if request.method == "POST":
-		print(request.POST)
-
-		if request.POST['transactionId'] !=None:
+		if request.POST['transactionId'] !='':
 			print(request.POST['transactionId'])
 		else:
+			user_name = request.POST['first-name'] + request.POST['last-name']
 			customer = stripe.Customer.create(
 					email = request.POST['email'],
-					name = request.POST['nickname'],
+					name = user_name,
 					source = request.POST['stripeToken'],
 				)
 			charge = stripe.Charge.create(

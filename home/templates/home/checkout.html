@@ -85,19 +85,19 @@
 				{% csrf_token %}
 				<div class="form-row">
 					<div class="form-group col-lg-12 col-md-12">
-						<input class="form-control" id="email" type="" name="email" placeholder="Email">
+						<input class="form-control" id="email" type="email" name="email" placeholder="Email">
 	                	<small>Error Message</small>
 					</div>
 					<div class="form-group col-md-6 col-6">
-						<input class="form-control" id="first-name" type="" name="first-name" placeholder="First Name">
+						<input class="form-control" id="first-name" type="text" name="firstname" placeholder="First Name">
 						<small>Error Message</small>
 					</div>
 					<div class="form-group col-md-6 col-6">
-						<input class="form-control" id="last-name" type="" name="last-name" placeholder="Last Name">
+						<input class="form-control" id="last-name" type="text" name="lastname" placeholder="Last Name">
 						<small>Error Message</small>
 					</div>
 					<div class="form-group col-lg-12 col-md-12">
-						<input class="form-control" id="address1" type="" name="address1" placeholder="Address">
+						<input class="form-control" id="address1" type="text" name="address1" placeholder="Address">
 						<small>Error Message</small>
 					</div>
 					<div class="form-group col-md-6 col-6">
@@ -151,7 +151,7 @@
 						<p style="border-radius: 2px;background-color: #e9ecef;padding: 10px;font-weight: 600;">
 							bKash/Rocket: <span>01620000001</span>
 						</p>
-						<input  iclass="form-control font-weight-bold" type="" name="transactionId" value="" placeholder="Transaction ID" >
+						<input  iclass="form-control font-weight-bold" id="transaction-id" type="" name="transactionId" value="" placeholder="Transaction ID" >
 					</div>	
 					<div class="form-check w-100">
 						<input id="credit-debit-card" class="form-check-input" type="radio" name="payment" id="exampleRadios2" value="2">
@@ -215,7 +215,6 @@
 			const small = formControl.querySelector('small');
 			small.style.display = "block";
 			small.innerText = message;
-			console.log(message);
 		}
 		// show input success
 		function inputSuccess(input){
@@ -241,31 +240,55 @@
 		//check email is valid
 		function checkEmail(input) {
 		    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-		    console.log(re.test(String(input.value)));
 		    if(re.test(String(input.value))) {
 		        inputSuccess(input)
-		    }else {
+		    }
+		    else {
 				allFieldsFilled=false;
 		        inputError(input,'Email is not invalid');
 		    }
+		}
+
+		// check phone number
+		function checkPhone(phone){
+			re = /^\d+$/;
+			if(re.test(phone.value)){
+				if(phone.value.length >= 6){
+					inputSuccess(phone);
+				}
+				else{
+					allFieldsFilled=false;
+					inputError(phone, 'Primary phone number cannot be less than 6 characters');
+				}
+			}
+			else{
+				allFieldsFilled=false;
+				inputError(phone, 'Primary phone number is required');
+			}
 		}
 
 		$("input[name$='payment']").click(function(){
 			var test = $(this).val();
 			$("div.form-payment").hide(400);
 			$("#payment"+test).show(400);
-
 		})
-		$(".checkout-continue").click(function(){
 
+		function checkValidation(){
 			allFieldsFilled=true;
 			// validation checking
 			checkRequired([email,first_name,last_name,address1,postal_code,city, region, phone]);
+			checkEmail(email);
+			checkPhone(phone);
 			if(allFieldsFilled){
-				checkEmail(email);
+				return true;
 			}
+			else{
+				return false;
+			}
+		}
 
-			if(allFieldsFilled==true){
+		$(".checkout-continue").click(function(){
+			if(checkValidation()==true){
 				$(".payment-option").show(400);
 				$(".checkout-continue").hide(400);
 			}
@@ -317,11 +340,16 @@
 
 		// mobile bankink submit handle
 		var mobileBanking = document.getElementById('mobile-banking');
-		var credit_debit_card = document.getElementById('mobile-banking');
-		if (mobileBanking.checked){
-
+		var credit_debit_card = document.getElementById('credit-debit-card');
+	
+		if (mobileBanking.checked==true){
+			console.log("bank");
 		}
-		else if (credit_debit_card.checked){
+		else if (credit_debit_card.checked==true){
+
+			document.getElementById('transaction-id').value = '';
+			console.log("card");
+
 			event.preventDefault();
 
 			stripe.createToken(card).then(function(result) {
