@@ -5,7 +5,8 @@ from django.views.generic import ListView
 from django.http import HttpResponse, JsonResponse
 # Create your views here.
 from account.models import UserProfile
-from .models import Doctor,Category,Appointment,Lab, MedicineCompany, Pharmacy, CategoryMedicine, FoodBlog, Cart
+from .models import Doctor,Category,Appointment,Lab, MedicineCompany, Pharmacy, CategoryMedicine, FoodBlog
+from sell.models import Cart
 from .forms import AppointmentForm, ContactForm
 from django.core.mail import send_mail
 from django.db.models import Q
@@ -200,7 +201,6 @@ def update_cart(request):
 #------- payment --------------------#
 
 def charge(request):
-	amount = 5
 	if request.method == "POST":
 		if request.POST['transactionId'] !='':
 			print(request.POST['transactionId'])
@@ -218,7 +218,7 @@ def charge(request):
 					description = 'Donation',
 				)
 
-		return redirect(reverse('home:success', args=[amount]))
+		return redirect('account:user_profile',username=request.user.username)
 
 def success(request, args):
 	amount = args

@@ -102,7 +102,6 @@ def activate_account(request, uidb64, token):
     else:
         return HttpResponse('Activation link is invalid!')
 
-
 class UserProfileView(View):
 	template_name = 'account/user_profiles.html'
 	def get(self, request, username):
