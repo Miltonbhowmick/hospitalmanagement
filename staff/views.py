@@ -14,6 +14,16 @@ class Dashboard(View):
 		}
 		return render(request, self.template_name, contexts)
 
+# ------ Medicine Product ------ #
+class MedicineProduct(View):
+	template_name = 'staff/medicine product/medicine product.html'
+	def get(self, request):
+		
+		contexts = {
+			
+		}
+		return render(request, self.template_name, contexts)
+
 # ------ contact ------- # 
 class ContactDetails(View):
 	template_name = 'staff/contact/contact.html'
