@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{% load static %}
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<!-- static file included -->
+
+		<link rel="stylesheet" href="{% static 'bootstrap css/bootstrap.min.css'%}" type="text/css">
+		<link rel="stylesheet" href="{% static 'bootstrap css/bootstrap-grid.min.css'%}" type="text/css">
+		<link rel="stylesheet" href="{% static 'bootstrap css/bootstrap-reboot.min.css' %}" type="text/css">
+		<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" type="text/css">
+		<link rel="stylesheet" href="{% static 'css/elegant-icons.css' %}" type="text/css">
+	    
+		<link rel="stylesheet" href="{% static 'staff/css/main.css' %}" type="text/css">
+	    
+		<!-- online link -->
+		<script src="{% static 'bootstrap js/jquery.min.js' %}"></script>
+		<script src="{% static 'bootstrap js/popper.min.js' %}"></script>
+		<script src="{% static 'bootstrap js/bootstrap.min.js' %}"></script>
+
+		{% block head-link %} {% endblock %}
+		<!-- end online link -->
+
+		<title>{% block title %} {% endblock %}</title>
+		
+		{% block head-content %} {% endblock %}
+	</head>
+	<body>	
+		<!-- header -->
+			
+			<!-- example 7 - center on mobile 2-->
+			<nav class="navbar navbar-expand-lg fixed-top" style="background-color: #fff;border-bottom-width:1px;border-bottom-color:#c5c8ca;border-bottom-style: solid;box-shadow: 0 0px 1px 1px #c5c8ca;z-index: 1500;">
+			    <div class="d-flex flex-grow-1">
+			        <span class="w-100 d-lg-none d-block"><!-- hidden spacer to center brand on mobile --></span>
+			        <a class="navbar-brand" href="#" style="font-weight: 600;">
+			        	<img src="{% static 'images/company logo.png' %}" style="width: 40px; height: 40px;margin-right: 10px;">YourCare Hospital Admin
+			        </a>
+			        <div class="w-100 text-right">
+			            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar7">
+			                <span class="navbar-toggler-icon"></span>
+			            </button>
+			        </div>
+			    </div>
+			    <div class="collapse navbar-collapse flex-grow-1 text-left" id="myNavbar7">
+			       	<ul class="navbar-nav flex-nowrap text-capitalize" >
+			       	</ul>
+			        <ul class="navbar-nav ml-auto flex-nowrap text-capitalize"style="font-weight: 600;font-size: 18px;">
+			            {% if request.user.is_authenticated %}
+				            <li class="nav-item text-capitalize">
+				            	<a href="{% url 'account:logout' %}" class="nav-link">logout</a>
+				            </li>
+				        {% else %}
+				        	<li class="nav-item text-capitalize">
+			                	<a href="{% url 'account:login' %}" class="nav-link">login</a>
+				            </li>
+			            {% endif %}
+			        </ul>
+			    </div>
+			</nav>
+		<!-- end header -->
+		<!-- sidebar begin -->
+		<div>
+			<div class="sidebar">
+				<ul class="sidebar_menu">
+				    <li>
+				    	<a href="">Dashboard</a>
+				    </li>
+					<li>
+				    	<a href="">Product</a>
+				    </li>
+					<li>
+				    	<a href="">Blog</a>
+				    </li>
+			    </ul>
+
+			</div>
+			<div class="content">
+				aasd
+			    {% block content %}
+
+				{% endblock %}
+			</div>
+		</div>
+			<!-- sidebar end -->
+
+	<!-- Footer Section Begin -->
+			   	
+	<!-- Footer Section End -->
+
+
+	</body>
+</html>

@@ -6,7 +6,6 @@ from .choices import *
 
 # Create your models here.
 
-
 #------ Shipping Address -------#
 class ShippingAddress(models.Model):
 	user = models.ForeignKey(

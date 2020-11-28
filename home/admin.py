@@ -1,17 +1,16 @@
 from django.contrib import admin
 from imagekit.admin import AdminThumbnail
 # Register your models here.
-from .models import Category,Doctor,Appointment,Lab, Pharmacy, MedicineCompany, CategoryMedicine, FoodBlog, Contact, Cart
+from . import models
 
 class AppointmentAdmin(admin.ModelAdmin):
 	search_fields = ['email',]
 
-admin.site.register(Category)
-admin.site.register(Doctor)
-admin.site.register(Appointment,AppointmentAdmin)
-admin.site.register(Lab)
-admin.site.register(Pharmacy)
-admin.site.register(MedicineCompany)
-admin.site.register(CategoryMedicine)
-admin.site.register(FoodBlog)
-admin.site.register(Contact)
+admin.site.register(models.Category)
+admin.site.register(models.Doctor)
+admin.site.register(models.Appointment, AppointmentAdmin)
+admin.site.register(models.Lab)
+admin.site.register(models.Pharmacy)
+admin.site.register(models.MedicineCompany)
+admin.site.register(models.CategoryMedicine)
+admin.site.register(models.FoodBlog)

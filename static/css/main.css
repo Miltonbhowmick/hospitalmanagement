@@ -1,11 +1,18 @@
 /* full body */
 body{
+    padding-top: 90px;
     font-family: din,sans-serif;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
     color: #212529;
     text-align: left;
+}
+a{
+    color: #222; 
+}
+a:hover{
+    text-decoration: none; 
 }
 ul,
 ol {

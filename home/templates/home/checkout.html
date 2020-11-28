@@ -6,11 +6,8 @@
 <style type="text/css">
 	.StripeElement {
 		box-sizing: border-box;
-
 		height: 40px;
-
 		padding: 10px 12px;
-
 		border: 1px solid transparent;
 		border-radius: 4px;
 		background-color: white;
@@ -58,20 +55,20 @@
 				<h4><i class="fa fa-truck m-2" aria-hidden="true"></i>Your Order</h4>
 			</div>
 			<div class="my-3">
-				<p>Items <span style="float: right;">৳{{cart_price}}</span></p>
-				<p>Shipping <span style="float: right;">৳{{shipping_price}}</span></p>
-				<p style="font-weight: bold;">Total <span style="float: right;">৳{{total_price}}</span></p>
+				<p>Items <span style="float: right;">৳ <span name="subtotalPrice">{{cart_price}}</span></span></p>
+				<p>Shipping <span style="float: right;">৳ <span name="shippingPrice">{{shipping_price}}</span></span></p>
+				<p style="font-weight: bold;">Total<span style="float: right;">৳ {{total_price}}</span></p>
 			</div>
 			{% for cart in cart_items %}
 			<div class="my-3">
 				<div class="row">
 					<div class="col-lg-4 col-md-4 col-sm-4">
-						<img src="{{cart.products.formatted_image.url}}" alt="product-img">
+						<img src="{{cart.product.formatted_image.url}}" alt="product-img">
 					</div>
 					<div class="col-lg-8 col-md-8 col-sm-8">
-						<h6 class="font-weight-normal">{{cart.products.name}}</h6>
-						<h6>Qty: {{cart.products.quantity}}</h6>
-						<h6 class="font-weight-normal">৳{{cart.products.price}}</h6>
+						<h6 class="font-weight-normal">{{cart.product.name}}</h6>
+						<h6>Qty: {{cart.product.quantity}}</h6>
+						<h6 class="font-weight-normal">৳{{cart.product.price}}</h6>
 					</div>
 				</div>
 			</div>

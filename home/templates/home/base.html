@@ -31,7 +31,7 @@
 		
 		{% block head-content %} {% endblock %}
 	</head>
-	<body style="font-family: din,sans-serif;">	
+	<body>	
 		<!-- header -->
 			
 			<!-- example 7 - center on mobile 2-->
@@ -51,7 +51,7 @@
 			       	<ul class="navbar-nav flex-nowrap text-capitalize" >
 
 			       	</ul>
-			        <ul class="navbar-nav ml-auto flex-nowrap text-capitalize"style="font-weight: 600;font-size: 18px;">
+			        <ul class="navbar-nav ml-auto flex-nowrap text-capitalize"style="font-size: 18px;">
 			        	<li class="nav-item">
 		            		<a href="{% url 'home:home_info' %}" class="nav-link" style="color: #fff;">home</a>
 		            	</li>
@@ -59,7 +59,7 @@
 		            		<a href="{% url 'home:lab_details' %}" class="nav-link"style="color: #fff;">lab</a>
 		            	</li>
 		            	<li class="nav-item">
-		            		<a href="{% url 'home:contact' %}" class="nav-link"style="color: #fff;">contact</a>
+		            		<a href="{% url 'staff:contact' %}" class="nav-link"style="color: #fff;">contact</a>
 		            	</li>
 			            {% if request.user.is_authenticated %}
 			            	<li class="nav-item text-capitalize">
@@ -115,7 +115,7 @@
                         <h6 style="color: #fff;">Who We Are</h6>
                         <ul>
                             <li><a href="https://www.hackster.io/projects/tags/medical" style="color: #fff;">Projects</a></li>
-                            <li><a href="{% url 'home:contact' %}"style="color: #fff;">Contact</a></li>
+                            <li><a href="{% url 'staff:contact' %}"style="color: #fff;">Contact</a></li>
                             <li><a href="https://time.com/5710295/top-health-innovations/"style="color: #fff;">Innovation</a></li>
                         </ul>
                     </div>

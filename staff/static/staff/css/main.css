@@ -1,0 +1,44 @@
+
+body{
+	padding-top: 65px;
+	background-color: #f4f4f4;
+	overflow: hidden;
+}
+
+/* links begin */
+a:link{
+	color: #222;
+}
+ul{
+	margin: 0;
+	padding: 0;
+}
+/* links end */
+
+/* sidebar begin */
+.sidebar{
+	position: fixed;
+	background: #fff;
+  	width: 15rem;
+	height: 100vh;
+	overflow-y: auto;
+	z-index: 1039;
+}
+.sidebar ul{
+	padding: 5px;
+	margin:10px;
+	list-style: none;
+}
+.sidebar ul > li{
+	padding: 5px;
+}
+/* sidebar end */
+
+/* content begin */
+.content{
+	padding-left: 15rem;
+	position: relative;
+	height: calc(100vh - 58px);
+	overflow-y: auto;
+}
+/* content end */

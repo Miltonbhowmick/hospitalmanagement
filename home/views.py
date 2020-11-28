@@ -6,8 +6,8 @@ from django.http import HttpResponse, JsonResponse
 # Create your views here.
 from account.models import UserProfile
 from .models import Doctor,Category,Appointment,Lab, MedicineCompany, Pharmacy, CategoryMedicine, FoodBlog
-from sell.models import Cart
-from .forms import AppointmentForm, ContactForm
+from sell.models import Cart, Order, OrderStatus
+from .forms import AppointmentForm
 from django.core.mail import send_mail
 from django.db.models import Q
 import json
@@ -175,12 +175,12 @@ def update_cart(request):
 	if request.method == 'POST':
 		product_id = request.POST['product_id']
 		action = request.POST['action']
-		
+		print(action)
 
 		customer = UserProfile.objects.get(id=request.user.id)
 		product = Pharmacy.objects.get(id=product_id)
 
-		cart , created = Cart.objects.get_or_create(user=customer, products=product)
+		cart , created = Cart.objects.get_or_create(user=customer, product=product)
 		
 		if action=='add':
 			cart.save()
@@ -198,25 +198,50 @@ def update_cart(request):
 		print(total_carts)
 		return JsonResponse({'status':'ok','total_carts':total_carts,'total_price':total_price})
 
-#------- payment --------------------#
-
+#------- payment ------------#
 def charge(request):
 	if request.method == "POST":
+		carts = Cart.objects.filter(
+			user = request.user,
+		)
+		subtotal = round(sum(float(cart.per_price) for cart in carts), 2)
+		total = subtotal
+
+		#shipping address
+		first_name = request.POST['firstname']
+		last_name = request.POST['lastname']
+		email = request.POST['email'] 
+		country = request.POST['country'] 
+		street_address = request.POST['address1'] 
+		phone = request.POST['phone'] 
+
+
+		shipping_address, created = ShippingAddress.objects.get_or_create(user = request.user)
+		if created==True:
+			shipping_address.first_name = first_name
+			shipping_address.last_name = last_name
+			shipping_address.email = email
+			shipping_address.country = country
+			shipping_address.street_address = street_address
+			shipping_address.phone = phone
+
+			shipping_address.save()
+
 		if request.POST['transactionId'] !='':
-			print(request.POST['transactionId'])
+			user = UserProfile.objects.get(email=request.user.email)
 		else:
-			user_name = request.POST['first-name'] + request.POST['last-name']
+			user_name = request.POST['firstname'] + request.POST['lastname']
 			customer = stripe.Customer.create(
-					email = request.POST['email'],
-					name = user_name,
-					source = request.POST['stripeToken'],
-				)
+				email = request.POST['email'],
+				name = user_name,
+				source = request.POST['stripeToken'],
+			)
 			charge = stripe.Charge.create(
-					customer = customer,
-					amount=500,
-					currency = 'usd',
-					description = 'Donation',
-				)
+				customer = customer,
+				amount=500,
+				currency = 'usd',
+				description = 'Donation',
+			)
 
 		return redirect('account:user_profile',username=request.user.username)
 
@@ -232,6 +257,7 @@ class CartDetails(View):
 	template_name = 'home/cart_details.html'
 	def get(self,request):
 		cart_items = Cart.objects.filter(user__email=request.user.email)
+		print(cart_items)
 		cart_count = len(cart_items)
 		total_price = sum([ c.per_price for c in cart_items])
 
@@ -268,7 +294,7 @@ class FoodBlogDetails(View):
 		}
 		return render(request, self.template_name, contexts)
 
-# food search list
+#------- food search list -------#
 class FoodBlogSearch(ListView):
 	model = FoodBlog
 	template_name = 'home/food_search_results.html'
@@ -279,6 +305,7 @@ class FoodBlogSearch(ListView):
 		)
 		return object_list
 
+#------- Food Blog -------#
 class FoodBlogPost(View):
 	template_name = 'home/flog_blog_post.html'
 	def get(self, request, slug):
@@ -287,25 +314,4 @@ class FoodBlogPost(View):
 			'post':food_blog_post,
 		}
 		return render(request, self.template_name, contexts)
-
-#------- Food Blog -------#
-class ContactDetails(View):
-	template_name = 'home/contact.html'
-
-	def get(self, request):
-		form = ContactForm()
-		contexts = {
-			'form':form,
-		}
-		return render(request, self.template_name,contexts)
-	def post(self, request):
-		form = ContactForm(request.POST or None)
-		if form.is_valid():
-			contact = form.deploy()
-			return redirect('home:home_info')
-		contexts = {
-			'form':form,
-		}
-		return render(request, self.template_name,contexts)
-
 

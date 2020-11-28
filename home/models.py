@@ -158,23 +158,7 @@ class Pharmacy(models.Model):
 		self.slug = slugify(self.name)+'-'
 		return super(Pharmacy,self).save(*args, **kwargs)		
 
-#----- Medicine Cart ------#
-class Cart(models.Model):
-	user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, blank=True)
-	products = models.ForeignKey(Pharmacy, blank=True, on_delete=models.CASCADE)
-	count = models.IntegerField(default=1)
-	per_price = models.FloatField()
 
-	date = models.DateTimeField(auto_now_add=True,null=True,blank=True)
-
-	def __str__(self):
-		return self.user.email
-
-	def save(self, *args, **kwargs):
-		self.per_price = round((self.products.price * float(self.count)), 3)
-		return super(Cart, self).save(*args, **kwargs)
-	class Meta:
-		ordering = ('-date',)
 
 #----- Food blog model -----#
 class FoodBlog(models.Model):
@@ -190,16 +174,5 @@ class FoodBlog(models.Model):
 	def save(self, *args, **kwargs):
 		self.slug = slugify(self.title)+'-'
 		return super(FoodBlog,self).save(*args, **kwargs)		
-
-#----- Contact -----#
-class Contact(models.Model):
-	name = models.CharField(max_length=255, blank=True, default='')
-	email = models.CharField(max_length=255, blank=True, default='')
-	message = models.TextField(max_length=255, blank=True, default='')
-
-	def __str__(self):
-		return self.email
-	def save(self, *args, **kwargs):
-		self.slug = slugify(self.name)+'-'
-		return super(Contact,self).save(*args, **kwargs)		
+	
 
