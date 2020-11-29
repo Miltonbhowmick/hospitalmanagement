@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.views import View
 from .forms import ContactForm
 
+from home import models as store_model
+
 # Create your views here.
 
 # ------ dashboard ------ #
@@ -14,9 +16,21 @@ class Dashboard(View):
 		}
 		return render(request, self.template_name, contexts)
 
-# ------ Medicine Product ------ #
-class MedicineProduct(View):
-	template_name = 'staff/medicine product/medicine product.html'
+# ------ Product ------ #
+class Product(View):
+	template_name = 'staff/product/product.html'
+	def get(self, request):
+		products = store_model.Pharmacy.objects.all().order_by('-date')
+		products_count = products.count()
+		contexts = {
+			'products': products,
+			'products_count': products_count,
+			
+		}
+		return render(request, self.template_name, contexts)
+
+class AddProduct(View):
+	template_name = 'staff/product/add_product.html'
 	def get(self, request):
 		
 		contexts = {
@@ -24,6 +38,14 @@ class MedicineProduct(View):
 		}
 		return render(request, self.template_name, contexts)
 
+class EditProduct(View):
+	template_name = 'staff/product/edit_product.html'
+	def get(self, request):
+		
+		contexts = {
+			
+		}
+		return render(request, self.template_name, contexts)
 # ------ contact ------- # 
 class ContactDetails(View):
 	template_name = 'staff/contact/contact.html'

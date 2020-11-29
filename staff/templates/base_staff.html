@@ -64,16 +64,24 @@
 			<div class="sidebar">
 				<ul class="sidebar_menu">
 				    <li>
-				    	<a href="">Dashboard</a>
+				    	<a href="{% url 'staff:dashboard' %}">Dashboard</a>
+				    	
 				    </li>
 					<li>
-				    	<a href="">Medicine Product</a>
+				    	<a>Product</a>
+				    	<ul class="sidebar_submenu">
+				    		<li>
+				    			<a href="{% url 'staff:product' %}">All Products</a>
+				    		</li>
+				    		<li>
+				    			<a href="{% url 'staff:add_product' %}">Add Product</a>
+				    		</li>
+				    	</ul>
 				    </li>
 					<li>
 				    	<a href="">Blog</a>
 				    </li>
 			    </ul>
-
 			</div>
 			<div class="content">
 			    {% block content %}
@@ -87,6 +95,13 @@
 			   	
 	<!-- Footer Section End -->
 
+	<script>
+		$('.sidebar_menu li').children('ul').hide();
+
+		$('.sidebar_menu li a').click(function(){
+			$('.sidebar_menu li').children('ul').slideToggle();
+		})
+	</script>
 
 	</body>
 </html>

@@ -117,7 +117,7 @@ class Lab(models.Model):
 		self.slug = slugify(self.name)+'-'
 		return super(Lab,self).save(*args, **kwargs)		
 
-#----- Pharmacy model -----#
+#----- Medicine Company model -----#
 class MedicineCompany(models.Model):
 	name = models.CharField(max_length=255, blank=True, default='')
 	slug = models.SlugField(unique=True,blank=True, default='')
@@ -129,7 +129,7 @@ class MedicineCompany(models.Model):
 		return super(MedicineCompany,self).save(*args, **kwargs)
 
 
-#----- Pharmacy model -----#
+#----- Category Medicine model -----#
 class CategoryMedicine(models.Model):
 	name = models.CharField(max_length=255, blank=True, default='')
 	image = models.ImageField(max_length=255, blank=True)	
@@ -152,10 +152,13 @@ class Pharmacy(models.Model):
 	price = models.FloatField(blank=True, default=1.00)
 	slug = models.SlugField(unique=True,blank=True, default='')
 
+	date = models.DateTimeField(auto_now_add=True,null=True)
+
 	def __str__(self):
 		return self.name
 	def save(self, *args, **kwargs):
-		self.slug = slugify(self.name)+'-'
+		if not self.slug:	
+			self.slug = slugify(self.name)+'-'
 		return super(Pharmacy,self).save(*args, **kwargs)		
 
 

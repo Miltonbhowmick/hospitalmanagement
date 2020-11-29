@@ -8,6 +8,7 @@ body{
 /* links begin */
 a:link{
 	color: #222;
+	text-decoration: none;
 }
 ul{
 	margin: 0;
@@ -24,13 +25,23 @@ ul{
 	overflow-y: auto;
 	z-index: 1039;
 }
-.sidebar ul{
+.sidebar_menu{
 	padding: 5px;
 	margin:10px;
 	list-style: none;
 }
-.sidebar ul > li{
+.sidebar_menu li{
 	padding: 5px;
+	list-style-type: none;
+}
+.sidebar_menu li a{
+	display: block;
+	cursor: pointer;
+}
+.sidebar_submenu{
+	margin-top: 4px;
+	margin-bottom: 3px;
+	border-left: 2px solid #f4f4f4;
 }
 /* sidebar end */
 
@@ -41,4 +52,10 @@ ul{
 	height: calc(100vh - 58px);
 	overflow-y: auto;
 }
+.content-container{
+	background-color: #fff;
+	margin: 15px;
+	border-radius: 5px;
+}
+
 /* content end */

@@ -1,0 +1,53 @@
+{% extends 'base_staff.html' %}
+{% block title %}Medicine Products{% endblock %}
+
+{% block content %}
+<div class="content-container">
+	<div class="row p-1 text-center" style="font-weight: 600;text-transform: uppercase;">
+		<div class="col-md-2">
+			Image
+		</div>
+		<div class="col-md-2">
+			<p>Name</p>
+		</div>
+		<div class="col-md-1">
+			<p>Price</p>
+		</div>
+		<div class="col-md-1">
+			<p>Quantity</p>
+		</div>
+		<div class="col-md-3">
+			<p>Date</p>
+		</div>
+	</div>
+	{% for product in products %}
+		<div class="row p-2 text-center">
+			<div class="col-md-2">
+				{% if product.formatted_image %}
+					<img src="{{product.formatted_image.url}}">
+				{% else %}
+					<img src="" alt="product-image">
+				{% endif %}	
+			</div>
+			<div class="col-md-2">
+				<p>{{product.name}}</p>
+			</div>
+			<div class="col-md-1">
+				<p>{{product.price}}</p>
+			</div>
+			<div class="col-md-1">
+				<p>{{product.quantity}}</p>
+			</div>
+			<div class="col-md-3">
+				<p>{{product.date}}</p>
+			</div>
+			<div class="col-md-1">
+				<a class="btn btn-info">Edit</a>
+			</div>
+			<div class="col-md-1">
+				<a class="btn btn-danger">Delete</a>
+			</div>
+		</div>
+	{% endfor %}
+</div>
+{% endblock %}
