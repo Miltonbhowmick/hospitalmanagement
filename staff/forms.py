@@ -81,6 +81,9 @@ class AddProductForm(forms.Form):
 			medicine_category = category,
 			quantity = quantity,
 		)
+		product.medicine_image = image
+		product.save()
+		
 		return product
 
 # ------- Add Blog Form ------- #  
@@ -118,9 +121,11 @@ class AddBlogForm(forms.Form):
 
 		blog, created = store_model.FoodBlog.objects.get_or_create(
 			title = title,
-			post_image = image,
 			description = description
 		)
+		blog.post_image = image
+		blog.save()
+
 		return blog
 
 

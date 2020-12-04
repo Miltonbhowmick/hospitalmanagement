@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'multiselectfield',
     'ckeditor',
     'ckeditor_uploader',
+    'imagekit',
 
     #local apps
     'account',

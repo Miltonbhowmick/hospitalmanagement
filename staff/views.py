@@ -66,7 +66,6 @@ class Blog(View):
 		}
 		return render(request, self.template_name, contexts)
 
-
 # ------ Add Blog -----------#
 class AddBlog(View):
 	template_name='staff/blog/add_blog.html'
@@ -81,15 +80,13 @@ class AddBlog(View):
 		form = AddBlogForm(request.POST, request.FILES)
 
 		if form.is_valid():
-			blog = store_model.FoodBlog.objects.all()
 			form.deploy()
-			return redirect('staff:product')
+			return redirect('staff:blog')
 
 		contexts = {
 			'form':form,
 		}
 		return render(request, self.template_name, contexts)
-
 
 # ------ contact ------- # 
 class ContactDetails(View):

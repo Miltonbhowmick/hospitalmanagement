@@ -4,7 +4,7 @@ from multiselectfield import MultiSelectField
 from ckeditor.fields import RichTextField
 
 from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill
+from imagekit.processors import ResizeToFill, Adjust
 
 from account.models import UserProfile
 import os
@@ -167,8 +167,8 @@ class Pharmacy(models.Model):
 class FoodBlog(models.Model):
 	title = models.CharField(max_length=255, blank=True, default='')
 	date = models.DateTimeField(default=datetime.datetime.now(), blank=True)
-	post_image = models.ImageField(upload_to='medcine_images', null=True, blank=True)
-	thumbnail = ImageSpecField(source='post_image', processors=[ResizeToFill(100,200)], format='JPEG', options={'quality':60})
+	post_image = models.ImageField(upload_to='blog_images', null=True, blank=True)
+	formatted_image = ImageSpecField(source='post_image', processors=[ResizeToFill(220,220)], format='JPEG', options={'quality':90})
 	description = RichTextField(max_length=1000, null=True, blank=True)
 	slug = models.SlugField(unique=True,blank=True, default='')
 
