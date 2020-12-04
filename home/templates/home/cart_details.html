@@ -40,8 +40,8 @@
 				{% for cart in cart_items %}
 					<div style="display: flex; padding: 10px;margin-bottom: 10px;border-bottom:1px solid #ddd;">
 						<div style="flex: 2"><img src="{{cart.product.formatted_image.url}}" style="width: 100px;"></div>
-						<div style="flex: 2">{{cart.products}}</div>
-						<div style="flex: 1">${{cart.products.price}}</div>
+						<div style="flex: 2">{{cart.product}}</div>
+						<div style="flex: 1">${{cart.product.price}}</div>
 						<div style="flex: 1">
 							<div class="quantity" id="{{cart.product.id}}">{{cart.count}}</div>
 							<div class="quantity">

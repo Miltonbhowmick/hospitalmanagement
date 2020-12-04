@@ -79,7 +79,15 @@
 				    	</ul>
 				    </li>
 					<li>
-				    	<a href="">Blog</a>
+				    	<a id="id_blog">Blog</a>
+				    	<ul class="sidebar_submenu">
+				    		<li>
+				    			<a href="{% url 'staff:blog' %}">Blog</a>
+				    		</li>
+				    		<li>
+				    			<a href="{% url 'staff:add_blog' %}">Add Blog</a>
+				    		</li>
+				    	</ul>
 				    </li>
 			    </ul>
 			</div>
@@ -98,8 +106,8 @@
 	<script>
 		$('.sidebar_menu li').children('ul').hide();
 
-		$('.sidebar_menu li a').click(function(){
-			$('.sidebar_menu li').children('ul').slideToggle();
+		$('.sidebar_menu li').click(function(){
+			$(this).children('ul').slideToggle();
 		})
 	</script>
 

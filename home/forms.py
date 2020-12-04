@@ -78,8 +78,7 @@ class AppointmentForm(forms.Form):
 			)
 		)
 
-
-	urgent_solve = forms.BooleanField( required=False,
+	urgent_solve = forms.BooleanField(required=False,
 		widget=forms.CheckboxInput(
 			attrs={
 				'class':'onoffswitch',

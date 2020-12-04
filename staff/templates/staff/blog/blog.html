@@ -1,0 +1,21 @@
+{% extends 'base_staff.html' %}
+
+{% block title %}All Blog{% endblock %}
+
+{% block content %}
+<div style="background-color: #fff; margin:20px;">
+
+	<div class="p-2">
+	{% for blog in blogs %}
+		<div class="row m-2" style="border: 1px solid #f4f4f4;">
+			<div class="col-md-2">
+				<div class="p-1">{{blog.title}}</div>
+			</div>
+			<div class="col-md-3">
+				<div class="p-1">{{blog.date}}</div>
+			</div>
+		</div>
+	{% endfor %}
+	</div>
+</div>
+{% endblock %}

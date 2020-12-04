@@ -1,0 +1,31 @@
+{% extends 'base_staff.html' %}
+
+{% block title %}Add Blog{% endblock %}
+
+{% block content %}
+<div style="background-color: #fff; margin:20px;">
+	
+	<div class="p-3">
+		<form method="post">
+			{% csrf_token %}
+			<div class="form-group">
+				<label for="product_name">Title</label>
+				{{form.title}}
+			</div>
+			<div class="form-group">
+				<label for="product_price">Image</label>
+				{{form.image}}
+			</div>
+			<div class="form-group">
+				<label for="product_price">Description</label>
+				<br>
+				{{ form.description | safe }}
+				{{ form.media }}
+			</div>
+			<div class="form-group">
+				<button class="btn btn-primary">submit</button>
+			</div>
+		</form>
+	</div>
+</div>
+{% endblock %}
