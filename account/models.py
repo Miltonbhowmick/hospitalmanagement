@@ -19,6 +19,7 @@ class UserProfileManager(BaseUserManager):
 		user.set_password(password)
 		user.save(using=self._db)
 		return user
+		
 	def create_superuser(self, email, password):
 		user = self.create_user(email=email, password=password)
 		user.is_superuser=True
@@ -35,7 +36,9 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
 	last_name = models.CharField(max_length=255, null=True, blank=True)
 	email = models.EmailField(max_length=100, unique=True)
 	phone = models.CharField(max_length=100,null=True, blank=True)
-
+	
+	status = models.BooleanField (default = False)
+	
 	#image
 	user_image = models.ImageField(upload_to='user_images', null=True, blank=True)
 

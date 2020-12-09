@@ -39,7 +39,11 @@
 				</div>
 				{% for cart in cart_items %}
 					<div style="display: flex; padding: 10px;margin-bottom: 10px;border-bottom:1px solid #ddd;">
-						<div style="flex: 2"><img src="{{cart.product.formatted_image.url}}" style="width: 100px;"></div>
+						{% if cart.product.formatted_image %}
+							<div style="flex: 2"><img src="{{cart.product.formatted_image.url}}" style="width: 100px;"></div>
+						{% else %}
+							<img src="" alt="product-img" >
+						{% endif %}
 						<div style="flex: 2">{{cart.product}}</div>
 						<div style="flex: 1">${{cart.product.price}}</div>
 						<div style="flex: 1">

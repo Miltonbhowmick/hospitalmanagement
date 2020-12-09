@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from .forms import AddProductForm, AddBlogForm, ContactForm
 from home import models as store_model
+from . import models as staff_model
 
 # Create your views here.
 
@@ -9,9 +10,11 @@ from home import models as store_model
 class Dashboard(View):
 	template_name = 'staff/dashboard/dashboard.html'
 	def get(self, request):
+		
 		contexts = {
 		}
 		return render(request, self.template_name, contexts)
+
 
 # ------ Product ------ #
 class Product(View):

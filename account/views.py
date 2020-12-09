@@ -49,7 +49,6 @@ class Login(View):
 		return render(request, self.template_name,contexts)
 
 def logout_request(request):
-	print(134141)
 	logout(request)
 	return redirect('home:home_info')
 
@@ -101,6 +100,7 @@ def activate_account(request, uidb64, token):
         return redirect('home:home_info')
     else:
         return HttpResponse('Activation link is invalid!')
+
 
 class UserProfileView(View):
 	template_name = 'account/user_profiles.html'

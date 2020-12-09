@@ -4,6 +4,14 @@
 {% block content %}
 {% load static %}
 <div class="container">
+	<ul>
+		{% for user in users %}
+			<li>
+				{{user.username}}-
+								{{user.status}}
+			</li>
+		{% endfor %}
+	</ul>
 	<div class="row">
 		<div class="col-md-12">
 			<!-- images slide begin -->
@@ -182,6 +190,7 @@
 		</div>
 	</div>
 </div>
+{% block script %}
 <script>
 	// sliding 
 	$('#owl-one').owlCarousel({
@@ -241,5 +250,29 @@
 		}
 	}
 
+		var socket = new WebSocket('ws://' + window.location.host + '/users/');
+		socket.onopen = function open(){
+			console.log("WebSocket connection created.");
+		};
+		socket.onmessage = function message(event){
+			var data = JSON.parse(event.data);
+			var username = encodeURI(data['username']);
+			var user = $('li').filter(function(){
+				return $(this).data('username')==username;
+			})
+			if (data['is_logged_in']){
+				user.html(username+ ': Online');
+			}
+			else{
+				user.html(username + ': Offline');
+			}
+		};
+
+		if (socket.readyState == WebSocket.OPEN){
+			socket.onopen();
+		}
+	
 </script>
+{% endblock script %}
+
 {% endblock %}
