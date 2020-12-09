@@ -31,9 +31,6 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     
-    
-    'channels', #conflict solve with whitenoise
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -84,16 +81,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'hospitalmanagement.wsgi.application'
 
-ASGI_APPLICATION = 'hospitalmanagement.asgi.application'
-
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-        },
-    },
-}
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 

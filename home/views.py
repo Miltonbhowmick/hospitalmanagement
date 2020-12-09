@@ -25,15 +25,12 @@ class HomeInfo(View):
 		categories = Category.objects.all()
 		appointments = Appointment.objects.all()
 		urgent_resolve = Appointment.objects.filter(Q(urgent_resolve=True) & Q(complete=True)).count()
-
-		users = UserProfile.objects.all()
 		
 		context = {
 			'appointments':appointments,
 			'doctors':doctors,
 			'categories': categories,	
 			'urgent_resolve':urgent_resolve,		
-			'users':users,
 		}
 
 		return render(request,self.template_name,context)
