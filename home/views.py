@@ -324,13 +324,11 @@ class FoodBlogPost(View):
 				)
 				view.save()
 
-
 			foodblog.view = store_model.FoodBlogView.objects.filter(foodblog=foodblog).count()
 			foodblog.save()
 
 		contexts = {
 			'post':foodblog,
-			# 'total_view': total_view,
 		}
 		return render(request, self.template_name, contexts)
 

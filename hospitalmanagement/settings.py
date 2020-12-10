@@ -31,12 +31,6 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
 
     #third party apps
     'multiselectfield',
@@ -49,6 +43,14 @@ INSTALLED_APPS = [
     'home',
     'staff',
     'sell',
+    
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
 ]
 
 MIDDLEWARE = [

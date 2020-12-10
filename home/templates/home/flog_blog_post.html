@@ -3,25 +3,24 @@
 
 {% block content %}
 {% load static %}
-<div class="container" style="margin-top: 100px; color: #3c3c3c;">
+<div class="container">
 	
 		<div class="row">
 			<div class="col-md-12">
 				<div class="container">
-					<div>
+					<div >
 						<img src="{{post.formatted_image.url}}" style="width:80%;display:block;margin-bottom: 20px;"/>
 					</div>
-						<div style="font-size: 25px;margin-bottom: 10px;">
+						<div style="font-size: 25px;">
 							{{post.title}}
-							
 						</div>
-					<div class="text-muted" style="font-size: 20px;">
+					<div class="text-muted">
 						{{post.date}}
 					</div>	
-					<div class="text-muted" style="font-size: 20px;">
-						{{post.view}}
+					<div class="text-muted">
+						{{post.view}} views
 					</div>
-					<div>
+					<div class="my-2">
 						{{post.description | safe}}
 					</div>
 				</div>
