@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.urls import reverse
 from django.views import View
 from django.views.generic import ListView
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, Http404
 # Create your views here.
 from account.models import UserProfile
-from .models import Doctor,Category,Appointment,Lab, MedicineCompany, Pharmacy, CategoryMedicine, FoodBlog
+from . import models as store_model
 from sell.models import Cart, Order, OrderStatus
 from .forms import AppointmentForm
 from django.core.mail import send_mail
@@ -21,10 +21,10 @@ stripe.api_key = "sk_test_gb8wU1OGozJ4L5Zs14e1JRka00pdcIDlPD"
 class HomeInfo(View):
 	template_name = 'home/home.html'
 	def get(self, request):
-		doctors = Doctor.objects.all()
-		categories = Category.objects.all()
-		appointments = Appointment.objects.all()
-		urgent_resolve = Appointment.objects.filter(Q(urgent_resolve=True) & Q(complete=True)).count()
+		doctors = store_model.Doctor.objects.all()
+		categories = store_model.Category.objects.all()
+		appointments = store_model.Appointment.objects.all()
+		urgent_resolve = store_model.Appointment.objects.filter(Q(urgent_resolve=True) & Q(complete=True)).count()
 		
 		context = {
 			'appointments':appointments,
@@ -40,8 +40,8 @@ class CategoryDoctor(View):
 	template_name = 'home/doctor_details.html'
 
 	def get(self, request, category):
-		doctors = Doctor.objects.filter(doctor_category__slug=category)
-		category = Category.objects.get(slug=category)
+		doctors = store_model.Doctor.objects.filter(doctor_category__slug=category)
+		category = store_model.Category.objects.get(slug=category)
 		context = {
 			'category':category,
 			'doctors':doctors,
@@ -56,7 +56,7 @@ class DoctorInfo(View):
 	template_name = 'home/doctor_info_details.html'
 
 	def get(self, request,category, doctor):
-		doctor = Doctor.objects.get(slug=doctor)
+		doctor = store_model.Doctor.objects.get(slug=doctor)
 		context = {
 			'doctor':doctor,
 		}
@@ -66,7 +66,7 @@ class DoctorInfo(View):
 class DoctorAppointment(View):
 	template_name = 'home/appointment.html'
 	def get(self, request,doctor):
-		doctor = Doctor.objects.get(slug=doctor)
+		doctor = store_model.Doctor.objects.get(slug=doctor)
 		form = AppointmentForm()
 		context = {
 			'form':form,
@@ -75,7 +75,7 @@ class DoctorAppointment(View):
 		return render(request, self.template_name,context)
 
 	def post(self, request, doctor):
-		doctor = Doctor.objects.get(slug=doctor)
+		doctor = store_model.Doctor.objects.get(slug=doctor)
 		form = AppointmentForm(request.POST or None)
 		print(form.errors)
 
@@ -89,15 +89,15 @@ class DoctorAppointment(View):
 			date = str(appointment.date)
 
 			#time field
-			if Appointment.objects.filter(date=date).count()>1:
-				ap_last = Appointment.objects.filter(date=date).order_by('-id')[1]
+			if store_model.Appointment.objects.filter(date=date).count()>1:
+				ap_last = store_model.Appointment.objects.filter(date=date).order_by('-id')[1]
 				appointment.time=ap_last.time + datetime.timedelta(minutes=15)
 			else:
 				y,m,d = date.split('-')
 				time = datetime.datetime(int(y),int(m),int(d),9,30)
 				appointment.time = time
 
-			all_appointment = Appointment.objects.filter(date=date).count()
+			all_appointment = store_model.Appointment.objects.filter(date=date).count()
 			sn = "{:04}".format(all_appointment)
 			appointment.serial=sn
 
@@ -126,7 +126,7 @@ class LabDetails(View):
 	template_name = 'home/lab_details.html'
 
 	def get(self, request):
-		labs = Lab.objects.all()
+		labs = store_model.Lab.objects.all()
 		context = {
 			'labs':labs,
 		}
@@ -136,8 +136,8 @@ class LabDetails(View):
 class CategoryMedicineDetails(View):
 	template_name = 'home/category_medicine_details.html'
 	def get(self, request,med_category):
-		medicines = Pharmacy.objects.filter(medicine_category__slug=med_category)
-		category = CategoryMedicine.objects.get(slug=med_category)
+		medicines = store_model.Pharmacy.objects.filter(medicine_category__slug=med_category)
+		category = store_model.CategoryMedicine.objects.get(slug=med_category)
 		contexts = {
 			'category':category,
 			'medicines':medicines,
@@ -148,8 +148,8 @@ class CategoryMedicineDetails(View):
 class PharmacyDetails(View):
 	template_name = 'home/pharmacy.html'
 	def get(self, request):
-		medicines = Pharmacy.objects.all()[:4]
-		medicine_category = CategoryMedicine.objects.all()
+		medicines = store_model.Pharmacy.objects.all()[:4]
+		medicine_category = store_model.CategoryMedicine.objects.all()
 
 		contexts = {
 			'medicine_category':medicine_category,
@@ -162,8 +162,8 @@ class PharmacyDetails(View):
 class MedicineDetails(View):
 	template_name = 'home/medicine_details.html'
 	def get(self, request, slug):
-		medicines = Pharmacy.objects.filter(medicine_category__slug=slug)
-		cart_count = Cart.objects.filter(user=request.user).count()
+		medicines = store_model.Pharmacy.objects.filter(medicine_category__slug=slug)
+		cart_count = store_model.Cart.objects.filter(user=request.user).count()
 		contexts = {
 			'medicines':medicines,
 			'cart_count':cart_count,
@@ -178,7 +178,7 @@ def update_cart(request):
 		print(action)
 
 		customer = UserProfile.objects.get(id=request.user.id)
-		product = Pharmacy.objects.get(id=product_id)
+		product = store_model.Pharmacy.objects.get(id=product_id)
 
 		cart , created = Cart.objects.get_or_create(user=customer, product=product)
 		
@@ -287,7 +287,7 @@ class Checkout(View):
 class FoodBlogDetails(View):
 	template_name = 'home/food_blog.html'
 	def get(self, request):
-		food_blogs = FoodBlog.objects.all().order_by('-id')
+		food_blogs = store_model.FoodBlog.objects.all().order_by('-id')
 		contexts = {
 			'food_blogs': food_blogs,
 		}
@@ -295,11 +295,11 @@ class FoodBlogDetails(View):
 
 #------- food search list -------#
 class FoodBlogSearch(ListView):
-	model = FoodBlog
+	model = store_model.FoodBlog
 	template_name = 'home/food_search_results.html'
 	def get_queryset(self):
 		query = self.request.GET.get('q')
-		object_list = FoodBlog.objects.filter(
+		object_list = store_model.FoodBlog.objects.filter(
 			Q(title__icontains=query) | Q(description__icontains=query) | Q(date__icontains=query)
 		)
 		return object_list
@@ -308,9 +308,29 @@ class FoodBlogSearch(ListView):
 class FoodBlogPost(View):
 	template_name = 'home/flog_blog_post.html'
 	def get(self, request, slug):
-		food_blog_post = FoodBlog.objects.get(slug=slug)
+		
+		try:
+			foodblog = store_model.FoodBlog.objects.get(slug=slug)
+		except store_model.FoodBlog.DoesNotExist:
+			return HttpResponse("<h1>No matches the given query.</h1>")
+
+		if request.user.is_authenticated:
+			if not store_model.FoodBlogView.objects.filter(foodblog=foodblog,session = request.session.session_key).exists():
+				view = store_model.FoodBlogView(
+					foodblog = foodblog,
+					ip = request.META['REMOTE_ADDR'],
+					session = request.session.session_key,
+					created = datetime.datetime.now()
+				)
+				view.save()
+
+
+			foodblog.view = store_model.FoodBlogView.objects.filter(foodblog=foodblog).count()
+			foodblog.save()
+
 		contexts = {
-			'post':food_blog_post,
+			'post':foodblog,
+			# 'total_view': total_view,
 		}
 		return render(request, self.template_name, contexts)
 

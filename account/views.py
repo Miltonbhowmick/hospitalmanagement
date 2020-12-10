@@ -17,14 +17,6 @@ from .token_generator import account_activation_token
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 
-# 404 page for wrong url
-from django.http import Http404
-
-def page_not_found(request,param):
-	print(param)
-	if not param:
-		raise HttpResponseNotFound('<h1>No Page Here</h1>')
-	return render_to_response('account/page_404.html')
 
 class Login(View):
 	template_name = 'account/login.html'
@@ -42,6 +34,9 @@ class Login(View):
 			user = form.login_request()
 			if user:
 				login(request, user)
+				user = UserProfile.objects.get(email=request.user.email)
+				user.status = True
+				user.save()
 				return redirect('home:home_info')
 		contexts = {
 			'form': form,
@@ -49,6 +44,10 @@ class Login(View):
 		return render(request, self.template_name,contexts)
 
 def logout_request(request):
+	user = UserProfile.objects.get(email=request.user.email)
+	user.status = False
+	user.save()
+
 	logout(request)
 	return redirect('home:home_info')
 

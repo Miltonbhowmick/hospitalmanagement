@@ -161,15 +161,16 @@ class Pharmacy(models.Model):
 			self.slug = slugify(self.name)+'-'
 		return super(Pharmacy,self).save(*args, **kwargs)		
 
-
-
 #----- Food blog model -----#
+
 class FoodBlog(models.Model):
 	title = models.CharField(max_length=255, blank=True, default='')
 	date = models.DateTimeField(default=datetime.datetime.now(), blank=True)
 	post_image = models.ImageField(upload_to='blog_images', null=True, blank=True)
 	formatted_image = ImageSpecField(source='post_image', processors=[ResizeToFill(220,220)], format='JPEG', options={'quality':90})
 	description = RichTextField(max_length=1000, null=True, blank=True)
+	view = models.IntegerField(blank=True, default=0)
+
 	slug = models.SlugField(unique=True,blank=True, default='')
 
 	def __str__(self):
@@ -178,4 +179,18 @@ class FoodBlog(models.Model):
 		self.slug = slugify(self.title)+'-'
 		return super(FoodBlog,self).save(*args, **kwargs)		
 	
+#----- Food blog model -----#
+class FoodBlogView(models.Model):
+	foodblog = models.ForeignKey(
+		'FoodBlog',
+		on_delete = models.CASCADE,
+		related_name='foodblog'
+	)
+	ip = models.CharField(blank = True, max_length=40)
+	session = models.CharField(blank=True, max_length=40)
+	created = models.DateTimeField(default = datetime.datetime.now())
+
+	def __str__(self):
+		return self.foodblog.title
+
 

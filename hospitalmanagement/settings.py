@@ -152,6 +152,9 @@ CKEDITOR_CONFIGS = {
 DATE_FORMAT = "d-m-Y"
 USE_L10N = False
 
+#### SESSION ####
+SESSION_SAVE_EVERY_REQUEST = True
+
 #### URL PART ####
 AUTH_USER_MODEL = "account.UserProfile"
 

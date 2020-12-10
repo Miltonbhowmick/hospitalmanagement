@@ -3,6 +3,9 @@ from django.views import View
 from .forms import AddProductForm, AddBlogForm, ContactForm
 from home import models as store_model
 from . import models as staff_model
+from account import models as account_model
+
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -11,7 +14,22 @@ class Dashboard(View):
 	template_name = 'staff/dashboard/dashboard.html'
 	def get(self, request):
 		
+		# account details
+		users = account_model.UserProfile.objects.filter(is_staff=False)
+		total_users = users.count()
+		online_users = users.filter(status=True).count()
+		offline_users = total_users-online_users
+		new_users = users.order_by('-id')[:4]
+
+		# blog details
+		blogs = store_model.FoodBlog.objects.all()
+		total_blogs = blogs.count()
+
 		contexts = {
+			'total_users':total_users,
+			'online_users':online_users,
+			'offline_users': offline_users,
+			'new_users':new_users,
 		}
 		return render(request, self.template_name, contexts)
 

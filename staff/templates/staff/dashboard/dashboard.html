@@ -4,61 +4,82 @@
 
 <div class="container my-4">
 	<div class="row">
+		<!-- Account -->
 		<div class="col-lg-6 col-md-6 col-sm-12">
-			<div style="background-color: #fff;">
+			<div style="background-color: #fff; ">
 				<div style="background-color: #e7eff6;padding: 8px;border-bottom: 1px solid #ddd;">
 					<h4>Accounts</h4>
 				</div>
-				<div class="row my-3 text-center">
-					<div class="col-lg-4 col-md-4 col-sm-12">
-						<div class="m-1">
-							<h6>1500</h6>
-							<p>total</p>
+				<div class="m-3">
+					<div class="row text-center">
+						<div class="col-lg-4 col-md-4 col-sm-12">
+							<div>
+								<h6>{{total_users}}</h6>
+								<p>total</p>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-12">
+							<div>
+								<h6>{{online_users}}</h6>
+								<p>online</p>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-12">
+							<div>						
+								<h6>{{offline_users}}</h6>
+								<p>offline</p>
+							</div>						
 						</div>
 					</div>
-					<div class="col-lg-4 col-md-4 col-sm-12">
-						<div class="m-1">
-							<h6>600</h6>
-							<p>online</p>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-4 col-sm-12">
-						<div class="m-1">						
-							<h6>1200</h6>
-							<p>offline</p>
-						</div>						
+					<div class="py-3">
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col">Name</th>
+									<th scope="col">Phone</th>
+								</tr>
+							</thead>
+							<tbody>
+
+								{% for user in new_users %}
+									<tr>
+										<td>{{user.email}}</td>
+										<td>{{user.phone}}</td>
+									</tr>							
+								{% endfor %}
+	
+							</tbody>
+
+						</table>
+						<p>
+							<a href="#" style="color: blue;">View all accounts</a>
+						</p>
 					</div>
 				</div>
+
 			</div>
+
 		</div>
+
 		<div class="col-lg-6 col-md-6 col-sm-12">
 				<div style="background-color: #fff;">
 					<div style="background-color: #e7eff6;padding: 8px;border-bottom: 1px solid #ddd;">
 						<h4>Blogs</h4>
+						{{request.session}}
 					</div>
-					<div class="row my-3 text-center">
-						<div class="col-lg-3 col-md-3 col-sm-12">
-							<div class="m-1">
-								<h6>1500</h6>
-								<p>total</p>
+					<div class="m-3">
+						<div class="row">
+							<div class="col-lg-4 col-md-4 col-sm-12">
+								<div>
+									<h6>{{total_users}}</h6>
+									<p>total</p>
+								</div>
 							</div>
-						</div>
-						<div class="col-lg-3 col-md-3 col-sm-12">
-							<div class="m-1">
-								<h6>600</h6>
-								<p>sold</p>
-							</div>
-						</div>
-						<div class="col-lg-3 col-md-3 col-sm-12">
-							<div class="m-1">						
-								<h6>1200</h6>
-								<p>available</p>
-							</div>						
-						</div>
-						<div class="col-lg-3 col-md-3 col-sm-12">
-							<div class="m-1">
-								<h6>100</h6>
-								<p>unpublished</p>						
+							<div class="col-lg-4 col-md-4 col-sm-12">
+								<div>
+									<h6>{{online_users}}</h6>
+									<p>online</p>
+								</div>
 							</div>
 						</div>
 					</div>
