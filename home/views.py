@@ -37,7 +37,7 @@ class HomeInfo(View):
 
 #------- Doctors of Category  -------#
 class CategoryDoctor(View):
-	template_name = 'home/doctor_details.html'
+	template_name = 'home/doctor/doctor_details.html'
 
 	def get(self, request, category):
 		doctors = store_model.Doctor.objects.filter(doctor_category__slug=category)
@@ -53,7 +53,7 @@ class CategoryDoctor(View):
 
 #------- Doctor Info -------#
 class DoctorInfo(View):
-	template_name = 'home/doctor_info_details.html'
+	template_name = 'home/doctor/doctor_info_details.html'
 
 	def get(self, request,category, doctor):
 		doctor = store_model.Doctor.objects.get(slug=doctor)
@@ -64,7 +64,7 @@ class DoctorInfo(View):
 
 #------- Appointment -------#
 class DoctorAppointment(View):
-	template_name = 'home/appointment.html'
+	template_name = 'home/doctor/appointment.html'
 	def get(self, request,doctor):
 		doctor = store_model.Doctor.objects.get(slug=doctor)
 		form = AppointmentForm()
@@ -123,7 +123,7 @@ class DoctorAppointment(View):
 
 #------- Lab -------#
 class LabDetails(View):
-	template_name = 'home/lab_details.html'
+	template_name = 'home/lab/lab_details.html'
 
 	def get(self, request):
 		labs = store_model.Lab.objects.all()
@@ -134,7 +134,7 @@ class LabDetails(View):
 
 #------- Pharmacy Medicine Details -------#
 class CategoryMedicineDetails(View):
-	template_name = 'home/category_medicine_details.html'
+	template_name = 'home/product/category_medicine_details.html'
 	def get(self, request,med_category):
 		medicines = store_model.Pharmacy.objects.filter(medicine_category__slug=med_category)
 		category = store_model.CategoryMedicine.objects.get(slug=med_category)
@@ -146,7 +146,7 @@ class CategoryMedicineDetails(View):
 
 #------- Pharmacy -------#
 class PharmacyDetails(View):
-	template_name = 'home/pharmacy.html'
+	template_name = 'home/product/pharmacy.html'
 	def get(self, request):
 		medicines = store_model.Pharmacy.objects.all()[:4]
 		medicine_category = store_model.CategoryMedicine.objects.all()
@@ -160,7 +160,7 @@ class PharmacyDetails(View):
 
 #------- Medicine details -------#
 class MedicineDetails(View):
-	template_name = 'home/medicine_details.html'
+	template_name = 'home/product/medicine_details.html'
 	def get(self, request, slug):
 		medicines = store_model.Pharmacy.objects.filter(medicine_category__slug=slug)
 		cart_count = sell_model.Cart.objects.filter(user=request.user).count()
@@ -254,7 +254,7 @@ def success(request, args):
 
 #------- Cart Details -----------#
 class CartDetails(View):
-	template_name = 'home/cart_details.html'
+	template_name = 'home/cart/cart_details.html'
 	def get(self,request):
 		cart_items = sell_model.Cart.objects.filter(user__email=request.user.email)
 		cart_count = len(cart_items)
@@ -269,7 +269,7 @@ class CartDetails(View):
 
 #------- Cart Details -----------#
 class Checkout(View):
-	template_name = 'home/checkout.html'
+	template_name = 'home/checkout/checkout.html'
 	def get(self, request):
 		cart_items = sell_model.Cart.objects.filter(user__email=request.user.email)		
 		cart_price = round(sum([ c.per_price for c in cart_items]),2)
@@ -285,7 +285,7 @@ class Checkout(View):
 
 #------- Food Blog -------#
 class FoodBlogDetails(View):
-	template_name = 'home/food_blog.html'
+	template_name = 'home/blog/food_blog.html'
 	def get(self, request):
 		food_blogs = store_model.FoodBlog.objects.all().order_by('-id')
 		contexts = {
@@ -296,7 +296,7 @@ class FoodBlogDetails(View):
 #------- food search list -------#
 class FoodBlogSearch(ListView):
 	model = store_model.FoodBlog
-	template_name = 'home/food_search_results.html'
+	template_name = 'home/blog/food_search_results.html'
 	def get_queryset(self):
 		query = self.request.GET.get('q')
 		object_list = store_model.FoodBlog.objects.filter(
@@ -306,7 +306,7 @@ class FoodBlogSearch(ListView):
 
 #------- Food Blog -------#
 class FoodBlogPost(View):
-	template_name = 'home/flog_blog_post.html'
+	template_name = 'home/blog/food_blog_post.html'
 	def get(self, request, slug):
 		
 		try:
