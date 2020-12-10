@@ -6,7 +6,7 @@ from django.http import HttpResponse, JsonResponse, Http404
 # Create your views here.
 from account.models import UserProfile
 from . import models as store_model
-from sell.models import Cart, Order, OrderStatus
+from sell import models as sell_model
 from .forms import AppointmentForm
 from django.core.mail import send_mail
 from django.db.models import Q
@@ -163,7 +163,7 @@ class MedicineDetails(View):
 	template_name = 'home/medicine_details.html'
 	def get(self, request, slug):
 		medicines = store_model.Pharmacy.objects.filter(medicine_category__slug=slug)
-		cart_count = store_model.Cart.objects.filter(user=request.user).count()
+		cart_count = sell_model.Cart.objects.filter(user=request.user).count()
 		contexts = {
 			'medicines':medicines,
 			'cart_count':cart_count,
@@ -180,7 +180,7 @@ def update_cart(request):
 		customer = UserProfile.objects.get(id=request.user.id)
 		product = store_model.Pharmacy.objects.get(id=product_id)
 
-		cart , created = Cart.objects.get_or_create(user=customer, product=product)
+		cart , created = sell_model.Cart.objects.get_or_create(user=customer, product=product)
 		
 		if action=='add':
 			cart.save()
@@ -193,15 +193,15 @@ def update_cart(request):
 			cart.per_price = per_price
 			cart.save()
 
-		total_carts = Cart.objects.filter(user=customer).count()
-		total_price = sum([ c.per_price for c in Cart.objects.filter(user=customer)])
+		total_carts = sell_model.Cart.objects.filter(user=customer).count()
+		total_price = sum([ c.per_price for c in sell_model.Cart.objects.filter(user=customer)])
 		print(total_carts)
 		return JsonResponse({'status':'ok','total_carts':total_carts,'total_price':total_price})
 
 #------- payment ------------#
 def charge(request):
 	if request.method == "POST":
-		carts = Cart.objects.filter(
+		carts = sell_model.Cart.objects.filter(
 			user = request.user,
 		)
 		subtotal = round(sum(float(cart.per_price) for cart in carts), 2)
@@ -256,7 +256,7 @@ def success(request, args):
 class CartDetails(View):
 	template_name = 'home/cart_details.html'
 	def get(self,request):
-		cart_items = Cart.objects.filter(user__email=request.user.email)
+		cart_items = sell_model.Cart.objects.filter(user__email=request.user.email)
 		cart_count = len(cart_items)
 		total_price = sum([ c.per_price for c in cart_items])
 
@@ -271,7 +271,7 @@ class CartDetails(View):
 class Checkout(View):
 	template_name = 'home/checkout.html'
 	def get(self, request):
-		cart_items = Cart.objects.filter(user__email=request.user.email)		
+		cart_items = sell_model.Cart.objects.filter(user__email=request.user.email)		
 		cart_price = round(sum([ c.per_price for c in cart_items]),2)
 		shipping_price = 30.00
 		total_price = cart_price + shipping_price
