@@ -127,18 +127,13 @@ section{
 }
 .cards{
     display: flex;
-    justify-content: left;
     flex-wrap: wrap;
 }
-.cards a{
-    text-decoration: none;
-}
 .cards a img{
-     width: 200px; 
-    height: 200px;
+    width: 100%; 
 }
 .card{
-    width: 200px;
+    width: 250px;
     margin: 10px;
     text-align: center;
     font-size: 15px;
@@ -494,7 +489,11 @@ section{
 /* PAYMENT CSS END */
 
 @media ( max-width: 920px ) {
-    
+
+    .cards{
+        justify-content: left;
+    }
+
     .product-card {
         flex: 1 21%;
     }
@@ -507,14 +506,25 @@ section{
 }
 
 @media ( max-width: 600px ) {
-    
+    .cards{
+        justify-content: space-around;
+    }
+    .card{
+        flex: 1;
+    }
     .product-card {
         flex: 1 46%;
     }    
 }
 
 @media ( max-width: 480px ) {
-    
+    .cards{
+        justify-content: space-around;
+    }
+    .card{
+        flex: 1;
+    }
+
     h1 {
         margin-bottom: 20px;
     }

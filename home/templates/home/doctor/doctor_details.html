@@ -7,7 +7,7 @@
 			<span>{{category}} Doctors</span>			
 		</div>
 	</div>
-	<div class="cards">
+	<div class="cards my-3">
 		{% for doctor in doctors %}
 		<!-- doctor cards begin -->
 		<a class="card" href="{% url 'home:doctor' category.slug doctor.slug  %}">
