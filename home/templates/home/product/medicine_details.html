@@ -23,6 +23,8 @@
 					<div class="product-image">
 						{% if med.formatted_image %}	
 							<img src="{{ med.formatted_image.url }}" style="width: 100%;">
+						{% else %}
+							<img src="{% static 'images/pharmacy/product_blank_image.jpg' %}" style="">
 						{% endif %}	
 					</div>
 					<div class="product-info">

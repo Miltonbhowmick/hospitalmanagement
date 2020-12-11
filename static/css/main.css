@@ -297,8 +297,10 @@ section{
     margin: 5px;
 }
 .product-image{
-    width: 100%;
     padding: 10px;
+}
+.product-image img{
+    width: 100% !important;
 }
 .product-info{
     margin-top: auto;
