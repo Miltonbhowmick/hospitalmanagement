@@ -164,9 +164,12 @@ class MedicineDetails(View):
 	def get(self, request, slug):
 		medicines = store_model.Pharmacy.objects.filter(medicine_category__slug=slug)
 		cart_count = sell_model.Cart.objects.filter(user=request.user).count()
+		category = store_model.CategoryMedicine.objects.get(slug=slug)
+
 		contexts = {
 			'medicines':medicines,
 			'cart_count':cart_count,
+			'category':category.name,
 		}
 		return render(request, self.template_name, contexts)
 

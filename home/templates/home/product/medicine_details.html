@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
 
+
 {% load static %}
 {% block content %}
 
 <div class="container">
 
 	<div class="text-right">
+		<span style="float: left;font-size: 20px;font-weight: 600;">
+			Products: {{category}} 
+		</span>
 		<a href="{% url 'home:cart_details' %}" style="color:#222;font-size: 13px;font-weight: 600;">CART <i class="fa fa-shopping-cart" style="font-size: 28px;" aria-hidden="true"></i><span class="cart-count" style="margin-left: 8px;">{{cart_items.count}}</span></a>
 
 	</div>
@@ -15,19 +19,21 @@
 	<section class="products">
 		{% for med in medicines %}
 			<div class="product-card">
-				<div class="product-image">
-					{% if med.formatted_image %}	
-						<img src="{{ med.formatted_image.url }}" style="display: block;width: 100%;">
-					{% endif %}	
-				</div>
-				<div class="product-info">
-					<h5>{{med.name}}</h5>
-					<h6>Company: {{med.company}}</h6>
-					<h6>Price: {{med.price}}৳</h6>
-					<div style="display:inline-block;background-color: #222;color: #fff;padding: 8px;border: none;margin: 2px;">
-						<a data-product="{{med.id}}" data-action="add" class="update-cart" style="cursor:pointer;">
-							Add to Cart
-						</a>
+				<div class="product-box">
+					<div class="product-image">
+						{% if med.formatted_image %}	
+							<img src="{{ med.formatted_image.url }}" style="width: 100%;">
+						{% endif %}	
+					</div>
+					<div class="product-info">
+						<h5>{{med.name}}</h5>
+						<h6>Company: {{med.company}}</h6>
+						<h6>Price: {{med.price}}৳</h6>
+						<div style="display:inline-block;background-color: #222;color: #fff;padding: 8px;border: none;margin: 2px;">
+							<a data-product="{{med.id}}" data-action="add" class="update-cart" style="cursor:pointer;">
+								Add to Cart
+							</a>
+						</div>
 					</div>
 				</div>
 			</div>
