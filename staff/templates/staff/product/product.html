@@ -42,10 +42,10 @@
 				<p>{{product.date}}</p>
 			</div>
 			<div class="col-md-1">
-				<a class="btn btn-info">Edit</a>
+				<a class="btn btn-info" href="{% url 'staff:edit_product' product.slug %}">Edit</a>
 			</div>
 			<div class="col-md-1">
-				<a class="btn btn-danger">Delete</a>
+				<a class="btn btn-danger" href="{% url 'staff:delete_product' product.slug %}">Delete</a>
 			</div>
 		</div>
 	{% endfor %}

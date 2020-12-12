@@ -16,7 +16,6 @@ class AddProductForm(forms.Form):
 	)
 
 	image = forms.ImageField(
-		required=False,
 		widget = forms.ClearableFileInput(
 			attrs = {
 			}
@@ -34,7 +33,8 @@ class AddProductForm(forms.Form):
 		)
 	)
 
-	price = forms.FloatField(required=False, initial=0.0, 
+	price = forms.FloatField(
+		initial=0.0, 
 		widget=forms.TextInput(
 			attrs={
 				'class': 'form-control',
@@ -44,12 +44,13 @@ class AddProductForm(forms.Form):
 			}
 		)
 	)
-	quantity = forms.IntegerField(required=False, 
+	quantity = forms.IntegerField( 
 		widget=forms.TextInput(
 			attrs={
 				'class': 'form-control',
 				'placeholder': 'Enter current price!',
 				'type':'number',
+				'step':'1',
 			}
 		)
 	)
@@ -84,6 +85,66 @@ class AddProductForm(forms.Form):
 		product.medicine_image = image
 		product.save()
 		
+		return product
+
+# ------- Edit Product Form ------- #
+class EditProductForm(forms.ModelForm):
+	class Meta:
+		model = store_model.Pharmacy
+		fields = ('name','medicine_image','medicine_category','company','quantity','price')
+		widgets = {
+			'name': forms.TextInput(
+				attrs={
+					'class':'form-control',
+					'placeholder': 'Product name', 
+					'type':'text',
+				}
+			),
+			'medicine_image': forms.ClearableFileInput(
+				attrs = {
+							
+				}
+			),
+			'medicine_category' : forms.Select(
+				attrs = {
+					'class':'form-control',
+				}
+			),
+			'company' : forms.Select(
+				attrs = {
+					'class':'form-control',
+				}
+			),
+			'quantity' : forms.TextInput(
+				attrs = {
+					'class':'form-control',
+					'placeholder': 'Enter current price!',
+				}
+			),
+			'price' : forms.TextInput(
+				attrs={
+					'class': 'form-control',
+					'placeholder': 'Enter current price!',
+					'type':'number',
+				}
+			),
+		}
+
+	def deploy(self):
+		name = self.cleaned_data.get('name')
+		price = self.cleaned_data.get('price')
+		category = self.cleaned_data.get('medicine_category')
+		company = self.cleaned_data.get('company')
+		quantity = self.cleaned_data.get('quantity')
+		image = self.cleaned_data.get('medicine_image')
+
+		product, created = store_model.Pharmacy.objects.get_or_create(
+			name = name,
+			price = price,
+			medicine_category = category,
+			quantity = quantity,
+		)
+		product.medicine_image = image
 		return product
 
 # ------- Add Blog Form ------- #  

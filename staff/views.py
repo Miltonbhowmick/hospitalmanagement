@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .forms import AddProductForm, AddBlogForm, ContactForm
+from .forms import AddProductForm, AddBlogForm, ContactForm, EditProductForm
 from home import models as store_model
 from . import models as staff_model
 from account import models as account_model
@@ -69,7 +69,7 @@ class AddProduct(View):
 		}
 		return render(request, self.template_name, contexts)
 	def post(self, request):
-		form = AddProductForm(request.POST, request.FILES)
+		form = AddProductForm(request.POST or None, request.FILES or None)
 		if form.is_valid():
 			category = store_model.CategoryMedicine.objects.all()
 			form.deploy()
@@ -82,15 +82,28 @@ class AddProduct(View):
 
 class EditProduct(View):
 	template_name = 'staff/product/edit_product.html'
-	def get(self, request):
-		
+	def get(self, request, slug):
+		product = store_model.Pharmacy.objects.get(slug=slug)
+		form = EditProductForm(instance=product)
 		contexts = {
-			
+			'form':form,
+		}
+		return render(request, self.template_name, contexts)
+	def post(self, request, slug):
+		product = store_model.Pharmacy.objects.get(slug=slug)
+		form = EditProductForm(request.POST or None, request.FILES or None, instance=product)
+
+		if form.is_valid():
+			product = form.deploy()
+			product.save()
+
+			return redirect('staff:product')
+		contexts = {
+			'form':form,
 		}
 		return render(request, self.template_name, contexts)
 
 # ------ Blog -----------#
-
 class Blog(View):
 	template_name = 'staff/blog/blog.html'
 
@@ -142,4 +155,9 @@ class ContactDetails(View):
 			'form':form,
 		}
 		return render(request, self.template_name,contexts)
+
+# ------ product delete ------- #
+def product_delete(request,slug):
+	store_model.Pharmacy.objects.get(slug=slug).delete()
+	return redirect('staff:product')
 

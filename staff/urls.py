@@ -12,7 +12,8 @@ urlpatterns = [
 	# -------- product --------- #	
 	path('product', views.Product.as_view(), name='product'),
 	path('product-add', views.AddProduct.as_view(), name='add_product'),
-	path('product-<int:id>', views.EditProduct.as_view(), name='edit_product'),
+	path('product-edit/<str:slug>', views.EditProduct.as_view(), name='edit_product'),
+	path('product-delete/<str:slug>', views.product_delete , name='delete_product'),
 
 	# -------- Blog ------------ #
 	path('blog', views.Blog.as_view(), name='blog'),

@@ -249,7 +249,8 @@ def charge(request):
 		order.save()
 
 		# payment
-		payment = sell_model.Payment(order=order,amount=total,shipping_price=30)
+		shipping_price = 30.00
+		payment = sell_model.Payment(order=order,amount=total,shipping_price=shipping_price)
 		payment.save()
 
 		if request.POST['transactionId'] !='':
