@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class StatusChoice(models.TextChoices):
     PENDING_PAYMENT = 'pending_payment', 'Pending Payment'
     PROCESSING = 'processing', 'Processing'
@@ -17,3 +16,4 @@ class PaymentStatusChoice(models.TextChoices):
     PENDING = 'pending', 'Pending'
     SUCCESS = 'success', 'Success'
     FAILED = 'failed', 'Failed'
+    

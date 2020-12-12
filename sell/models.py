@@ -1,7 +1,7 @@
 from django.db import models
 from account.models import UserProfile
 from home.models import Pharmacy
-
+from .utils import generate_order_id
 from .choices import *
 
 # Create your models here.
@@ -29,7 +29,6 @@ class ShippingAddress(models.Model):
 		return self.user.username if self.user else self.session_id
 
 #----- Cart ------#
-
 class Cart(models.Model):
 	user = models.ForeignKey(
 		UserProfile, 
@@ -45,11 +44,12 @@ class Cart(models.Model):
 	)
 	count = models.IntegerField(default=1)
 	per_price = models.FloatField()
+	is_active = models.BooleanField(default=True)
 
-	date = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+	date = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
-		return self.user.email
+		return self.user.email + ' : ' + self.product.name
 
 	def save(self, *args, **kwargs):
 		self.per_price = round((self.product.price * float(self.count)), 3)
@@ -70,6 +70,7 @@ class Payment(models.Model):
 		choices = PaymentStatusChoice.choices,
 		default = PaymentStatusChoice.PENDING
 	)
+
 	chash_on_delivery = models.BooleanField(default=False)
 	card = models.BooleanField(default=False)
 	mobile_banking = models.BooleanField(default=False)
@@ -81,7 +82,7 @@ class Payment(models.Model):
 	date = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
-		return self.order.order_id
+		return self.order.order_id + ' : ' + self.status
 
 #------- Order Status -------#
 class OrderStatus(models.Model):
@@ -90,7 +91,7 @@ class OrderStatus(models.Model):
 		on_delete=models.CASCADE,
 		related_name = 'statuses',
 	)
-	type = models.CharField(
+	on_type = models.CharField(
 		max_length = 100,
 		choices = StatusChoice.choices,
 		default = StatusChoice.PENDING_PAYMENT,
@@ -99,7 +100,7 @@ class OrderStatus(models.Model):
 	date = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
-		return self.order.order_id
+		return self.order.order_id + ' : ' + self.on_type
 
 #------- Order --------#
 class Order(models.Model):
@@ -120,9 +121,9 @@ class Order(models.Model):
 		on_delete = models.SET_NULL,
 		null=True,
 		blank=True,
-		related_name = 'shipping_address',
+		related_name = 'shipping_addresses',
 	)
-	order_note = models.TextField(max_length=500, null=True, blank=True)   
+	order_note = models.TextField(max_length=500, null=True, blank=True)
 	status = models.ForeignKey(
 		OrderStatus,
 		on_delete = models.SET_NULL,
@@ -137,15 +138,13 @@ class Order(models.Model):
 		blank=True,
 		related_name = 'payments',
 	)
-
 	date = models.DateTimeField(auto_now_add=True)
 
 	def save(self, *args, **kwargs):
 		if not self.order_id:
 			self.order_id = generate_order_id()
-
 		super().save()
 
 	def __str__(self):
-		return self.order_id
+		return self.order_id + ' : ' + self.status.on_type
 

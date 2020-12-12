@@ -163,7 +163,7 @@ class MedicineDetails(View):
 	template_name = 'home/product/medicine_details.html'
 	def get(self, request, slug):
 		medicines = store_model.Pharmacy.objects.filter(medicine_category__slug=slug)
-		cart_count = sell_model.Cart.objects.filter(user=request.user).count()
+		cart_count = sell_model.Cart.objects.filter(user__id=request.user.id, is_active=True).count()
 		category = store_model.CategoryMedicine.objects.get(slug=slug)
 
 		contexts = {
@@ -178,13 +178,13 @@ def update_cart(request):
 	if request.method == 'POST':
 		product_id = request.POST['product_id']
 		action = request.POST['action']
-		print(action)
 
 		customer = UserProfile.objects.get(id=request.user.id)
 		product = store_model.Pharmacy.objects.get(id=product_id)
-
 		cart , created = sell_model.Cart.objects.get_or_create(user=customer, product=product)
-		
+		cart.save()
+		cart.is_active = True
+
 		if action=='add':
 			cart.save()
 		elif action=='remove':
@@ -196,8 +196,8 @@ def update_cart(request):
 			cart.per_price = per_price
 			cart.save()
 
-		total_carts = sell_model.Cart.objects.filter(user=customer).count()
-		total_price = sum([ c.per_price for c in sell_model.Cart.objects.filter(user=customer)])
+		total_carts = sell_model.Cart.objects.filter(user=customer, is_active=True).count()
+		total_price = sum([ c.per_price for c in sell_model.Cart.objects.filter(user=customer, is_active=True)])
 		print(total_carts)
 		return JsonResponse({'status':'ok','total_carts':total_carts,'total_price':total_price})
 
@@ -206,20 +206,22 @@ def charge(request):
 	if request.method == "POST":
 		carts = sell_model.Cart.objects.filter(
 			user = request.user,
+			is_active = True,
 		)
 		subtotal = round(sum(float(cart.per_price) for cart in carts), 2)
 		total = subtotal
 
-		#shipping address
+		# Given address 
 		first_name = request.POST['firstname']
 		last_name = request.POST['lastname']
 		email = request.POST['email'] 
-		country = request.POST['country'] 
 		street_address = request.POST['address1'] 
 		phone = request.POST['phone'] 
-
-
-		shipping_address, created = ShippingAddress.objects.get_or_create(user = request.user)
+		# country = request.POST['country'] 
+		country = 'Bangladesh' 
+		
+		# shipping section
+		shipping_address, created = sell_model.ShippingAddress.objects.get_or_create(user = request.user)
 		if created==True:
 			shipping_address.first_name = first_name
 			shipping_address.last_name = last_name
@@ -230,8 +232,32 @@ def charge(request):
 
 			shipping_address.save()
 
+		# order section 
+		order = sell_model.Order(
+			user = UserProfile.objects.get(email=request.user.email),
+			shipping_address = shipping_address,
+		)
+		order.save()
+		# add carts to order beacuse 'carts = carts' is prohibited! using set()
+		order.carts.set(carts)
+
+		order.save()
+		# order status
+		order_status = sell_model.OrderStatus(order=order)
+		order_status.save()
+		order.status = order_status
+		order.save()
+
+		# payment
+		payment = sell_model.Payment(order=order)
+		payment.save()
+
 		if request.POST['transactionId'] !='':
 			user = UserProfile.objects.get(email=request.user.email)
+			payment.transaction_id = request.POST['transactionId']
+			payment.save()
+			order.payment = payment
+			order.save()
 		else:
 			user_name = request.POST['firstname'] + request.POST['lastname']
 			customer = stripe.Customer.create(
@@ -245,6 +271,12 @@ def charge(request):
 				currency = 'usd',
 				description = 'Donation',
 			)
+			payment.card = True
+			payment.save()
+			order.payment = payment
+			order.save()		
+
+		sell_model.Cart.objects.filter(user__email=request.user.email).update(is_active=False,count=1)
 
 		return redirect('account:user_profile',username=request.user.username)
 
@@ -259,7 +291,7 @@ def success(request, args):
 class CartDetails(View):
 	template_name = 'home/cart/cart_details.html'
 	def get(self,request):
-		cart_items = sell_model.Cart.objects.filter(user__email=request.user.email)
+		cart_items = sell_model.Cart.objects.filter(user__email=request.user.email, is_active=True)
 		cart_count = len(cart_items)
 		total_price = sum([ c.per_price for c in cart_items])
 
@@ -274,10 +306,11 @@ class CartDetails(View):
 class Checkout(View):
 	template_name = 'home/checkout/checkout.html'
 	def get(self, request):
-		cart_items = sell_model.Cart.objects.filter(user__email=request.user.email)		
+		cart_items = sell_model.Cart.objects.filter(user__id=request.user.id, is_active=True)
 		cart_price = round(sum([ c.per_price for c in cart_items]),2)
 		shipping_price = 30.00
 		total_price = cart_price + shipping_price
+
 		contexts = {
 			'cart_items':cart_items,
 			'cart_price':cart_price,

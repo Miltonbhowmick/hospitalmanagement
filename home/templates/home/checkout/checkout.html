@@ -58,7 +58,9 @@
 			<div class="my-3">
 				<div class="row">
 					<div class="col-lg-4 col-md-4 col-sm-4">
-						<img src="{{cart.product.formatted_image.url}}" alt="product-img">
+						{% if cart.product.formatted_image %}
+							<img src="{{cart.product.formatted_image.url}}" alt="product-img">
+						{% endif %}
 					</div>
 					<div class="col-lg-8 col-md-8 col-sm-8">
 						<h6 class="font-weight-normal">{{cart.product.name}}</h6>
@@ -93,27 +95,27 @@
 						<small>Error Message</small>
 					</div>
 					<div class="form-group col-md-6 col-6">
-						<input class="form-control" id="address2" type="" name="address2" placeholder="Address 2 (Optional)">
+						<input class="form-control" id="address2" type="text" name="address2" placeholder="Address 2 (Optional)">
 						<small>Error Message</small>
 					</div>
 					<div class="form-group col-md-6 col-6">
-						<input class="form-control" id="postal-code" type="" name="postal-code" placeholder="Postal Code">
+						<input class="form-control" id="postal-code" type="text" name="postal-code" placeholder="Postal Code">
 						<small>Error Message</small>
 					</div>
 					<div class="form-group col-md-6 col-6">
-						<input class="form-control" id="city" type="" name="city" placeholder="City">
+						<input class="form-control" id="city" type="text" name="city" placeholder="City">
 						<small>Error Message</small>
 					</div>
 					<div class="form-group col-md-6 col-6">
-						<input class="form-control" id="region" type="" name="region" placeholder="Region (Optional)">
+						<input class="form-control" id="region" type="text" name="region" placeholder="Region (Optional)">
 						<small>Error Message</small>
 					</div>
 					<div class="form-group col-md-6 col-6">
-						<input class="form-control" id="phone" type="" name="phone" placeholder="Phone">
+						<input class="form-control" id="phone" type="text" name="phone" placeholder="Phone">
 						<small>Error Message</small>
 					</div>
 					<div class="form-group col-md-6 col-6">
-						<input class="form-control font-weight-bold" id="country" type="" name="country" value="Bangladesh" placeholder="Postal Code"disabled>
+						<input class="form-control font-weight-bold" id="country" type="text" name="country" value="Bangladesh" placeholder="" disabled>
 						<small>Error Message</small>
 					</div>
 
