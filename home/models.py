@@ -150,9 +150,12 @@ class Pharmacy(models.Model):
 	medicine_category = models.ForeignKey(CategoryMedicine, on_delete=models.SET_NULL, null=True) 
 	quantity = models.IntegerField(blank=True, default=1)
 	price = models.FloatField(blank=True, default=1.00)
-	slug = models.SlugField(unique=True,blank=True, default='')
+
+	is_publish = models.BooleanField(default=False)
 
 	date = models.DateTimeField(auto_now_add=True,null=True)
+
+	slug = models.SlugField(unique=True,blank=True, default='')
 
 	def __str__(self):
 		return self.name
@@ -186,7 +189,7 @@ class FoodBlogView(models.Model):
 		on_delete = models.CASCADE,
 		related_name='foodblog'
 	)
-	ip = models.CharField(blank = True, max_length=40)
+	ip = models.GenericIPAddressField()
 	session = models.CharField(blank=True, max_length=40)
 	created = models.DateTimeField(default = datetime.datetime.now())
 

@@ -62,63 +62,95 @@
 		</div>
 
 		<div class="col-lg-6 col-md-6 col-sm-12">
-				<div style="background-color: #fff;">
-					<div style="background-color: #e7eff6;padding: 8px;border-bottom: 1px solid #ddd;">
-						<h4>Blogs</h4>
-						{{request.session}}
-					</div>
-					<div class="m-3">
-						<div class="row">
-							<div class="col-lg-4 col-md-4 col-sm-12">
-								<div>
-									<h6>{{total_users}}</h6>
-									<p>total</p>
-								</div>
+			<div style="background-color: #fff;">
+				<div style="background-color: #e7eff6;padding: 8px;border-bottom: 1px solid #ddd;">
+					<h4>Blogs</h4>
+				</div>
+				<div class="m-3">
+					<div class="row text-center">
+						<div class="col-lg-4 col-md-4 col-sm-12">
+							<div>
+								<h6>{{total_blog}}</h6>
+								<p>total</p>
 							</div>
-							<div class="col-lg-4 col-md-4 col-sm-12">
-								<div>
-									<h6>{{online_users}}</h6>
-									<p>online</p>
-								</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-12">
+							<div>
+								<h6>{{online_users}}</h6>
+								<p>online</p>
 							</div>
 						</div>
 					</div>
+
+					<div class="py-3">
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col">Title</th>
+									<th scope="col">views</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for blog in popular_blogs %}
+									<tr>
+										<td>{{blog.title}}</td>
+										<td>{{blog.view}}</td>
+									</tr>							
+								{% endfor %}		
+							</tbody>
+						</table>
+						<p>
+							<a href="#" style="color: blue;">View all blogs</a>
+						</p>
+					</div>
+
 				</div>
+			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-lg-6 col-md-6 col-sm-12">
 			<div style="background-color: #fff;">
-				<div style="background-color: #e7eff6;padding: 8px;border-bottom: 1px solid #ddd;">
-					<h4>Products</h4>
+					<div style="background-color: #e7eff6;padding: 8px;border-bottom: 1px solid #ddd;">
+						<h4>Products</h4>
+					</div>
+					<div class="m-3">
+						<div class="row text-center">
+							<div class="col-lg-3 col-md-3 col-sm-6">
+								<div>
+									<h6>{{total_product}}</h6>
+									<p>Total</p>
+								</div>
+							</div>
+							<div class="col-lg-3 col-md-3 col-sm-6">
+								<div>
+									<h6>***</h6>
+									<p>Sold</p>
+								</div>
+							</div>
+							<div class="col-lg-3 col-md-3 col-sm-6">
+								<div>
+									<h6>{{available}}</h6>
+									<p>Available</p>
+								</div>
+							</div>
+							<div class="col-lg-3 col-md-3 col-sm-6">
+								<div>
+									<h6>{{unpublish}}</h6>
+									<p>Unpublish</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="py-3">
+							
+							<p>
+								<a href="#" style="color: blue;">View all products</a>
+							</p>
+						</div>
+
+					</div>
 				</div>
-				<div class="row my-3 text-center">
-					<div class="col-lg-3 col-md-3 col-sm-12">
-						<div class="m-1">
-							<h6>1500</h6>
-							<p>total</p>
-						</div>
-					</div>
-					<div class="col-lg-3 col-md-3 col-sm-12">
-						<div class="m-1">
-							<h6>600</h6>
-							<p>sold</p>
-						</div>
-					</div>
-					<div class="col-lg-3 col-md-3 col-sm-12">
-						<div class="m-1">						
-							<h6>1200</h6>
-							<p>available</p>
-						</div>						
-					</div>
-					<div class="col-lg-3 col-md-3 col-sm-12">
-						<div class="m-1">
-							<h6>100</h6>
-							<p>unpublished</p>						
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 		<div class="col-lg-6 col-md-6 col-sm-12">
 				<div style="background-color: #fff;">

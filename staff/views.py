@@ -23,13 +23,27 @@ class Dashboard(View):
 
 		# blog details
 		blogs = store_model.FoodBlog.objects.all()
-		total_blogs = blogs.count()
+		total_blog = blogs.count()
+		popular_blogs = store_model.FoodBlog.objects.order_by('-view')[:4]
+
+		# product details
+		products = store_model.Pharmacy.objects.all()
+		total_product = products.count()
+		available = products.filter(is_publish=True).count()
+		unpublish = total_product-available
 
 		contexts = {
 			'total_users':total_users,
 			'online_users':online_users,
 			'offline_users': offline_users,
 			'new_users':new_users,
+
+			'total_blog':total_blog,
+			'popular_blogs':popular_blogs,
+
+			'total_product':total_product,
+			'available':available,
+			'unpublish':unpublish
 		}
 		return render(request, self.template_name, contexts)
 
