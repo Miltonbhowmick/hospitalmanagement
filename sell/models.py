@@ -74,7 +74,7 @@ class Payment(models.Model):
 	chash_on_delivery = models.BooleanField(default=False)
 	card = models.BooleanField(default=False)
 	mobile_banking = models.BooleanField(default=False)
-	transaction_id = models.CharField(max_length=100)
+	transaction_id = models.CharField(max_length=100,blank=True)
 
 	amount = models.FloatField(default=0)
 	shipping_price = models.FloatField(default=0)

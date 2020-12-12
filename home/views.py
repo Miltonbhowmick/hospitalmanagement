@@ -240,8 +240,8 @@ def charge(request):
 		order.save()
 		# add carts to order beacuse 'carts = carts' is prohibited! using set()
 		order.carts.set(carts)
-
 		order.save()
+
 		# order status
 		order_status = sell_model.OrderStatus(order=order)
 		order_status.save()
@@ -249,12 +249,13 @@ def charge(request):
 		order.save()
 
 		# payment
-		payment = sell_model.Payment(order=order)
+		payment = sell_model.Payment(order=order,amount=total,shipping_price=30)
 		payment.save()
 
 		if request.POST['transactionId'] !='':
 			user = UserProfile.objects.get(email=request.user.email)
 			payment.transaction_id = request.POST['transactionId']
+			payment.mobile_banking = True
 			payment.save()
 			order.payment = payment
 			order.save()
