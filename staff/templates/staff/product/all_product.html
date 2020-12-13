@@ -5,7 +5,11 @@
 <div class="container my-4">
 	
 	<form method="GET">	
-		<input class="from-control" type="" name="search">
+		<div class="form-row">
+			<div class="form-group col-4">
+				<input class="form-control" type="" name="search" placeholder="Search product....">
+			</div>
+		</div>
 	</form>
 	<div class="table-responsive">
 		<table class="table text-center">
@@ -13,6 +17,7 @@
 				<tr>
 					<th><a href="?order_by=name">Image</a></th>
 					<th><a href="?order_by=name">Name</a></th>
+					<th><a href="?order_by=name">Company</a></th>
 					<th><a href="?order_by=price">Price</a></th>
 					<th><a href="?order_by=quantity">Quantity</a></th>
 					<th><a href="?order_by=date">Date</a></th>
@@ -25,6 +30,7 @@
 					<tr>
 						<td><img src="{{product.medicine_image.url}}" style="height: 100px;width: 100px;"></td>
 						<td>{{product.name}}</td>
+						<td>{{product.company}}</td>
 						<td>{{product.price}}</td>
 						<td>{{product.quantity}}</td>
 						<td>{{product.date}}</td>
@@ -45,7 +51,7 @@
 				<ul class="pagination justify-content-center">
 					{% if all_products.has_previous %}
 						<li class="page-item">
-							<a class="page-link" href="?page={{all_products.previous_page_number}}">Previous</a>
+							<a class="page-link" href="?page={{all_products.previous_page_number}}&order_by={{order_by}}">Previous</a>
 						</li>
 					{% else %}
 						<li class="page-item disabled">
@@ -60,14 +66,14 @@
 							</li>
 						{% else %}
 							<li>
-								<a class="page-link" href="?page={{i}}">{{i}}</a>
+								<a class="page-link" href="?page={{i}}&order_by={{order_by}}">{{i}}</a>
 							</li>
 						{% endif %}
 					{% endfor %}
 
 					{% if all_products.has_next %}
 						<li class="page-item">
-							<a class="page-link" href="?page={{all_products.next_page_number}}">Next</a>
+							<a class="page-link" href="?page={{all_products.next_page_number}}&order_by={{order_by}}">Next</a>
 						</li>
 					{% else %}
 						<li class="page-item">

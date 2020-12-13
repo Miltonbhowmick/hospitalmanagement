@@ -72,6 +72,7 @@ class Product(View):
 
 		contexts = {
 			'all_products':all_products,
+			'order_by':order_by,
 		}
 		return render(request, self.template_name, contexts)
 
