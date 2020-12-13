@@ -33,7 +33,48 @@
 					</tr>
 				{% endfor %}
 			</tbody>
+		
 		</table>
+
+		<nav aria-label="Page navigation example">
+			{% if all_products.has_other_pages %}
+				<ul class="pagination justify-content-center">
+					{% if all_products.has_previous %}
+						<li class="page-item">
+							<a class="page-link" href="?page={{all_products.previous_page_number}}">Previous</a>
+						</li>
+					{% else %}
+						<li class="page-item disabled">
+							<a class="page-link">Previous</a>
+						</li>
+					{% endif %}
+
+					{% for i in all_products.paginator.page_range %}
+						{% if all_products.number == i  %}	
+							<li class="active">
+								<a class="page-link">{{i}}<span class="sr-only">(current)</span></a>
+							</li>
+						{% else %}
+							<li>
+								<a class="page-link" href="?page={{i}}">{{i}}</a>
+							</li>
+						{% endif %}
+
+					{% endfor %}
+
+					{% if all_products.has_next %}
+						<li class="page-item">
+							<a class="page-link" href="?page={{all_products.next_page_number}}">Next</a>
+						</li>
+					{% else %}
+						<li class="page-item">
+							<a class="page-link">Next</a>
+						</li>
+					{% endif %}
+				</ul>
+			{% endif %}
+		</nav>
+
 	</div>
 </div>
 {% endblock %}

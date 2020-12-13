@@ -48,23 +48,24 @@ class Dashboard(View):
 		}
 		return render(request, self.template_name, contexts)
 
-
 # ------ Product ------ #
 class Product(View):
 	template_name = 'staff/product/all_product.html'
 	def get(self, request):
-		order_by = request.GET.get('order_by')
-		products = store_model.Pharmacy.objects.all().order_by(order_by.lower())
-
+		
+		order_by = request.GET.get('order_by','date')
+		products = store_model.Pharmacy.objects.order_by(order_by.lower()).all()
+		
 		# pagination
 		paginator = Paginator(products, 4)
-		page = request.GET.get('page')
+		page = request.GET.get('page',1)
 		try:
 			all_products = paginator.get_page(page)
 		except PageNotAnInteger:
 			all_products = paginator.get_page(1)
 		except EmptyPage:
 			all_products = paginator.get_page(paginator.num_pages)
+
 
 		contexts = {
 			'all_products':all_products,
