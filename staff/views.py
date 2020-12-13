@@ -7,7 +7,7 @@ from account import models as account_model
 
 from django.core.paginator import Paginator
 from django.http import HttpResponse
-
+from django.db.models import Q
 # Create your views here.
 
 # ------ dashboard ------ #
@@ -52,9 +52,12 @@ class Dashboard(View):
 class Product(View):
 	template_name = 'staff/product/all_product.html'
 	def get(self, request):
-		
-		order_by = request.GET.get('order_by','date')
-		products = store_model.Pharmacy.objects.order_by(order_by.lower()).all()
+		search_by = request.GET.get('search')
+		order_by = request.GET.get('order_by','date')		
+		if search_by:
+			products = store_model.Pharmacy.objects.filter( Q(name__icontains=search_by) | Q(company__name__icontains=search_by) ).order_by(order_by.lower()).all()
+		else:
+			products = store_model.Pharmacy.objects.order_by(order_by.lower()).all()
 		
 		# pagination
 		paginator = Paginator(products, 4)

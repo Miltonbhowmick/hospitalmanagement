@@ -144,6 +144,7 @@ class CategoryMedicine(models.Model):
 #----- Pharmacy model -----#
 class Pharmacy(models.Model):
 	name = models.CharField(max_length=255, default='')
+	description = RichTextField()
 	medicine_image = models.ImageField(upload_to='medcine_images')
 	formatted_image = ImageSpecField(source='medicine_image', processors=[ResizeToFill(100,100)], format='JPEG',options={'quantity':60})
 	company = models.ForeignKey(MedicineCompany, on_delete=models.SET_NULL, null=True, blank=True)

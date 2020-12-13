@@ -14,13 +14,13 @@ class AddProductForm(forms.Form):
 			}
 		)
 	)
-
 	image = forms.ImageField(
 		widget = forms.ClearableFileInput(
 			attrs = {
 			}
 		)
 	)
+	description = RichTextFormField()
 
 	category = forms.ModelChoiceField(
 		queryset=store_model.CategoryMedicine.objects.all(),
@@ -57,10 +57,11 @@ class AddProductForm(forms.Form):
 
 	def clean(self):
 		name = self.cleaned_data.get('name')
+		description = self.cleaned_data.get('description')
+		image = self.cleaned_data.get('image')
 		price = self.cleaned_data.get('price')
 		category = self.cleaned_data.get('category')
 		quantity = self.cleaned_data.get('quantity')
-		image = self.cleaned_data.get('image')
 
 		if not name:
 			raise forms.ValidationError("Enter product name!")
@@ -71,13 +72,15 @@ class AddProductForm(forms.Form):
 
 	def deploy(self):
 		name = self.cleaned_data.get('name')
+		description = self.cleaned_data.get('description')
+		image = self.cleaned_data.get('image')
 		price = self.cleaned_data.get('price')
 		category = self.cleaned_data.get('category')
 		quantity = self.cleaned_data.get('quantity')
-		image = self.cleaned_data.get('image')
 
 		product, created = store_model.Pharmacy.objects.get_or_create(
 			name = name,
+			description = description,
 			price = price,
 			medicine_category = category,
 			quantity = quantity,
