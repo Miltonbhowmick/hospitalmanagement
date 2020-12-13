@@ -52,8 +52,20 @@ class Dashboard(View):
 class Product(View):
 	template_name = 'staff/product/all_product.html'
 	def get(self, request):
+		direction_by = request.GET.get('dir_by','asc')
 		search_by = request.GET.get('search')
-		order_by = request.GET.get('order_by','date')		
+		direction_column = request.GET.get('dir_col')
+		order_by = request.GET.get('order_by','date')	
+
+		if direction_column == order_by:
+			if direction_by=='asc':
+				order_by = '-{}'.format(order_by)
+				direction_by=='desc'
+		else:
+			direction_by=='asc'
+		print(direction_by)
+		direction_column = order_by
+
 		if search_by:
 			products = store_model.Pharmacy.objects.filter( Q(name__icontains=search_by) | Q(company__name__icontains=search_by) ).order_by(order_by.lower()).all()
 		else:
@@ -73,6 +85,8 @@ class Product(View):
 		contexts = {
 			'all_products':all_products,
 			'order_by':order_by,
+			'direction_by':direction_by,
+			'direction_column':direction_column
 		}
 		return render(request, self.template_name, contexts)
 
