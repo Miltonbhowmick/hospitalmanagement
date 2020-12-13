@@ -1,0 +1,39 @@
+{% extends 'base_staff.html' %}
+{% block title %}Medicine Products{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+	<div class="table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<th><a href="?order_by=name">Image</a></th>
+					<th><a href="?order_by=name">Name</a></th>
+					<th><a href="?order_by=price">Price</a></th>
+					<th><a href="?order_by=quantity">Quantity</a></th>
+					<th><a href="?order_by=date">Date</a></th>
+					<th>Edit</th>
+					<th>Del</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for product in all_products %}
+					<tr>
+						<td>image</td>
+						<td>{{product.name}}</td>
+						<td>{{product.price}}</td>
+						<td>{{product.quantity}}</td>
+						<td>{{product.date}}</td>
+						<td>
+							<a class="btn btn-info" href="{% url 'staff:edit_product' product.slug %}">Edit</a>
+						</td>
+						<td>
+							<a class="btn btn-danger" href="{% url 'staff:delete_product' product.slug %}">Delete</a>				
+						</td>					
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}

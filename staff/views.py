@@ -5,6 +5,7 @@ from home import models as store_model
 from . import models as staff_model
 from account import models as account_model
 
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 
 # Create your views here.
@@ -50,13 +51,23 @@ class Dashboard(View):
 
 # ------ Product ------ #
 class Product(View):
-	template_name = 'staff/product/product.html'
+	template_name = 'staff/product/all_product.html'
 	def get(self, request):
-		products = store_model.Pharmacy.objects.all().order_by('-date')
-		products_count = products.count()
+		order_by = request.GET.get('order_by')
+		products = store_model.Pharmacy.objects.all().order_by(order_by.lower())
+
+		# pagination
+		paginator = Paginator(products, 4)
+		page = request.GET.get('page')
+		try:
+			all_products = paginator.get_page(page)
+		except PageNotAnInteger:
+			all_products = paginator.get_page(1)
+		except EmptyPage:
+			all_products = paginator.get_page(paginator.num_pages)
+
 		contexts = {
-			'products': products,
-			'products_count': products_count,
+			'all_products':all_products,
 		}
 		return render(request, self.template_name, contexts)
 

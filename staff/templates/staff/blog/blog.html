@@ -8,12 +8,19 @@
 	<div class="p-2">
 	{% for blog in blogs %}
 		<a href="{% url 'home:food_blog_post' blog.slug %}">
-			<div class="row m-2" style="border: 1px solid #f4f4f4;">
+			<div class="row p-2" style="border: 1px solid #f4f4f4;">
 				<div class="col-md-2">
-					<div class="p-1">{{blog.title}}</div>
+					{% if blog.formatted_image %}
+						<img src="{{blog.formatted_image.url}}" style="width: 100%;">
+					{% else %}
+						<img src="" alt="product-image">
+					{% endif %}	
+				</div>
+				<div class="col-md-2">
+					<p>{{blog.title}}</p>
 				</div>
 				<div class="col-md-3">
-					<div class="p-1">{{blog.date}}</div>
+					<p>{{blog.date}}</p>
 				</div>
 			</div>
 		</a>
