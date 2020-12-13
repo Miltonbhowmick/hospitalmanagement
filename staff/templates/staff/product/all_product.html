@@ -4,7 +4,7 @@
 {% block content %}
 <div class="container my-4">
 	<div class="table-responsive">
-		<table class="table">
+		<table class="table text-center">
 			<thead>
 				<tr>
 					<th><a href="?order_by=name">Image</a></th>
@@ -19,16 +19,16 @@
 			<tbody>
 				{% for product in all_products %}
 					<tr>
-						<td>image</td>
+						<td><img src="{{product.medicine_image.url}}" style="height: 100px;width: 100px;"></td>
 						<td>{{product.name}}</td>
 						<td>{{product.price}}</td>
 						<td>{{product.quantity}}</td>
 						<td>{{product.date}}</td>
 						<td>
-							<a class="btn btn-info" href="{% url 'staff:edit_product' product.slug %}">Edit</a>
+							<a class="btn btn-info" href="{% url 'staff:edit_product' product.slug %}" style="color: #fff;">Edit</a>
 						</td>
 						<td>
-							<a class="btn btn-danger" href="{% url 'staff:delete_product' product.slug %}">Delete</a>				
+							<a class="btn btn-danger" href="{% url 'staff:delete_product' product.slug %}"  style="color: #fff;">Delete</a>				
 						</td>					
 					</tr>
 				{% endfor %}
@@ -68,7 +68,7 @@
 					{% else %}
 						<li class="page-item">
 							<a class="page-link">Next</a>
-						</li>sdg
+						</li>
 					{% endif %}
 				</ul>
 			{% endif %}
