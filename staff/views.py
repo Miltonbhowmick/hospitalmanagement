@@ -48,6 +48,31 @@ class Dashboard(View):
 		}
 		return render(request, self.template_name, contexts)
 
+# ------ User --------#
+class UserList(View):
+	template_name = 'staff/user/user_list.html'
+
+	def get(self, request):
+		
+		order_by = request.GET.get('order_by','-date')
+
+		users = account_model.UserProfile.objects.filter(is_staff=False).order_by(order_by.lower()).all()
+
+		# pagination
+		paginator = Paginator(users , 6)
+		page = request.GET.get('page',1)
+		try:
+			all_users = paginator.get_page(page)
+		except PageNotAnInteger:
+			all_users = paginator.get_page(1)
+		except EmptyPage:
+			all_users = paginator.get_page(paginator.num_pages)
+
+		contexts = {
+			'all_users':all_users,
+		}
+		return render(request, self.template_name, contexts)
+
 # ------ Product ------ #
 class Product(View):
 	template_name = 'staff/product/all_product.html'
@@ -66,7 +91,6 @@ class Product(View):
 		else:
 			direction_by='asc'
 
-		print(direction_by)
 		direction_column = order_by
 
 		if search_by:
@@ -103,7 +127,6 @@ class AddProduct(View):
 		return render(request, self.template_name, contexts)
 	def post(self, request):
 		form = AddProductForm(request.POST or None, request.FILES or None)
-		print(form.errors)
 		if form.is_valid():
 			category = store_model.CategoryMedicine.objects.all()
 			form.deploy()
@@ -142,9 +165,37 @@ class Blog(View):
 	template_name = 'staff/blog/blog.html'
 
 	def get(self, request):
-		blogs = store_model.FoodBlog.objects.all()
+
+		direction_by = request.GET.get('dir_by','desc')
+		direction_column = request.GET.get('dir_col')
+		order_by = request.GET.get('order_by','-date')
+
+		if direction_column==order_by:
+			if direction_by == 'asc':
+				order_by = '-{}'.format(order_by)
+				direction_by='desc'
+			else:
+				direction_by='asc'
+		else:
+			direction_by='asc'
+		direction_column = order_by
+		
+		blogs = store_model.FoodBlog.objects.order_by(order_by.lower()).all()
+
+		paginator = Paginator(blogs,6)
+		page = request.GET.get('page',1)
+		try:
+			all_blogs = paginator.get_page(page)
+		except PageNotAnInteger:
+			all_blogs = paginator.get_page(page)
+		except EmptyPage:
+			all_blogs = paginator.get_page(page)
+
 		contexts = {
-			'blogs':blogs,
+			'all_blogs':all_blogs,
+			'order_by':order_by,
+			'direction_by':direction_by,
+			'direction_column':direction_column,
 		}
 		return render(request, self.template_name, contexts)
 

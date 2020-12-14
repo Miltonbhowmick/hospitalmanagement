@@ -9,6 +9,9 @@ urlpatterns = [
 	# -------- dashboard -------- #
 	path('', views.Dashboard.as_view(), name='dashboard'),
 
+	# -------- account -------- #
+	path('user-list', views.UserList.as_view(), name='user_list'),
+
 	# -------- product --------- #	
 	path('product', views.Product.as_view(), name='product'),
 	path('product-add', views.AddProduct.as_view(), name='add_product'),

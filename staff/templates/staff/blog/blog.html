@@ -1,30 +1,85 @@
 {% extends 'base_staff.html' %}
-
-{% block title %}All Blog{% endblock %}
+{% block title %}Medicine Products{% endblock %}
 
 {% block content %}
-<div style="background-color: #fff; margin:20px;">
-
-	<div class="p-2">
-	{% for blog in blogs %}
-		<a href="{% url 'home:food_blog_post' blog.slug %}">
-			<div class="row p-2" style="border: 1px solid #f4f4f4;">
-				<div class="col-md-2">
-					{% if blog.formatted_image %}
-						<img src="{{blog.formatted_image.url}}" style="width: 100%;">
-					{% else %}
-						<img src="" alt="product-image">
-					{% endif %}	
-				</div>
-				<div class="col-md-2">
-					<p>{{blog.title}}</p>
-				</div>
-				<div class="col-md-3">
-					<p>{{blog.date}}</p>
-				</div>
+<div class="container my-4">
+	
+	<form method="GET">	
+		<div class="form-row">
+			<div class="form-group col-4">
+				<input class="form-control" type="" name="search" placeholder="Search product....">
 			</div>
-		</a>
-	{% endfor %}
+		</div>
+	</form>
+	<div class="table-responsive">
+		<table class="table text-center">
+			<thead>
+				<tr>
+					<th><a>Image</a></th>
+					<th><a>Title</a></th>
+					<th><a href="?order_by=view&dir_by={{direction_by}}&dir_col={{direction_column}}">Views<i class="ml-2 fa fa-sort" aria-hidden="true"></i></a></th>
+					<th><a href="?order_by=date&dir_by={{direction_by}}&dir_col={{direction_column}}">Date<i class="ml-2 fa fa-sort" aria-hidden="true"></i></a></th>
+					<th>Edit</th>
+					<th>Del</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for blog in all_blogs %}
+					<tr>
+						<td><img src="{{blog.post_image.url}}" style="height: 100px;width: 100px;"></td>
+						<td>{{blog.title}}</td>
+						<td>{{blog.view}}</td>
+						<td>{{blog.date}}</td>
+						<td>
+							<a class="btn btn-info" href="" style="color: #fff;">Edit</a>
+						</td>
+						<td>
+							<a class="btn btn-danger" href=""  style="color: #fff;">Delete</a>				
+						</td>					
+					</tr>
+				{% endfor %}
+			</tbody>
+		
+		</table>
+
+		<nav aria-label="Page navigation example">
+			{% if all_blogs.has_other_pages %}
+				<ul class="pagination justify-content-center">
+					{% if all_blogs.has_previous %}
+						<li class="page-item">
+							<a class="page-link" href="?page={{all_blogs.previous_page_number}}&order_by={{order_by}}">Previous</a>
+						</li>
+					{% else %}
+						<li class="page-item disabled">
+							<a class="page-link">Previous</a>
+						</li>
+					{% endif %}
+
+					{% for i in all_blogs.paginator.page_range %}
+						{% if all_blogs.number == i  %}	
+							<li class="active">
+								<a class="page-link">{{i}}<span class="sr-only">(current)</span></a>
+							</li>
+						{% else %}
+							<li>
+								<a class="page-link" href="?page={{i}}&order_by={{order_by}}">{{i}}</a>
+							</li>
+						{% endif %}
+					{% endfor %}
+
+					{% if all_blogs.has_next %}
+						<li class="page-item">
+							<a class="page-link" href="?page={{all_products.next_page_number}}&order_by={{order_by}}">Next</a>
+						</li>
+					{% else %}
+						<li class="page-item">
+							<a class="page-link">Next</a>
+						</li>
+					{% endif %}
+				</ul>
+			{% endif %}
+		</nav>
+
 	</div>
 </div>
 {% endblock %}

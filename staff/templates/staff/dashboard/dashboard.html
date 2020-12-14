@@ -40,19 +40,17 @@
 								</tr>
 							</thead>
 							<tbody>
-
 								{% for user in new_users %}
 									<tr>
 										<td>{{user.email}}</td>
 										<td>{{user.phone}}</td>
 									</tr>							
-								{% endfor %}
-	
+								{% endfor %}	
 							</tbody>
 
 						</table>
 						<p>
-							<a href="#" style="color: blue;">View all accounts</a>
+							<a href="{% url 'staff:user_list' %}" style="color: blue;">View all accounts</a>
 						</p>
 					</div>
 				</div>
