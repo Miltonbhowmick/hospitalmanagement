@@ -52,17 +52,20 @@ class Dashboard(View):
 class Product(View):
 	template_name = 'staff/product/all_product.html'
 	def get(self, request):
-		direction_by = request.GET.get('dir_by','asc')
+		direction_by = request.GET.get('dir_by','desc')
 		search_by = request.GET.get('search')
 		direction_column = request.GET.get('dir_col')
-		order_by = request.GET.get('order_by','date')	
+		order_by = request.GET.get('order_by','-date')	
 
 		if direction_column == order_by:
 			if direction_by=='asc':
 				order_by = '-{}'.format(order_by)
-				direction_by=='desc'
+				direction_by='desc'
+			else:
+				direction_by='asc'
 		else:
-			direction_by=='asc'
+			direction_by='asc'
+
 		print(direction_by)
 		direction_column = order_by
 
@@ -100,6 +103,7 @@ class AddProduct(View):
 		return render(request, self.template_name, contexts)
 	def post(self, request):
 		form = AddProductForm(request.POST or None, request.FILES or None)
+		print(form.errors)
 		if form.is_valid():
 			category = store_model.CategoryMedicine.objects.all()
 			form.deploy()

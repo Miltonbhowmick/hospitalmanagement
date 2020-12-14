@@ -5,7 +5,8 @@ from ckeditor.fields import RichTextFormField
 
 # ------- add product -------- #
 class AddProductForm(forms.Form):
-	name = forms.CharField(max_length=255, required=False, 
+	name = forms.CharField(
+		max_length=255,
 		widget=forms.TextInput(
 			attrs={
 				'class': 'form-control',
@@ -48,7 +49,7 @@ class AddProductForm(forms.Form):
 		widget=forms.TextInput(
 			attrs={
 				'class': 'form-control',
-				'placeholder': 'Enter current price!',
+				'placeholder': 'Quantity',
 				'type':'number',
 				'step':'1',
 			}
