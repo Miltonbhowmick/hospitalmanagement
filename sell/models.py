@@ -112,8 +112,7 @@ class Order(models.Model):
 		blank=True,
 		related_name='orders',
 	)
-	session_id = models.CharField(max_length=100, null=True, blank=True)
-    
+	session_id = models.CharField(max_length=100, null=True, blank=True)    
 	carts = models.ManyToManyField(Cart)
 	
 	shipping_address = models.ForeignKey(

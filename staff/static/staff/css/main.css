@@ -27,7 +27,7 @@ ul{
 }
 .sidebar_menu{
 	padding: 5px;
-	margin:10px;
+	margin:10px;	
 	line-height: 30px;
 	list-style: none;
 }
@@ -44,8 +44,7 @@ ul{
 	color: #fff;
 }
 .sidebar_submenu{
-	margin-top: 4px;
-	margin-bottom: 3px;
+	margin: 5px 0px 5px 15px;
 	border-left: 2px solid #f4f4f4;
 }
 /* sidebar end */

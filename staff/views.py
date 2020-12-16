@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from .forms import AddProductForm, AddBlogForm, ContactForm, EditProductForm, EditUserDetailsForm
-from home import models as store_model
+
 from . import models as staff_model
+from home import models as store_model
 from account import models as account_model
+from sell import models as sell_model
 
 from django.core.paginator import Paginator
 from django.http import HttpResponse
@@ -30,6 +32,7 @@ class Dashboard(View):
 		# product details
 		products = store_model.Pharmacy.objects.all()
 		total_product = products.count()
+		sold = sell_model.Order.objects.filter(status__on_type='delivered').count()
 		available = products.filter(is_publish=True).count()
 		unpublish = total_product-available
 
@@ -43,6 +46,7 @@ class Dashboard(View):
 			'popular_blogs':popular_blogs,
 
 			'total_product':total_product,
+			'sold':sold,
 			'available':available,
 			'unpublish':unpublish
 		}
@@ -188,6 +192,18 @@ class EditProduct(View):
 			return redirect('staff:product')
 		contexts = {
 			'form':form,
+		}
+		return render(request, self.template_name, contexts)
+
+# ------ Order -----------#
+class OrderList(View):
+	template_name = 'staff/order/order_list.html'
+
+	def get(self, request):
+		orders = sell_model.Order.objects.all()
+
+		contexts = {
+			'orders':orders,
 		}
 		return render(request, self.template_name, contexts)
 

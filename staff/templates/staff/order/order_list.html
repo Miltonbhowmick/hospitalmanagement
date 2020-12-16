@@ -1,0 +1,31 @@
+{% extends 'base_staff.html' %}
+{% block title %}Order{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+	<div class="table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<td><a>Order Id</a></td>
+					<td><a>User</a></td>					
+					<td><a>Payment</a></td>						
+					<td><a>Status</a></td>					
+					<td><a>Date</a></td>
+				</tr>
+			</thead>
+			<tbody>
+				{% for order in orders %}
+					<tr>
+						<td>{{order.order_id}}</td>
+						<td>{{order.user}}</td>
+						<td>{{order.payment}}</td>
+						<td>{{order.status}}</td>
+						<td>{{order.date}}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}

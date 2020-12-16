@@ -19,6 +19,9 @@ urlpatterns = [
 	path('product-edit/<str:slug>', views.EditProduct.as_view(), name='edit_product'),
 	path('product-delete/<str:slug>', views.product_delete , name='delete_product'),
 
+	# -------- Order ------------ #	
+	path('order-list', views.OrderList.as_view(), name='order_list'),
+
 	# -------- Blog ------------ #
 	path('blog', views.Blog.as_view(), name='blog'),
 	path('blog-add', views.AddBlog.as_view(), name='add_blog'),
