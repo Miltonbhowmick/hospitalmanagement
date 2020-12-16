@@ -10,6 +10,7 @@ urlpatterns = [
 	path('', views.Dashboard.as_view(), name='dashboard'),
 
 	# -------- account -------- #
+	path('user/<str:username>', views.UserDetailes.as_view(), name='user_details'),
 	path('user-list', views.UserList.as_view(), name='user_list'),
 
 	# -------- product --------- #	

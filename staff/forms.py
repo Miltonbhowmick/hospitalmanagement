@@ -1,7 +1,53 @@
 from django import forms
+from account import models as account_model
 from home import models as store_model 
 
 from ckeditor.fields import RichTextFormField
+
+# ------- add product -------- #
+class EditUserDetailsForm(forms.ModelForm):
+	class Meta:
+		model = account_model.UserProfile
+		fields = ('first_name','last_name','phone', 'address','city','division')
+
+		widgets = {
+			'first_name': forms.TextInput(
+				attrs = {
+					'class':'form-control',
+					'readonly':'readonly',
+				}
+			),	
+			'last_name': forms.TextInput(
+				attrs = {
+					'class': 'form-control',
+					'readonly':'readonly',
+				}
+			),
+			'phone': forms.TextInput(
+				attrs = {
+					'class': 'form-control',
+					'readonly':'readonly',
+				}
+			),
+			'address': forms.TextInput(
+				attrs = {
+					'class': 'form-control',
+					'readonly':'readonly',
+				}
+			),
+			'city': forms.TextInput(
+				attrs = {
+					'class': 'form-control',
+					'readonly':'readonly',
+				}
+			),
+			'division': forms.TextInput(
+				attrs = {
+					'class': 'form-control',
+					'readonly':'readonly',
+				}
+			),
+		}		
 
 # ------- add product -------- #
 class AddProductForm(forms.Form):
@@ -30,6 +76,7 @@ class AddProductForm(forms.Form):
 		widget = forms.Select(
 			attrs = {
 				'class': 'form-control',
+
 			}
 		)
 	)

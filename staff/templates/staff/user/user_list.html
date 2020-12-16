@@ -20,6 +20,8 @@
 					<th><a>Email</a></th>
 					<th><a>Phone</a></th>
 					<th><a href="?order_by=date">Date<i class="ml-2 fa fa-sort" aria-hidden="true"></i></a></th>
+					<th><a>Edit</a></th>					
+					<th><a>Delete</a></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -29,6 +31,12 @@
 						<td>{{user.email}}</td>
 						<td>{{user.phone}}</td>
 						<td>{{user.date}}</td>
+						<td>
+							<a class="btn btn-info" href="{% url 'staff:user_details' user.username %}" style="color: #fff;">Edit</a>
+						</td>
+						<td>
+							<a class="btn btn-danger" href="{% url 'staff:user_details' user.username %}"  style="color: #fff;">Delete</a>				
+						</td>
 					</tr>
 				{% endfor %}
 			</tbody>

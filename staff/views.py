@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .forms import AddProductForm, AddBlogForm, ContactForm, EditProductForm
+from .forms import AddProductForm, AddBlogForm, ContactForm, EditProductForm, EditUserDetailsForm
 from home import models as store_model
 from . import models as staff_model
 from account import models as account_model
@@ -48,15 +48,33 @@ class Dashboard(View):
 		}
 		return render(request, self.template_name, contexts)
 
-# ------ User --------#
+# ------ User Profile --------#
+class UserDetailes(View):
+	template_name = 'staff/user/user.html'
+
+	def get(self, request, username):
+		user = account_model.UserProfile.objects.get(username = username)
+		form = EditUserDetailsForm(instance = user)
+		if form.is_valid():
+			print(12312)
+		contexts = {
+			'form':form,
+		}
+		return render(request, self.template_name, contexts)
+
+# ------ User List --------#
 class UserList(View):
 	template_name = 'staff/user/user_list.html'
 
 	def get(self, request):
 		
+		search_by = request.GET.get('search')
 		order_by = request.GET.get('order_by','-date')
 
-		users = account_model.UserProfile.objects.filter(is_staff=False).order_by(order_by.lower()).all()
+		if search_by:
+			users = account_model.UserProfile.objects.filter(Q(is_staff=False) & (Q(username__icontains=search_by)| Q(email__icontains=search_by) | Q(phone__icontains=search_by)) ).order_by(order_by.lower()).all()
+		else:
+			users = account_model.UserProfile.objects.filter(is_staff=False).order_by(order_by.lower()).all()
 
 		# pagination
 		paginator = Paginator(users , 6)
@@ -179,7 +197,7 @@ class Blog(View):
 		else:
 			direction_by='asc'
 		direction_column = order_by
-		
+
 		blogs = store_model.FoodBlog.objects.order_by(order_by.lower()).all()
 
 		paginator = Paginator(blogs,6)
