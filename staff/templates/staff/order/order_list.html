@@ -7,15 +7,15 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<td><a>Order Id</a></td>
-					<td><a>User</a></td>					
-					<td><a>Payment</a></td>						
-					<td><a>Status</a></td>					
-					<td><a>Date</a></td>
+					<th><a>Order Id</a></th>
+					<th><a>User</a></th>					
+					<th><a href="?order_by=payment&dir_by={{direction_by}}&dir_col={{direction_column}}">Payment<i class="ml-2 fa fa-sort" aria-hidden="true"></i></a></th>						
+					<th><a href="?order_by=status&dir_by={{direction_by}}&dir_col={{direction_column}}">Status<i class="ml-2 fa fa-sort" aria-hidden="true"></i></a></th>					
+					<th><a href="?order_by=date&dir_by={{direction_by}}&dir_col={{direction_column}}">Date<i class="ml-2 fa fa-sort" aria-hidden="true"></i></a></th>
 				</tr>
 			</thead>
 			<tbody>
-				{% for order in orders %}
+				{% for order in all_orders %}
 					<tr>
 						<td>{{order.order_id}}</td>
 						<td>{{order.user}}</td>
@@ -26,6 +26,45 @@
 				{% endfor %}
 			</tbody>
 		</table>
+
+		<nav aria-label="Page navigation example">
+			{% if all_orders.has_other_pages %}		
+				<ul class="pagination justify-content-center">
+					{% if all_orders.has_previous %}
+						<li class="page-item">
+							<a class="page-link" href="?page={{all_orders.previous_page_number}}&order_by={{order_by}}">Previous</a>
+						</li>
+					{% else %}
+						<li class="page-item disabled">
+							<a class="page-link">Previous</a>
+						</li>
+					{% endif %}
+
+					{% for i in all_orders.paginator.page_range %}
+						{% if all_orders.number == i %}
+							<li class="active">
+								<a class="page-link">{{i}}<span class="sr-only">(current)</span></a>
+							</li>
+						{% else %}
+							<li>
+								<a class="page-link" href="?page={{i}}&order_by={{order_by}}">{{i}}</a>
+							</li>
+						{% endif %}
+					{% endfor %}
+					
+					{% if all_orders.has_next %}
+						<li class="page-item">
+							<a class="page-link" href="?page={{all_orders.next_page_number}}&order_by={{order_by}}">Next</a>
+						</li>
+					{% else %}
+						<li class="page-item disabled">
+							<a class="page-link" >Next</a>
+						</li>
+					{% endif %}
+				</ul>	
+			{% endif %}
+		</nav>
+
 	</div>
 </div>
 {% endblock %}

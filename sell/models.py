@@ -82,7 +82,7 @@ class Payment(models.Model):
 	date = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
-		return self.order.order_id + ' : ' + self.status
+		return self.status
 
 #------- Order Status -------#
 class OrderStatus(models.Model):
@@ -100,7 +100,7 @@ class OrderStatus(models.Model):
 	date = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
-		return self.order.order_id + ' : ' + self.on_type
+		return self.on_type
 
 #------- Order --------#
 class Order(models.Model):
@@ -145,5 +145,5 @@ class Order(models.Model):
 		super().save()
 
 	def __str__(self):
-		return self.order_id + ' : ' + self.status.on_type
+		return self.order_id
 

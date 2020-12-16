@@ -200,10 +200,39 @@ class OrderList(View):
 	template_name = 'staff/order/order_list.html'
 
 	def get(self, request):
-		orders = sell_model.Order.objects.all()
+
+		direction_by = request.GET.get('dir_by','desc')
+		direction_column = request.GET.get('dir_col')
+		order_by = request.GET.get('order_by','-date')
+		print(order_by)
+		if direction_column==order_by:
+			if direction_by == 'asc':
+				order_by = '-{}'.format(order_by)
+				direction_by='desc'
+			else:
+				direction_by='asc'
+		else:
+			direction_by='asc'
+		direction_column = order_by
+
+		orders = sell_model.Order.objects.order_by(order_by.lower()).all()
+		print(orders)
+
+		# order pagination
+		paginator = Paginator(orders, 6)
+		page = request.GET.get('')
+		try:
+			all_orders = paginator.get_page(page)
+		except PageNotAnInteger:
+			all_orders = paginator.get_page(page)
+		except EmptyPage:
+			all_orders = paginator.get_page(page)
 
 		contexts = {
-			'orders':orders,
+			'all_orders': all_orders,
+			'order_by': order_by,
+			'direction_by': direction_by,
+			'direction_column': direction_column,
 		}
 		return render(request, self.template_name, contexts)
 
