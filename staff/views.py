@@ -55,8 +55,21 @@ class UserDetailes(View):
 	def get(self, request, username):
 		user = account_model.UserProfile.objects.get(username = username)
 		form = EditUserDetailsForm(instance = user)
+		contexts = {
+			'form':form,
+		}
+		return render(request, self.template_name, contexts)
+	def post(self, request, username):
+		user = account_model.UserProfile.objects.get(username = username)
+		form = EditUserDetailsForm(request.POST or None, instance = user)
 		if form.is_valid():
-			print(12312)
+			is_active = form.cleaned_data.get('is_active')
+			if is_active:
+				user.is_active=True
+			else:
+				user.is_active=False
+			user.save()
+			return redirect('staff:user_list')
 		contexts = {
 			'form':form,
 		}

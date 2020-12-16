@@ -19,6 +19,7 @@
 					<th><a>Name</a></th>
 					<th><a>Email</a></th>
 					<th><a>Phone</a></th>
+					<th><a>Status</a></th>
 					<th><a href="?order_by=date">Date<i class="ml-2 fa fa-sort" aria-hidden="true"></i></a></th>
 					<th><a>Edit</a></th>					
 					<th><a>Delete</a></th>
@@ -30,6 +31,13 @@
 						<td>{{user.first_name}} {{user.last_name}}</td>
 						<td>{{user.email}}</td>
 						<td>{{user.phone}}</td>
+						<td>
+						{% if user.is_active %}
+							<a class="btn btn-info" style="color: #fff;font-weight: 600;">Active</a>
+						{% else %}
+							<a class="btn btn-danger" style="color: #fff;font-weight: 600;">Inactive</a>
+						{% endif %}			
+						</td>
 						<td>{{user.date}}</td>
 						<td>
 							<a class="btn btn-info" href="{% url 'staff:user_details' user.username %}" style="color: #fff;">Edit</a>

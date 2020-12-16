@@ -8,7 +8,7 @@ from ckeditor.fields import RichTextFormField
 class EditUserDetailsForm(forms.ModelForm):
 	class Meta:
 		model = account_model.UserProfile
-		fields = ('first_name','last_name','phone', 'address','city','division')
+		fields = ('first_name','last_name','username','email','phone', 'address','city','division','is_active')
 
 		widgets = {
 			'first_name': forms.TextInput(
@@ -18,6 +18,18 @@ class EditUserDetailsForm(forms.ModelForm):
 				}
 			),	
 			'last_name': forms.TextInput(
+				attrs = {
+					'class': 'form-control',
+					'readonly':'readonly',
+				}
+			),
+			'username': forms.TextInput(
+				attrs = {
+					'class': 'form-control',
+					'readonly':'readonly',
+				}
+			),
+			'email': forms.TextInput(
 				attrs = {
 					'class': 'form-control',
 					'readonly':'readonly',
@@ -47,6 +59,12 @@ class EditUserDetailsForm(forms.ModelForm):
 					'readonly':'readonly',
 				}
 			),
+			'is_active':forms.CheckboxInput(
+				attrs = {
+					'class':'form-check-input',
+					'type':'checkbox',
+				}
+			)
 		}		
 
 # ------- add product -------- #
