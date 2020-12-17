@@ -215,7 +215,7 @@ class OrderList(View):
 			direction_by='asc'
 		direction_column = order_by
 		if search_by:
-			orders = sell_model.Order.objects.filter( Q(order_id__icontains=search_by) | Q(user__email__icontains=search_by) ).order_by(order_by.lower()).all()
+			orders = sell_model.Order.objects.filter( Q(order_id__icontains=search_by) | Q(user__email__icontains=search_by) | Q(payment__status__icontains=search_by) ).order_by(order_by.lower()).all()
 		else:
 			orders = sell_model.Order.objects.order_by(order_by.lower()).all()
 
