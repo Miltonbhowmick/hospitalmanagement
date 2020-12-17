@@ -33,9 +33,9 @@
 						<td>{{user.phone}}</td>
 						<td>
 						{% if user.is_active %}
-							<a class="btn btn-info" style="color: #fff;font-weight: 600;">Active</a>
+							<div><i class="fa fa-check-circle fa-2x" aria-hidden="true" style="color: red;"></i></div>
 						{% else %}
-							<a class="btn btn-danger" style="color: #fff;font-weight: 600;">Inactive</a>
+							<div><i class="fa fa-moon-o fa-2x" aria-hidden="true" style="color: #6AB417;"></i></div>
 						{% endif %}			
 						</td>
 						<td>{{user.date}}</td>
