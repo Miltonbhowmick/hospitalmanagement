@@ -202,6 +202,7 @@ class OrderList(View):
 	def get(self, request):
 
 		direction_by = request.GET.get('dir_by','desc')
+		search_by = request.GET.get('search')
 		direction_column = request.GET.get('dir_col')
 		order_by = request.GET.get('order_by','-date')
 		if direction_column==order_by:
@@ -213,8 +214,10 @@ class OrderList(View):
 		else:
 			direction_by='asc'
 		direction_column = order_by
-		
-		orders = sell_model.Order.objects.order_by(order_by.lower()).all()
+		if search_by:
+			orders = sell_model.Order.objects.filter( Q(order_id__icontains=search_by) | Q(user__email__icontains=search_by) ).order_by(order_by.lower()).all()
+		else:
+			orders = sell_model.Order.objects.order_by(order_by.lower()).all()
 
 		# order pagination
 		paginator = Paginator(orders, 6)
