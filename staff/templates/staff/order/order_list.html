@@ -22,6 +22,8 @@
 					<th><a href="?order_by=payment__status&dir_by={{direction_by}}&dir_col={{direction_column}}">Payment<i class="ml-2 fa fa-sort" aria-hidden="true"></i></a></th>						
 					<th><a href="?order_by=status__on_type&dir_by={{direction_by}}&dir_col={{direction_column}}">Status<i class="ml-2 fa fa-sort" aria-hidden="true"></i></a></th>					
 					<th><a href="?order_by=date&dir_by={{direction_by}}&dir_col={{direction_column}}">Date<i class="ml-2 fa fa-sort" aria-hidden="true"></i></a></th>
+					<th><a>Edit</a></th>					
+					<th><a>Delete</a></th>					
 				</tr>
 			</thead>
 			<tbody>
@@ -32,6 +34,12 @@
 						<td>{{order.payment}}</td>
 						<td>{{order.status}}</td>
 						<td>{{order.date}}</td>
+						<td>
+							<a class="btn btn-info" href="{% url 'staff:edit_order' order.id %}" style="color: #fff;">Edit</a>
+						</td>
+						<td>
+							<a class="btn btn-danger" href="" style="color: #fff;">Delete</a>
+						</td>
 					</tr>
 				{% endfor %}
 			</tbody>

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .forms import AddProductForm, AddBlogForm, ContactForm, EditProductForm, EditUserDetailsForm
+from .forms import AddProductForm, AddBlogForm, ContactForm, EditProductForm, EditUserDetailsForm, EditOrderForm
 
 from . import models as staff_model
 from home import models as store_model
@@ -213,7 +213,7 @@ class EditProduct(View):
 		}
 		return render(request, self.template_name, contexts)
 
-# ------ Order -----------#
+# ------ Order List -----------#
 class OrderList(View):
 	template_name = 'staff/order/order_list.html'
 
@@ -252,6 +252,17 @@ class OrderList(View):
 			'order_by': order_by,
 			'direction_by': direction_by,
 			'direction_column': direction_column,
+		}
+		return render(request, self.template_name, contexts)
+
+# ------ Edit Order -----------#
+class EditOrder(View):
+	template_name = 'staff/order/edit_order.html'
+
+	def get(self, request, id):
+		form = EditOrderForm()
+		contexts = {
+			'form':form,
 		}
 		return render(request, self.template_name, contexts)
 

@@ -1,0 +1,11 @@
+{% extends 'base_staff.html' %}
+{% block title %}Edit Product{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+	
+	<form method="post" enctype="multipart/form-data">
+		{{form.as_p}}
+	</form>
+</div>
+{% endblock %}

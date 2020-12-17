@@ -21,6 +21,7 @@ urlpatterns = [
 
 	# -------- Order ------------ #	
 	path('order-list', views.OrderList.as_view(), name='order_list'),
+	path('order-edit/<str:id>', views.EditOrder.as_view(), name='edit_order'),
 
 	# -------- Blog ------------ #
 	path('blog', views.Blog.as_view(), name='blog'),

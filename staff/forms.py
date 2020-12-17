@@ -1,6 +1,7 @@
 from django import forms
 from account import models as account_model
 from home import models as store_model 
+from sell import models as sell_model
 
 from ckeditor.fields import RichTextFormField
 
@@ -156,6 +157,9 @@ class AddProductForm(forms.Form):
 		
 		return product
 
+
+
+
 # ------- Edit Product Form ------- #
 class EditProductForm(forms.ModelForm):
 	class Meta:
@@ -215,6 +219,33 @@ class EditProductForm(forms.ModelForm):
 		)
 		product.medicine_image = image
 		return product
+
+# ------- Edit Order Form ------- #  
+class EditOrderForm(forms.ModelForm):
+	class Meta:
+		model = sell_model.Order
+		fields = ('order_id','user','carts','shipping_address','status','payment')
+
+		widgets = {
+			'order_id': forms.TextInput(
+				attrs = {
+					'class':'form-control',
+					'readonly':'readonly',
+				}
+			),
+			'user': forms.Select(
+				attrs = {
+					'class':'form-control',
+					'readonly':'readonly',
+				}
+			),
+			'user': forms.SelectMultiple(
+				attrs = {
+					'class':'form-control',
+					'readonly':'readonly',
+				}
+			),
+		}
 
 # ------- Add Blog Form ------- #  
 class AddBlogForm(forms.Form):
