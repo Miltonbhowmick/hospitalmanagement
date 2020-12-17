@@ -35,7 +35,7 @@ class Login(View):
 			if user:
 				login(request, user)
 				user = UserProfile.objects.get(email=request.user.email)
-				user.status = True
+				user.status = True # online active status
 				user.save()
 				return redirect('home:home_info')
 		contexts = {
@@ -45,7 +45,7 @@ class Login(View):
 
 def logout_request(request):
 	user = UserProfile.objects.get(email=request.user.email)
-	user.status = False
+	user.status = False # offline active status
 	user.save()
 
 	logout(request)

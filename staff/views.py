@@ -35,7 +35,17 @@ class Dashboard(View):
 		sold = sell_model.Order.objects.filter(status__on_type='delivered').count()
 		available = products.filter(is_publish=True).count()
 		unpublish = total_product-available
+		new_products = products.order_by('-id')[:4]
 
+		# order details
+		orders = sell_model.Order.objects.all()
+		total_order = orders.count() - orders.filter(status__on_type='refunded').all().count()
+		pending_order = orders.filter(status__on_type = 'pending_payment').all().count()
+		processing_order = orders.filter(status__on_type = 'processing').all().count()
+		in_transit_order = orders.filter(status__on_type = 'in_transit').all().count()
+		delivered_order = orders.filter(status__on_type = 'delivered').all().count()
+		new_orders = orders.order_by('-id')[:4]
+		
 		contexts = {
 			'total_users':total_users,
 			'online_users':online_users,
@@ -48,7 +58,15 @@ class Dashboard(View):
 			'total_product':total_product,
 			'sold':sold,
 			'available':available,
-			'unpublish':unpublish
+			'unpublish':unpublish,
+			'new_products':new_products,
+
+			'total_order':total_order,
+			'pending_order':pending_order,
+			'processing_order':processing_order,
+			'in_transit_order': in_transit_order,
+			'delivered_order': delivered_order,
+			'new_orders':new_orders,
 		}
 		return render(request, self.template_name, contexts)
 
