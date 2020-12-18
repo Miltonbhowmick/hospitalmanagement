@@ -6,32 +6,37 @@
 	
 	<form method="post" enctype="multipart/form-data">
 		{% csrf_token %}
-		<div class="form-group">
-			<label for="product_name">Product Name</label>
-			{{form.name}}
-		</div>
-		<div class="custom-file">
-			<label for="product_price">Product Image</label>
-			{{form.medicine_image}}
-		</div>
-		<div class="form-group">
-			<label for="product_price">Category</label>
-			{{form.medicine_category}}
-		</div>
-		<div class="form-group">
-			<label for="product_price">Category</label>
-			{{form.company}}
-		</div>
-		<div class="form-group">
-			<label for="product_price">Price</label>
-			{{form.price}}
-		</div>
-		<div class="form-group">
-			<label for="product_price">Quantity</label>
-			{{form.quantity}}
-		</div>
-		<div class="form-group">
-			<button class="btn btn-primary">submit</button>
+		<div class="form-row">
+			<div class="col-lg-6 col-md-6 col-sm-12">
+				<div class="form-group">
+					<label for="name">Product Name</label>
+					{{form.name}}
+				</div>
+				<div class="form-group">
+					<label for="medicine_image">Product Image</label>
+					<img src="{{form.instance.medicine_image.url}}" alt="no image" style="display: block;width: 80%;">
+					{{form.medicine_image}}
+				</div>
+				<div class="form-group">
+					<label for="medicine_category">Category</label>
+					{{form.medicine_category}}
+				</div>
+				<div class="form-group">
+					<label for="company">Company</label>
+					{{form.company}}
+				</div>
+				<div class="form-group">
+					<label for="quantity">Price</label>
+					{{form.price}}
+				</div>
+				<div class="form-group">
+					<label for="quantity">Quantity</label>
+					{{form.quantity}}
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary">submit</button>
+				</div>
+			</div>
 		</div>
 	</form>
 </div>

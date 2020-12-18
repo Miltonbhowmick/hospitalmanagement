@@ -6,6 +6,7 @@ from ckeditor.fields import RichTextField
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 
+from .utils import _get_unique_slug
 from account.models import UserProfile
 import os
 import datetime
@@ -160,9 +161,10 @@ class Pharmacy(models.Model):
 
 	def __str__(self):
 		return self.name
+
 	def save(self, *args, **kwargs):
-		if not self.slug:	
-			self.slug = slugify(self.name)+'-'
+		if not self.slug:
+			self.slug = _get_unique_slug(self.name, self.__class__)
 		return super(Pharmacy,self).save(*args, **kwargs)		
 
 #----- Food blog model -----#

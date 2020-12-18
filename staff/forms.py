@@ -175,7 +175,7 @@ class EditProductForm(forms.ModelForm):
 			),
 			'medicine_image': forms.ClearableFileInput(
 				attrs = {
-							
+					
 				}
 			),
 			'medicine_category' : forms.Select(
@@ -202,23 +202,6 @@ class EditProductForm(forms.ModelForm):
 				}
 			),
 		}
-
-	def deploy(self):
-		name = self.cleaned_data.get('name')
-		price = self.cleaned_data.get('price')
-		category = self.cleaned_data.get('medicine_category')
-		company = self.cleaned_data.get('company')
-		quantity = self.cleaned_data.get('quantity')
-		image = self.cleaned_data.get('medicine_image')
-
-		product, created = store_model.Pharmacy.objects.get_or_create(
-			name = name,
-			price = price,
-			medicine_category = category,
-			quantity = quantity,
-		)
-		product.medicine_image = image
-		return product
 
 # ------- Edit Order Form ------- #  
 class EditOrderForm(forms.ModelForm):

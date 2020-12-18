@@ -204,9 +204,7 @@ class EditProduct(View):
 		form = EditProductForm(request.POST or None, request.FILES or None, instance=product)
 
 		if form.is_valid():
-			product = form.deploy()
-			product.save()
-
+			form.save()
 			return redirect('staff:product')
 		contexts = {
 			'form':form,
