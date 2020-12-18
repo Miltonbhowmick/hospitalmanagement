@@ -5,7 +5,40 @@
 <div class="container my-4">
 	
 	<form method="post" enctype="multipart/form-data">
-		{{form.as_p}}
+		{% csrf_token %}
+		<div class="form-row">
+			<div class="col-lg-6 col-md-6 col-sm-12">
+				<div class="form-group">
+					<label for="order_id">Order Id</label>
+					{{form.order_id}}
+				</div>
+				<div class="custom-file">
+					<label for="user">User</label>
+					{{form.user}}
+				</div>
+				<div class="form-group">
+					<label for="carts">Carts</label>
+					{{form.carts}}
+				</div>
+				<div class="form-group">
+					<label for="shipping_address">Shipping Address</label>
+					{{form.shipping_address}}
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-12">
+				<div class="form-group">
+					<label for="status">Status</label>
+					{{form.status}}
+				</div>
+				<div class="form-group">
+					<label for="payment">Payment</label>
+					{{form.payment}}
+				</div>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-primary">submit</button>
+			</div>
+		</div>
 	</form>
 </div>
 {% endblock %}

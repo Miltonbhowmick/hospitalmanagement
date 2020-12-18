@@ -84,24 +84,6 @@ class Payment(models.Model):
 	def __str__(self):
 		return self.status
 
-#------- Order Status -------#
-class OrderStatus(models.Model):
-	order = models.ForeignKey(
-		'Order',
-		on_delete=models.CASCADE,
-		related_name = 'statuses',
-	)
-	on_type = models.CharField(
-		max_length = 100,
-		choices = StatusChoice.choices,
-		default = StatusChoice.PENDING_PAYMENT,
-	)
-
-	date = models.DateTimeField(auto_now_add=True)
-
-	def __str__(self):
-		return self.on_type
-
 #------- Order --------#
 class Order(models.Model):
 	order_id = models.CharField(max_length=20)
@@ -123,12 +105,10 @@ class Order(models.Model):
 		related_name = 'shipping_addresses',
 	)
 	order_note = models.TextField(max_length=500, null=True, blank=True)
-	status = models.ForeignKey(
-		OrderStatus,
-		on_delete = models.SET_NULL,
-		null=True,
-		blank=True,
-		related_name='statuses'
+	status = models.CharField(
+		max_length = 100,
+		choices = StatusChoice.choices,
+		default = StatusChoice.PENDING_PAYMENT,
 	)
 	payment = models.ForeignKey(
 		Payment,

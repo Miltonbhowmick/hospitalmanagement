@@ -2,7 +2,7 @@ from django import forms
 from account import models as account_model
 from home import models as store_model 
 from sell import models as sell_model
-
+from sell.choices import StatusChoice, PaymentStatusChoice
 from ckeditor.fields import RichTextFormField
 
 # ------- add product -------- #
@@ -222,9 +222,19 @@ class EditProductForm(forms.ModelForm):
 
 # ------- Edit Order Form ------- #  
 class EditOrderForm(forms.ModelForm):
+
+	payment = forms.ChoiceField(
+		choices = PaymentStatusChoice.choices,
+		widget = forms.Select(
+			attrs = {
+				'class':'form-control',
+			}
+		)
+	)
+
 	class Meta:
 		model = sell_model.Order
-		fields = ('order_id','user','carts','shipping_address','status','payment')
+		fields = ('order_id','user','carts','shipping_address', 'status')
 
 		widgets = {
 			'order_id': forms.TextInput(
@@ -239,10 +249,21 @@ class EditOrderForm(forms.ModelForm):
 					'readonly':'readonly',
 				}
 			),
-			'user': forms.SelectMultiple(
+			'carts': forms.SelectMultiple(
 				attrs = {
 					'class':'form-control',
 					'readonly':'readonly',
+				}
+			),
+			'shipping_address': forms.Select(
+				attrs = {
+					'class':'form-control',
+					'readonly':'readonly',
+				}
+			),
+			'status': forms.Select(
+				attrs = {
+					'class':'form-control',
 				}
 			),
 		}

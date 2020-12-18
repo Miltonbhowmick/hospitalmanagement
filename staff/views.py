@@ -260,7 +260,30 @@ class EditOrder(View):
 	template_name = 'staff/order/edit_order.html'
 
 	def get(self, request, id):
-		form = EditOrderForm()
+		order = sell_model.Order.objects.get(id=id)
+		form = EditOrderForm(instance=order)
+		contexts = {
+			'form':form,
+		}
+		return render(request, self.template_name, contexts)
+	def post(self, request, id):
+		order = sell_model.Order.objects.get(id=id)
+		payment_status = sell_model.Payment.objects.get(order=order)
+
+		form = EditOrderForm(request.POST or None, instance=order)
+
+		print(payment_status)
+		if form.is_valid():
+			order.status = form.cleaned_data.get('status')
+			order.save()
+			payment_status.status = form.cleaned_data.get('payment')
+			payment_status.save()
+			order.payment = payment_status
+
+			order.save()
+
+			return redirect('staff:order_list')
+
 		contexts = {
 			'form':form,
 		}
