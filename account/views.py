@@ -29,7 +29,6 @@ class Login(View):
 	def post(self, request):
 
 		form = LoginForm(request.POST or None)
-		print(131312)
 		if form.is_valid():
 			user = form.login_request()
 			if user:
@@ -37,6 +36,9 @@ class Login(View):
 				user = UserProfile.objects.get(email=request.user.email)
 				user.status = True # online active status
 				user.save()
+				if user.is_staff==True:
+					return redirect('staff:dashboard')
+					
 				return redirect('home:home_info')
 		contexts = {
 			'form': form,

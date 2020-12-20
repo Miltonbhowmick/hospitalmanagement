@@ -183,7 +183,7 @@ class FoodBlog(models.Model):
 		return self.title
 	def save(self, *args, **kwargs):
 		self.slug = slugify(self.title)+'-'
-		return super(FoodBlog,self).save(*args, **kwargs)		
+		return super(FoodBlog,self).save(*args, **kwargs)
 	
 #----- Food blog model -----#
 class FoodBlogView(models.Model):
@@ -194,7 +194,7 @@ class FoodBlogView(models.Model):
 	)
 	ip = models.GenericIPAddressField()
 	session = models.CharField(blank=True, max_length=40)
-	created = models.DateTimeField(default = datetime.datetime.now())
+	created = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
 		return self.foodblog.title

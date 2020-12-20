@@ -161,7 +161,6 @@ class Product(View):
 		except EmptyPage:
 			all_products = paginator.get_page(paginator.num_pages)
 
-
 		contexts = {
 			'all_products':all_products,
 			'order_by':order_by,
