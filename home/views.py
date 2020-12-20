@@ -242,12 +242,6 @@ def charge(request):
 		order.carts.set(carts)
 		order.save()
 
-		# order status
-		order_status = sell_model.OrderStatus(order=order)
-		order_status.save()
-		order.status = order_status
-		order.save()
-
 		# payment
 		shipping_price = 30.00
 		payment = sell_model.Payment(order=order,amount=total,shipping_price=shipping_price)

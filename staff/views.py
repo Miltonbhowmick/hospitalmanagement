@@ -32,18 +32,18 @@ class Dashboard(View):
 		# product details
 		products = store_model.Pharmacy.objects.all()
 		total_product = products.count()
-		sold = sell_model.Order.objects.filter(status__on_type='delivered').count()
+		sold = sell_model.Order.objects.filter(status='delivered').count()
 		available = products.filter(is_publish=True).count()
 		unpublish = total_product-available
 		new_products = products.order_by('-id')[:4]
 
 		# order details
 		orders = sell_model.Order.objects.all()
-		total_order = orders.count() - orders.filter(status__on_type='refunded').all().count()
-		pending_order = orders.filter(status__on_type = 'pending_payment').all().count()
-		processing_order = orders.filter(status__on_type = 'processing').all().count()
-		in_transit_order = orders.filter(status__on_type = 'in_transit').all().count()
-		delivered_order = orders.filter(status__on_type = 'delivered').all().count()
+		total_order = orders.count() - orders.filter(status='refunded').all().count()
+		pending_order = orders.filter(status = 'pending_payment').all().count()
+		processing_order = orders.filter(status = 'processing').all().count()
+		in_transit_order = orders.filter(status = 'in_transit').all().count()
+		delivered_order = orders.filter(status = 'delivered').all().count()
 		new_orders = orders.order_by('-id')[:4]
 		
 		contexts = {
@@ -266,11 +266,11 @@ class EditOrder(View):
 		return render(request, self.template_name, contexts)
 	def post(self, request, id):
 		order = sell_model.Order.objects.get(id=id)
-		payment_status = sell_model.Payment.objects.get(order=order)
+
+		payment_status ,created = sell_model.Payment.objects.get_or_create(order=order)
 
 		form = EditOrderForm(request.POST or None, instance=order)
 
-		print(payment_status)
 		if form.is_valid():
 			order.status = form.cleaned_data.get('status')
 			order.save()
@@ -372,4 +372,3 @@ class ContactDetails(View):
 def product_delete(request,slug):
 	store_model.Pharmacy.objects.get(slug=slug).delete()
 	return redirect('staff:product')
-
