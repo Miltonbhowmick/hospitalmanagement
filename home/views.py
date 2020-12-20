@@ -77,8 +77,7 @@ class DoctorAppointment(View):
 	def post(self, request, doctor):
 		doctor = store_model.Doctor.objects.get(slug=doctor)
 		form = AppointmentForm(request.POST or None)
-		print(form.errors)
-
+		
 		if form.is_valid():
 			appointment = form.deploy()
 			appointment.doctor=doctor
@@ -198,7 +197,6 @@ def update_cart(request):
 
 		total_carts = sell_model.Cart.objects.filter(user=customer, is_active=True).count()
 		total_price = sum([ c.per_price for c in sell_model.Cart.objects.filter(user=customer, is_active=True)])
-		print(total_carts)
 		return JsonResponse({'status':'ok','total_carts':total_carts,'total_price':total_price})
 
 #------- payment ------------#

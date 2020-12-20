@@ -264,11 +264,10 @@ class AddBlogForm(forms.Form):
 	)
 
 	image = forms.ImageField(
-		required=False,
 		widget = forms.ClearableFileInput(
 			attrs = {
 				'style':'display:block;',
-			}		
+			}
 		)
 	)
 

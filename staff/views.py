@@ -181,7 +181,6 @@ class AddProduct(View):
 	def post(self, request):
 		form = AddProductForm(request.POST or None, request.FILES or None)
 		if form.is_valid():
-			category = store_model.CategoryMedicine.objects.all()
 			form.deploy()
 			return redirect('staff:product')
 
@@ -229,6 +228,7 @@ class OrderList(View):
 				direction_by='asc'
 		else:
 			direction_by='asc'
+
 		direction_column = order_by
 		if search_by:
 			orders = sell_model.Order.objects.filter( Q(order_id__icontains=search_by) | Q(user__email__icontains=search_by) | Q(payment__status__icontains=search_by) ).order_by(order_by.lower()).all()
@@ -293,6 +293,12 @@ class Blog(View):
 
 	def get(self, request):
 
+		# post view 
+		see = request.GET.get('view')
+		if see:
+			return redirect('home:food_blog_post', slug=see)
+
+		# sort column by values
 		direction_by = request.GET.get('dir_by','desc')
 		direction_column = request.GET.get('dir_col')
 		order_by = request.GET.get('order_by','-date')
@@ -337,7 +343,7 @@ class AddBlog(View):
 		}
 		return render(request, self.template_name, contexts)
 	def post(self, request):
-		form = AddBlogForm(request.POST, request.FILES)
+		form = AddBlogForm(request.POST or None, request.FILES or None)
 
 		if form.is_valid():
 			form.deploy()
@@ -369,6 +375,15 @@ class ContactDetails(View):
 		return render(request, self.template_name,contexts)
 
 # ------ product delete ------- #
-def product_delete(request,slug):
+def product_delete(request, slug):
 	store_model.Pharmacy.objects.get(slug=slug).delete()
 	return redirect('staff:product')
+
+# ------ blog delete -------- #
+def blog_delete(request, id):
+	store_model.FoodBlog.objects.get(id=id).delete()
+	return redirect('staff:blog')
+
+
+
+

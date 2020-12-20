@@ -16,18 +16,24 @@
 		<table class="table text-center">
 			<thead>
 				<tr>
+					<th><a></a></th>
 					<th><a>Image</a></th>
 					<th><a>Title</a></th>
 					<th><a href="?order_by=view&dir_by={{direction_by}}&dir_col={{direction_column}}">Views<i class="ml-2 fa fa-sort" aria-hidden="true"></i></a></th>
 					<th><a href="?order_by=date&dir_by={{direction_by}}&dir_col={{direction_column}}">Date<i class="ml-2 fa fa-sort" aria-hidden="true"></i></a></th>
 					<th>Edit</th>
-					<th>Del</th>
+					<th>Delete</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for blog in all_blogs %}
 					<tr>
-						<td><img src="{{blog.post_image.url}}" style="height: 100px;width: 100px;"></td>
+						<td ><a href="?view={{blog.slug}}"style="line-height: 100px;"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+						<td>
+							{% if blog.post_image %}
+								<img src="{{blog.post_image.url}}" style="height: 100px;width: 100px;">
+							{% endif %}
+						</td>
 						<td>{{blog.title}}</td>
 						<td>{{blog.view}}</td>
 						<td>{{blog.date}}</td>
@@ -35,7 +41,7 @@
 							<a class="btn btn-info" href="" style="color: #fff;">Edit</a>
 						</td>
 						<td>
-							<a class="btn btn-danger" href=""  style="color: #fff;">Delete</a>	
+							<a class="btn btn-danger" href="{% url 'staff:delete_blog' blog.id %}"  style="color: #fff;">Delete</a>	
 						</td>  
 					</tr>
 				{% endfor %}

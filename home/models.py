@@ -171,7 +171,7 @@ class Pharmacy(models.Model):
 
 class FoodBlog(models.Model):
 	title = models.CharField(max_length=255, blank=True, default='')
-	date = models.DateTimeField(default=datetime.datetime.now(), blank=True)
+	date = models.DateTimeField(auto_now_add=True, blank=True)
 	post_image = models.ImageField(upload_to='blog_images', null=True, blank=True)
 	formatted_image = ImageSpecField(source='post_image', processors=[ResizeToFill(800,300)], format='JPEG', options={'quality':90})
 	description = RichTextField(max_length=1000, null=True, blank=True)
