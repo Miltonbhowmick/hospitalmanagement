@@ -22,7 +22,7 @@
 	</div>
 </div>
 
-<div class="container" style="margin-top: 20px;">
+<div class="container my-4">
 	<div class="row">
 		<div class="col-md-4">
 			<div onclick="spreadDiv();"style="background-color: #ea3448; color: #fff;padding: 10px; text-align: center; text-transform: uppercase; font-size: 16px;font-weight: 600;cursor: pointer;">
@@ -35,11 +35,10 @@
 				</li>
 				{% endfor %}
 			</ul>
-
 		</div>
-		<div class="col-md-8" style="background-color: #eeecec; height: 150px;">
-			<div class="row text-center" style="font-size: 18px;font-weight:600;">
-				<div  class="col-12 text-uppercase" style="font-size: 35px; color: #ea3448;">
+		<div class="col-md-8" style="height: 150px;">
+			<div class="text-center" style="background-color: #eeecec; font-size: 18px;font-weight:600;">
+				<div  class="text-uppercase" style="font-size: 35px; color: #ea3448;">
 					<i class="fa fa-medkit" aria-hidden="true" style="color:#3c3c3c;"></i> Online Pharmacy
 				</div>
 				<div  class="col-12 p-3 text-capitalize">
@@ -47,31 +46,33 @@
 				</div>
 			</div>
 		</div>
-
-
 	</div>
 </div>
 
-
-
-<div class="container my-4 rounded" style="background-color: #eeecec; color: #3c3c3c;">
-	
-	<div class="row p-2 text-center text-uppercase" style="font-size: 18px;font-weight:600;align-items: center;">
-		<div  class="col-lg-4 col-md-4 col-4">
-			<i class="fa fa-calendar" aria-hidden="true" style="margin-right: 5px;"></i> total appointments
-			<p style="font-size: 30px;color: #ea3448;">{{appointments.count}}</p>
+<div class="container my-4" style="color: #3c3c3c;font-weight:600;font-size: 18px;">	
+	<div class="row text-center text-uppercase">
+		<div  class="col-lg-4 col-md-4 col-sm-12">
+			<div class="p-2" style="background-color: #eeecec; ">
+				<i class="fa fa-calendar" aria-hidden="true" style="margin-right: 5px;"></i> total appointments
+				<p style="font-size: 30px;color: #ea3448;">{{appointments.count}}</p>
+			</div>
 		</div>
-		<div  class="col-lg-4 col-md-4 col-4" style="border-left: 1px solid #ddd;border-right: 1px solid #ddd;">
-			<i class="fa fa-user-md" aria-hidden="true" style="margin-right: 5px;"></i> available doctors
-			<p style="font-size: 30px;color: #ea3448;">{{doctors.count}}</p>
+		<div  class="col-lg-4 col-md-4 col-sm-12">
+			<div class="p-2" style="background-color: #eeecec; ">
+				<i class="fa fa-user-md" aria-hidden="true" style="margin-right: 5px;"></i> available doctors
+				<p style="font-size: 30px;color: #ea3448;">{{doctors.count}}</p>
+			</div>
 		</div>
-		<div  class="col-lg-4 col-md-4 col-4">
-			<i class="fa fa-ambulance" aria-hidden="true"style="margin-right: 5px;"></i> urgent resolve
-			<p style="font-size: 30px;color: #ea3448;">{{urgent_resolve}}</p>
+		<div  class="col-lg-4 col-md-4 col-sm-12">
+			<div class="p-2" style="background-color: #eeecec; ">
+				<i class="fa fa-ambulance" aria-hidden="true"style="margin-right: 5px;"></i> urgent resolve
+				<p style="font-size: 30px;color: #ea3448;">{{urgent_resolve}}</p>
+			</div>	
 		</div>
 	</div>
 </div>
-<div class="container" style="margin-top: 40px;margin-bottom: 40px;">
+
+<div class="container my-4">
 	<div class="row my-4">
 		<div class="col-md-12 text-center">
 			<span style="border-bottom: 2px solid #ea3448;padding-bottom:8px;padding-top:8px;font-size: 20px; font-weight: 600;color: #3c3c3c; text-transform: uppercase;">Doctors</span>			
@@ -102,14 +103,14 @@
 			<span style="border-bottom: 2px solid #ea3448;padding-bottom:8px;padding-top:8px;font-size: 20px; font-weight: 600;color: #3c3c3c; text-transform: uppercase;">Health Information</span>			
 		</div>
 	</div>
-	<div class="row rounded text-center text-uppercase" style="font-size: 18px;font-weight:600;align-items: center;">
+	<div class="row rounded text-center text-uppercase" style="font-size: 18px;font-weight:600;">
 		<div  class="col-lg-6 col-md-12 col-sm-12">
-			<div style="background-color: #f9f9f9;color: #ea3448;height: 300px;">
+			<div class="my-2" style="background-color: #f9f9f9;color: #ea3448;height: 300px;">
 				<iframe width="100%" height="300px" src="https://www.youtube.com/embed/U8r3oTVMtQ0"frameborder></iframe>
 			</div>
 		</div>
 		<div class="col-lg-6 col-md-12 col-sm-12">
-			<div style="border:1px solid #ddd;background-color: #f9f9f9;height: 300px;cursor: pointer;">
+			<div class="my-2" style="border:1px solid #ddd;background-color: #f9f9f9;height: 300px;cursor: pointer;">
 				<a href="{% url 'home:food_posts' %}">
 					<img src="{% static 'images/blog/food care.jpg' %}"/ style="width: 100%;height: 300px;">
 					<span style="position: absolute; left: 150px;font-size:25px;margin-top:120px;padding: 10px;color: #3c3c3c;background-color: #fff;">Our Care, Your care
