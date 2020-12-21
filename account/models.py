@@ -36,7 +36,8 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
 	email = models.EmailField(max_length=100, unique=True)
 	phone = models.CharField(max_length=100,null=True, blank=True)
 	
-	
+	status = models.BooleanField(default=False)
+
 	#image
 	user_image = models.ImageField(upload_to='user_images', null=True, blank=True)
 
