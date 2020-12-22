@@ -29,6 +29,6 @@ urlpatterns = [
 	path('blog/delete/<int:id>', views.blog_delete, name='delete_blog'),
 
 	# -------- contact --------- #
-	path('contact/',views.ContactDetails.as_view(), name='contact'),
-
+	path('contact-box',views.ContactBox.as_view(), name='contact_box'),
+	
 ]

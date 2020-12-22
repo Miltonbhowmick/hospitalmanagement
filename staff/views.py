@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .forms import AddProductForm, AddBlogForm, ContactForm, EditProductForm, EditUserDetailsForm, EditOrderForm
+from .forms import AddProductForm, AddBlogForm, EditProductForm, EditUserDetailsForm, EditOrderForm
 
 from . import models as staff_model
 from home import models as store_model
@@ -10,6 +10,8 @@ from sell import models as sell_model
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.db.models import Q
+import datetime
+
 # Create your views here.
 
 # ------ dashboard ------ #
@@ -353,25 +355,26 @@ class AddBlog(View):
 		}
 		return render(request, self.template_name, contexts)
 
-# ------ contact ------- # 
-class ContactDetails(View):
-	template_name = 'staff/contact/contact.html'
-
+# ------ Contact Box --------- #
+class ContactBox(View):
+	template_name = 'staff/contact/contact_box.html'
 	def get(self, request):
-		form = ContactForm()
+		contacts = staff_model.Contact.objects.filter(update__date = datetime.date.today())
+		for c in contacts:
+			print(c.update)
 		contexts = {
-			'form':form,
+			'contacts':contacts,
 		}
-		return render(request, self.template_name,contexts)
+		return render(request, self.template_name, contexts)
 	def post(self, request):
-		form = ContactForm(request.POST or None)
-		if form.is_valid():
-			contact = form.deploy()
-			return redirect('home:home_info')
+		date = request.POST['select_date']
+		sel_date = datetime.datetime.strptime(date,'%Y-%m-%d').date()
+
+		contacts = staff_model.Contact.objects.filter(update__date = sel_date)
 		contexts = {
-			'form':form,
+			'contacts':contacts,
 		}
-		return render(request, self.template_name,contexts)
+		return render(request, self.template_name, contexts)
 
 # ------ product delete ------- #
 def product_delete(request, slug):

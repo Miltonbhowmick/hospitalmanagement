@@ -7,7 +7,7 @@ from django.http import HttpResponse, JsonResponse, Http404
 from account.models import UserProfile
 from . import models as store_model
 from sell import models as sell_model
-from .forms import AppointmentForm
+from .forms import AppointmentForm, ContactForm
 from django.core.mail import send_mail
 from django.db.models import Q
 import json
@@ -362,3 +362,22 @@ class FoodBlogPost(View):
 		}
 		return render(request, self.template_name, contexts)
 
+# ------ contact ------- # 
+class ContactDetails(View):
+	template_name = 'staff/contact/contact.html'
+
+	def get(self, request):
+		form = ContactForm()
+		contexts = {
+			'form':form,
+		}
+		return render(request, self.template_name,contexts)
+	def post(self, request):
+		form = ContactForm(request.POST or None)
+		if form.is_valid():
+			contact = form.deploy()
+			return redirect('home:home_info')
+		contexts = {
+			'form':form,
+		}
+		return render(request, self.template_name,contexts)

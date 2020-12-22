@@ -2,8 +2,11 @@ from django import forms
 from account import models as account_model
 from home import models as store_model 
 from sell import models as sell_model
+from .models import Contact
 from sell.choices import StatusChoice, PaymentStatusChoice
 from ckeditor.fields import RichTextFormField
+
+import re
 
 # ------- add product -------- #
 class EditUserDetailsForm(forms.ModelForm):
@@ -292,49 +295,36 @@ class AddBlogForm(forms.Form):
 
 		return blog
 
+# ------- Contact Box ------- #
+class ContactBoxForm(forms.ModelForm):
+	class Meta:
+		model = Contact
+		fields = ('name', 'email', 'message', 'reply')
+		widgets = {
+			'name': forms.TextInput(
+				attrs = {
+					'class':'form-control',
+					'readonly':'readonly',
+				}
+			),
+			'email': forms.TextInput(
+				attrs = {
+					'class': 'form-control',
+					'readonly': 'readonly',
+				}
+			),
+			'message': forms.TextInput(
+				attrs = {
+					'class': 'form-control',
+					'readonly': 'readonly',
+				}
+			),
+			'reply': forms.TextInput(
+				attrs = {
+					'class': 'form-control',
+				}
+			),
+		}
 
-# ------- Contact Form ------- #
-class ContactForm(forms.Form):
 
-	name = forms.CharField(max_length=255, required=True,
-		widget = forms.TextInput(
-			attrs = {
-				'class':'form-control',
-				'placeholder': 'Your Name....',
-			}
-		)
-	)
-	email = forms.CharField(max_length=255, required=True,
-		widget = forms.TextInput(
-			attrs = {
-				'class':'form-control',
-				'placeholder': 'Your Mail....',
-			}
-		)
-	)
-	message = forms.CharField(widget=forms.Textarea)
 
-	def clean(self):
-		name = self.cleaned_data.get('name')
-		email = self.cleaned_data.get('email')
-		message = self.cleaned_data.get('message')
-		if name.isalpha == False:
-			raise forms.ValidationError('Please enter a real name!')
-		else:
-			if name[0].isupper()==False or name[1:].isupper()==True:
-				raise forms.ValidationError('Please Capitalize properly!')
-			else:
-				if len(email)<1:
-					raise forms.ValidationError('Please enter email address!')
-				else:
-					email_correction = re.match('^[_a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,4})$',email)
-					if not email_correction:
-						raise forms.ValidationError('Please enter a valid email!')
-
-	def deploy(self):
-		name = self.cleaned_data.get('name')
-		email = self.cleaned_data.get('email')
-		message = self.cleaned_data.get('message')
-
-		contact = Contact(name=name,email=email, message=message)
-		contact.save()
