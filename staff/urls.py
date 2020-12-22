@@ -30,5 +30,6 @@ urlpatterns = [
 
 	# -------- contact --------- #
 	path('contact-box',views.ContactBox.as_view(), name='contact_box'),
-	
+	path('contact-box/<int:id>',views.ContactBoxDetails.as_view(), name='contact_box_details'),
+
 ]

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .forms import AddProductForm, AddBlogForm, EditProductForm, EditUserDetailsForm, EditOrderForm
+from .forms import AddProductForm, AddBlogForm, EditProductForm, EditUserDetailsForm, EditOrderForm,ContactBoxForm
 
 from . import models as staff_model
 from home import models as store_model
@@ -360,8 +360,6 @@ class ContactBox(View):
 	template_name = 'staff/contact/contact_box.html'
 	def get(self, request):
 		contacts = staff_model.Contact.objects.filter(update__date = datetime.date.today())
-		for c in contacts:
-			print(c.update)
 		contexts = {
 			'contacts':contacts,
 		}
@@ -373,6 +371,26 @@ class ContactBox(View):
 		contacts = staff_model.Contact.objects.filter(update__date = sel_date)
 		contexts = {
 			'contacts':contacts,
+		}
+		return render(request, self.template_name, contexts)
+
+class ContactBoxDetails(View):
+	template_name = 'staff/contact/contact_details.html'
+	def get(self, request,id):
+		contact = staff_model.Contact.objects.filter(id=id)
+		form = ContactBoxForm()
+		contexts = {
+			'form':form,
+			'contact':contact,
+		}
+		return render(request, self.template_name, contexts)
+	def post(self, request):
+		contact = staff_model.Contact.objects.filter(id=id)
+		form = ContactBoxForm(request.POST or None)
+
+		contexts = {
+			'form':form,
+			'contact':contact,
 		}
 		return render(request, self.template_name, contexts)
 

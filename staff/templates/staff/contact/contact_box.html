@@ -12,5 +12,31 @@
 			<button>submit</button>
 		</div>
 	</form>
+	<div class="table-responsive">
+		<table class="table text-center">
+			<thead>
+				<tr>
+					
+					<th>Name</th>
+					<th>Email</th>
+					<th>Reply</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for contact in contacts %}
+					<tr>
+						<td>{{contact.name}}</td>
+						<td>{{contact.email}}</td>
+						<td>
+							<a class="btn btn-info" href="{% url 'staff:contact_box_details' contact.id %}" style="color: #fff;">Reply</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		
+		</table>
+
+	</div>
+
 </div>
 {% endblock %}
