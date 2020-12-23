@@ -9,6 +9,7 @@ from sell import models as sell_model
 
 from django.core.paginator import Paginator
 from django.http import HttpResponse
+from django.core.mail import send_mail
 from django.db.models import Q
 import datetime
 
@@ -377,17 +378,31 @@ class ContactBox(View):
 class ContactBoxDetails(View):
 	template_name = 'staff/contact/contact_details.html'
 	def get(self, request,id):
-		contact = staff_model.Contact.objects.filter(id=id)
-		form = ContactBoxForm()
+		contact = staff_model.Contact.objects.get(id=id)
+		form = ContactBoxForm(instance=contact)
 		contexts = {
 			'form':form,
 			'contact':contact,
 		}
 		return render(request, self.template_name, contexts)
-	def post(self, request):
-		contact = staff_model.Contact.objects.filter(id=id)
-		form = ContactBoxForm(request.POST or None)
+	def post(self, request, id):
+		contact = staff_model.Contact.objects.get(id=id)
+		form = ContactBoxForm(request.POST or None, instance=contact)
 
+		if form.is_valid():
+			form.save()
+			email = form.cleaned_data.get('email')
+			subject = "YourCare Hospital- Solution"
+			message = form.cleaned_data.get('message')
+			reply = form.cleaned_data.get('message')
+			content = message + reply
+			send_mail(
+	            subject,
+	            content,
+	            "servicehospital07@gmail.com",
+	            [email],
+			    fail_silently=False,
+	        )
 		contexts = {
 			'form':form,
 			'contact':contact,

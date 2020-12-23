@@ -160,9 +160,6 @@ class AddProductForm(forms.Form):
 		
 		return product
 
-
-
-
 # ------- Edit Product Form ------- #
 class EditProductForm(forms.ModelForm):
 	class Meta:
@@ -322,6 +319,7 @@ class ContactBoxForm(forms.ModelForm):
 			'reply': forms.TextInput(
 				attrs = {
 					'class': 'form-control',
+					'placeholder': 'Reply here...'
 				}
 			),
 		}
