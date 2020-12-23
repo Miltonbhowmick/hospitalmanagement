@@ -380,6 +380,7 @@ class ContactBoxDetails(View):
 	def get(self, request,id):
 		contact = staff_model.Contact.objects.get(id=id)
 		form = ContactBoxForm(instance=contact)
+		
 		contexts = {
 			'form':form,
 			'contact':contact,

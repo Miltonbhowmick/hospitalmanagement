@@ -13,10 +13,9 @@
 		</div>
 	</form>
 	<div class="table-responsive">
-		<table class="table text-center">
+		<table class="table">
 			<thead>
 				<tr>
-					
 					<th>Name</th>
 					<th>Email</th>
 					<th>Reply</th>
@@ -24,13 +23,21 @@
 			</thead>
 			<tbody>
 				{% for contact in contacts %}
-					<tr>
-						<td>{{contact.name}}</td>
-						<td>{{contact.email}}</td>
-						<td>
-							<a class="btn btn-info" href="{% url 'staff:contact_box_details' contact.id %}" style="color: #fff;">Reply</a>
-						</td>
-					</tr>
+					{% if contact.reply %}
+						<tr>
+							<td>{{contact.name}}</td>
+							<td>{{contact.email}}</td>
+							<td></td>
+						</tr>
+					{% else %}
+						<tr style="background-color:#ddd;">
+							<td>{{contact.name}}</td>
+							<td>{{contact.email}}</td>
+							<td>
+								<a class="btn btn-info" href="{% url 'staff:contact_box_details' contact.id %}" style="color: #fff;">Reply</a>
+							</td>
+						</tr>
+					{% endif %}
 				{% endfor %}
 			</tbody>
 		
